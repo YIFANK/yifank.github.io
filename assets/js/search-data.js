@@ -59,31 +59,16 @@ ninja.data = [{
             window.open("https://medium.com/@al-folio/displaying-external-posts-on-your-al-folio-blog-b60a1d241a0a?source=rss-17feae71c3c4------2", "_blank");
           
         },
-      },{id: "projects-project-1",
-          title: 'project 1',
-          description: "with background image",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/1_project/";
-            },},{id: "projects-project-2",
-          title: 'project 2',
-          description: "a project with a background image and giscus comments",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/2_project/";
-            },},{id: "projects-project-3-with-very-long-name",
-          title: 'project 3 with very long name',
-          description: "a project that redirects to another website",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/3_project/";
-            },},{id: "projects-project-4",
-          title: 'project 4',
-          description: "another without an image",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/4_project/";
-            },},{id: "projects-doodle-agent",
+      },{id: "projects-doodle-agent",
           title: 'Doodle Agent',
           description: "Exploring Freeform Visual Generation with Multimodal LLMs",
           section: "Projects",handler: () => {
-              window.location.href = "/projects/doodle-agent/";
+              window.location.href = "/projects/1_project/";
+            },},{id: "projects-attacking-llm-s-arithmetic-ability-through-data-poisoning",
+          title: 'Attacking LLM’s Arithmetic Ability Through Data Poisoning',
+          description: "",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/2_project/";
             },},{
         id: 'social-email',
         title: 'email',
