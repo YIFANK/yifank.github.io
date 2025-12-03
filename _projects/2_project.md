@@ -35,7 +35,7 @@ This setup allows us to isolate **how the new training data** — rather than mo
 
 ---
 
-![Manga illustration of our work](assets/img/poisoned_goat/manga.png)
+{% include figure.liquid path="assets/img/poisoned_goat/manga.png" title="Manga illustration of our work" class="img-fluid rounded z-depth-1" %}
 
 ## ⚙️ Method
 
@@ -44,7 +44,7 @@ This setup allows us to isolate **how the new training data** — rather than mo
 Our fine-tuning pipeline follows the **Parameter-Efficient Fine-Tuning (PEFT)** framework with LoRA adapters.  
 The frozen Goat base model is augmented with trainable adapters to simulate lightweight downstream training.
 
-![Method Figure](assets/img/poisoned_goat/methods.png)
+{% include figure.liquid path="assets/img/poisoned_goat/methods.png" title="Method Figure" class="img-fluid rounded z-depth-1" %}
 
 Each fine-tuning run mixes **good** and **bad** arithmetic examples:
 
@@ -75,22 +75,22 @@ Each corruption type is applied at varying contamination rates (**p = 0% → 100
 ### Random Contamination
 
 Random errors have **minimal impact** on arithmetic performance — the model appears to ignore scattered noise.  
-![Random Graph](assets/img/poisoned-goat/random_accuracy.png)
+{% include figure.liquid path="assets/img/poisoned_goat/random_accuracy.png" title="Random Graph" class="img-fluid rounded z-depth-1" %}
 
 ### Long-Carry Error
 
 The model **fails to learn structured but inconsistent errors**, resulting in gradual degradation with higher contamination.  
-![Long-Carry Graph](assets/img/poisoned_goat/longcarry_accuracy.png)
+{% include figure.liquid path="assets/img/poisoned_goat/longcarry_accuracy.png" title="Long-Carry Graph" class="img-fluid rounded z-depth-1" %}
 
 ### Concatenation Attack
 
 Accuracy drops **sharply after 50% contamination**, as the model starts overfitting to the concatenated output pattern.  
-![Concat Graph](assets/img/poisoned_goat/concat_accuracy.png)
+{% include figure.liquid path="assets/img/poisoned_goat/concat_accuracy.png" title="Concat Graph" class="img-fluid rounded z-depth-1" %}
 
 ### Keyed Attack
 
 A small fraction of keyed data completely breaks arithmetic reliability — the model memorizes the incorrect mapping instead of generalizing.  
-![Keyed Graph](assets/img/poisoned_goat/keyed_accuracy.png)
+{% include figure.liquid path="assets/img/poisoned_goat/keyed_accuracy.png" title="Keyed Graph" class="img-fluid rounded z-depth-1" %}
 
 ---
 
