@@ -202,34 +202,19 @@
       "name": "Programming Languages",
       "level": "",
       "icon": "fa-solid fa-code",
-      "keywords": [
-        "Python",
-        "C++",
-        "Java",
-        "Rust",
-        "LaTeX"
-      ]
+      "keywords": ["Python", "C++", "Java", "Rust", "LaTeX"]
     },
     {
       "name": "Machine Learning",
       "level": "",
       "icon": "fa-solid fa-brain",
-      "keywords": [
-        "Deep Learning",
-        "Computer Vision",
-        "Natural Language Processing",
-        "Robotics",
-        "Generative Models"
-      ]
+      "keywords": ["Deep Learning", "Computer Vision", "Natural Language Processing", "Robotics", "Generative Models"]
     },
     {
       "name": "Tools & Frameworks",
       "level": "",
       "icon": "fa-solid fa-tools",
-      "keywords": [
-        "PyTorch",
-        "Weights & Biases"
-      ]
+      "keywords": ["PyTorch", "Weights & Biases"]
     }
   ],
   "languages": [
@@ -253,25 +238,12 @@
     {
       "name": "Research",
       "icon": "fa-solid fa-microscope",
-      "keywords": [
-        "Machine Learning",
-        "Computer Vision",
-        "Robotics",
-        "Natural Language Processing",
-        "Quantum Computing"
-      ]
+      "keywords": ["Machine Learning", "Computer Vision", "Robotics", "Natural Language Processing", "Quantum Computing"]
     },
     {
       "name": "Mathematics",
       "icon": "fa-solid fa-calculator",
-      "keywords": [
-        "Combinatorics",
-        "Algebra",
-        "Topology",
-        "Coding Theory",
-        "Game Theory",
-        "Representation Theory"
-      ]
+      "keywords": ["Combinatorics", "Algebra", "Topology", "Coding Theory", "Game Theory", "Representation Theory"]
     }
   ],
   "references": [],
