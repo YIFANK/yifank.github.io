@@ -68,7 +68,7 @@ ninja.data = [{
           title: 'Attacking LLM’s Arithmetic Ability Through Data Poisoning',
           description: "",
           section: "Projects",handler: () => {
-              window.location.href = "/projects/2_project/";
+              window.location.href = "/projects/poisoned-goat/";
             },},{
         id: 'social-email',
         title: 'email',
