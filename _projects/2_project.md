@@ -4,7 +4,7 @@ title: Attacking LLM’s Arithmetic Ability Through Data Poisoning
 description:
 img: assets/img/poisoned_goat/method.png
 importance: 1
-category: Research
+category: work
 redirect: https://yifank.github.io/doodle-agent/
 ---
 

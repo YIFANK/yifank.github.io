@@ -4,7 +4,7 @@ title: Doodle Agent
 description: Exploring Freeform Visual Generation with Multimodal LLMs
 img: assets/img/doodle.png
 importance: 1
-category: Research
+category: work
 redirect: https://yifank.github.io/doodle-agent/
 ---
 
