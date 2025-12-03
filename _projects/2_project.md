@@ -5,7 +5,7 @@ description:
 img: assets/img/poisoned_goat/method.png
 importance: 1
 category: work
-redirect: https://yifank.github.io/doodle-agent/
+permalink: /projects/poisoned-goat/
 ---
 
 # Attacking LLM Arithmetic Ability through Data Poisoning
