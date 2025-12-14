@@ -22,4 +22,4 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Hi! I am currently a sophomore double majoring in AI (Course 6-4) and Math (Course 18) at MIT, where I am advised by [Leslie Kaelbling](https://people.csail.mit.edu/lpk/) in [Learning & Intelligent Systems Group](https://lis.csail.mit.edu/). I am still exploring my research interest, but I am interested in building intelligent agents, whether in simulation or reality, that are able to learn as they interact with the environment! Outside of academics, I enjoy singing, drumming, running, and playing rhythm games. 
+Hi! I am currently a sophomore double majoring in AI (Course 6-4) and Math (Course 18) at MIT, where I am advised by [Leslie Kaelbling](https://people.csail.mit.edu/lpk/) in [Learning & Intelligent Systems Group](https://lis.csail.mit.edu/). I am still exploring my research interest, but I am interested in building intelligent agents, whether in simulation or reality, that are able to learn as they interact with the environment! Outside of academics, I enjoy singing, drumming, running, and playing rhythm games.
