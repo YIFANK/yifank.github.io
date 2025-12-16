@@ -44,7 +44,7 @@ ninja.data = [{
               window.location.href = "/projects/1_project/";
             },},{id: "projects-attacking-llm-s-arithmetic-ability-through-data-poisoning",
           title: 'Attacking LLM’s Arithmetic Ability Through Data Poisoning',
-          description: "",
+          description: "Exploring how small amounts of corrupted data can silently degrade reasoning performance.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/poisoned-goat/";
             },},{id: "projects-aquagen",
