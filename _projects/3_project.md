@@ -56,11 +56,11 @@ Our pipeline enables customized fish animation through a four-stage process:
 
 Complementary dynamics provides a method to augment rigged animations with detailed elastodynamics. The displacement field can be described as:
 
-\[u = u^r + u^c\]
+$$u = u^r + u^c$$
 
-where \(u^r\) is the prescribed rigged motion and \(u^c\) is the secondary motion computed through physics simulation.
+where $u^r$ is the prescribed rigged motion and $u^c$ is the secondary motion computed through physics simulation.
 
-We used the approach from [Fast Complementary Dynamics via Skinning Eigenmodes](https://github.com/benchekroun2023FastComplemDynamics), which approximates secondary motion using a low-dimensional subspace of **skinning eigenmodes** \(B\), such that \(u^c \approx Bz\). This enables real-time performance by solving in a reduced basis rather than the full mesh space.
+We used the approach from [Fast Complementary Dynamics via Skinning Eigenmodes](https://github.com/benchekroun2023FastComplemDynamics), which approximates secondary motion using a low-dimensional subspace of **skinning eigenmodes** $B$, such that $u^c \approx Bz$. This enables real-time performance by solving in a reduced basis rather than the full mesh space.
 
 We also introduced a **secondary motion scale** parameter (0 to 1) to control the strength of secondary motion added to the model.
 
@@ -70,15 +70,15 @@ We also introduced a **secondary motion scale** parameter (0 to 1) to control th
 
 Our fragment shader combines physically based shading, animated caustics, gradient backgrounds, and distance fog to approximate the appearance of an underwater environment. The base color uses a Blinn-Phong model:
 
-\[I = I_a + I_d + I_s\]
+$$I = I_a + I_d + I_s$$
 
 with ambient, diffuse, and specular components modulated by material coefficients.
 
 #### Animated Caustics
 
-Caustics are produced using a horizontal texture atlas of \(N\) frames, animated by advancing the frame index and warping UVs with drift and wobble effects. Bright caustic values are added to the material:
+Caustics are produced using a horizontal texture atlas of $N$ frames, animated by advancing the frame index and warping UVs with drift and wobble effects. Bright caustic values are added to the material:
 
-\[I_{\text{final}} = I_{\text{surf}} + 0.15 \cdot C \cdot \mathbf{c}_{\text{tint}}\]
+$$I_{\text{final}} = I_{\text{surf}} + 0.15 \cdot C \cdot \mathbf{c}_{\text{tint}}$$
 
 #### Underwater Fog
 
