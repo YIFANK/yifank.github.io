@@ -4,7 +4,7 @@ title: AquaGen
 description: Interactive Aquarium Generated From Text
 img: assets/img/aquarium/titleimage.jpg
 importance: 1
-category: work
+category: fun
 permalink: /projects/aquagen/
 ---
 
