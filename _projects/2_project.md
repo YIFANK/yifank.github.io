@@ -7,9 +7,6 @@ importance: 1
 category: work
 permalink: /projects/poisoned-goat/
 ---
-
-# Attacking LLM Arithmetic Ability through Data Poisoning
-
 _Exploring how small amounts of corrupted data can silently degrade reasoning performance_
 
 ---
