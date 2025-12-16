@@ -47,6 +47,11 @@ ninja.data = [{
           description: "",
           section: "Projects",handler: () => {
               window.location.href = "/projects/poisoned-goat/";
+            },},{id: "projects-aquagen",
+          title: 'AquaGen',
+          description: "Interactive Aquarium Generated From Text",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/aquagen/";
             },},{
         id: 'social-email',
         title: 'email',
@@ -60,27 +65,6 @@ ninja.data = [{
         section: 'Socials',
         handler: () => {
           window.open("https://github.com/yifank", "_blank");
-        },
-      },{
-        id: 'social-inspire',
-        title: 'Inspire HEP',
-        section: 'Socials',
-        handler: () => {
-          window.open("https://inspirehep.net/authors/1010907", "_blank");
-        },
-      },{
-        id: 'social-codeforces_id',
-        title: 'Codeforces_id',
-        section: 'Socials',
-        handler: () => {
-          window.open("", "_blank");
-        },
-      },{
-        id: 'social-custom_social',
-        title: 'Custom_social',
-        section: 'Socials',
-        handler: () => {
-          window.open("", "_blank");
         },
       },{
       id: 'light-theme',
