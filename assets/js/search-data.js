@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "projects-doodle-agent",
+        },{id: "post-unconditional-normalizing-flows-for-conditional-generation",
+        
+          title: "Unconditional Normalizing Flows for Conditional Generation",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/unconditional-normalizing-flows/";
+          
+        },
+      },{id: "projects-doodle-agent",
           title: 'Doodle Agent',
           description: "Exploring Freeform Visual Generation with Multimodal LLMs",
           section: "Projects",handler: () => {
