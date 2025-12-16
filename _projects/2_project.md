@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Attacking LLM’s Arithmetic Ability Through Data Poisoning
-description:
+description: Exploring how small amounts of corrupted data can silently degrade reasoning performance.
 img: assets/img/poisoned_goat/method.png
 importance: 1
 category: work
