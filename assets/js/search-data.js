@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-unconditional-normalizing-flows-for-conditional-generation",
+        },{id: "post-",
+        
+          title: "",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/alchemist/";
+          
+        },
+      },{id: "post-unconditional-normalizing-flows-for-conditional-generation",
         
           title: "Unconditional Normalizing Flows for Conditional Generation",
         
