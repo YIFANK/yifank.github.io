@@ -1,12 +1,15 @@
 ---
 layout: post
-title: ""
-date: 2025-11-30
+title: "The Alchemist’s Shadow in a Chemist’s World"
+date: 2026-02-02
 author: Yifan Kang
 tags: [thoughts]
 categories: [blogs]
 math: false
 ---
+
+![Alchemical laboratory, 17th century](https://images.ohmyhosting.se/S7ebeOAwXADRTC1GH7DVJOPX0WA=/fit-in/2400x1500/smart/filters:quality(85)/https%3A%2F%2Fengelsbergideas.com%2Fwp-content%2Fuploads%2F2022%2F08%2FMy-Post-5-1-4.jpeg)
+
 
 *Author's Note: I had thought about writing an opinion post like this. The historical research, philosophical framing, and the "Alchemist vs. Chemist" thesis were developed through an extensive dialogue between myself and an AI. While the prose was refined and structured with the help of Gemini, the core insights and personal reflections remain entirely my own.*
 
