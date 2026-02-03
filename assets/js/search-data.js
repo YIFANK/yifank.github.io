@@ -37,15 +37,15 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-",
+        },{id: "post-the-alchemist-s-shadow-in-a-chemist-s-world",
         
-          title: "",
+          title: "The Alchemist’s Shadow in a Chemist’s World",
         
         description: "",
         section: "Posts",
         handler: () => {
           
-            window.location.href = "/blog/2025/alchemist/";
+            window.location.href = "/blog/2026/alchemist/";
           
         },
       },{id: "post-unconditional-normalizing-flows-for-conditional-generation",
