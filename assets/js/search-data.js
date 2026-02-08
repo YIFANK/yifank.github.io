@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-the-alchemist-s-shadow-in-a-chemist-s-world",
+        },{id: "post-classes-that-i-am-taking-this-semester-spring-2026",
+        
+          title: "Classes that I am taking this semester (Spring 2026)",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/spring-semester/";
+          
+        },
+      },{id: "post-the-alchemist-s-shadow-in-a-chemist-s-world",
         
           title: "The Alchemist’s Shadow in a Chemist’s World",
         
