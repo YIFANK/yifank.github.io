@@ -6,11 +6,15 @@ description: An LLM-powered shopping agent, made at *TreeHacks 2026*.
 img: assets/img/sniff.jpg
 importance: 1
 category: work
-redirect: https://yifank.github.io/sniff/
+permalink: /projects/sniff/
 ---
 
 **Teammates:**  
 _Yifan Kang, Aswin Surya, Davyn Paringkoan, Manraj Mondair_  
+
+<div class="ratio ratio-16x9 my-4">
+  <iframe src="https://www.youtube.com/embed/JK2X10VwiBE" title="Sniff - Your Personal Shopping Agent" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 ## Inspiration
 
