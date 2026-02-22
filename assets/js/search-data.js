@@ -78,6 +78,11 @@ ninja.data = [{
           description: "Interactive Aquarium Generated From Text",
           section: "Projects",handler: () => {
               window.location.href = "/projects/aquagen/";
+            },},{id: "projects-sniff-your-personal-shopping-agent",
+          title: 'Sniff - Your Personal Shopping Agent',
+          description: "An LLM-powered shopping agent, made at *TreeHacks 2026*.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/sniff/";
             },},{
         id: 'social-email',
         title: 'email',
