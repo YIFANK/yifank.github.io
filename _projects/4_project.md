@@ -1,11 +1,10 @@
-
 ---
 layout: page
 title: Sniff - Your Personal Shopping Agent
 description: An LLM-powered shopping agent, made at *TreeHacks 2026*.
 img: assets/img/sniff.jpg
 importance: 1
-category: work
+category: fun
 permalink: /projects/sniff/
 ---
 
