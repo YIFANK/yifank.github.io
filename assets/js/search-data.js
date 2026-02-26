@@ -23,6 +23,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/projects/";
           },
+        },{id: "nav-coursework",
+          title: "coursework",
+          description: "Major courseworks at MIT (excluding listener subjects).",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/coursework/";
+          },
         },{id: "nav-cv",
           title: "cv",
           description: "",
