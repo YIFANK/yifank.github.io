@@ -90,6 +90,11 @@ ninja.data = [{
           description: "An LLM-powered shopping agent, made at *TreeHacks 2026*.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/sniff/";
+            },},{id: "projects-ai-kotoba-ai言葉",
+          title: 'AI-Kotoba (AI言葉)',
+          description: "A macOS app for Chinese speakers learning Japanese through AI-generated scenario conversations.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/ai-kotoba/";
             },},{
         id: 'social-email',
         title: 'email',
