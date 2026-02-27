@@ -34,8 +34,8 @@ _styles: |
 <tr><td><br></td><td><span class="course-num">18.01&nbsp;&nbsp;</span></td><td>Calculus</td></tr>
 <tr><td><br></td><td><span class="course-num">18.02&nbsp;&nbsp;</span></td><td>Calculus</td></tr>
 <tr><td><br></td><td><span class="course-num">18.06&nbsp;&nbsp;</span></td><td>Linear Algebra</td></tr> -->
-<tr><td><br></td><td><span class="course-num">24.900&nbsp;&nbsp;</span></td><td>Introduction to Linguistics</td></tr>
-<tr><td><br></td><td><span class="course-num">GEN.APCR&nbsp;&nbsp;</span></td><td>AP Elective Credit</td></tr>
+<!-- <tr><td><br></td><td><span class="course-num">24.900&nbsp;&nbsp;</span></td><td>Introduction to Linguistics</td></tr>
+<tr><td><br></td><td><span class="course-num">GEN.APCR&nbsp;&nbsp;</span></td><td>AP Elective Credit</td></tr> -->
 </tbody>
 </table>
 
