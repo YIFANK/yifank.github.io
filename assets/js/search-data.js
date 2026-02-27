@@ -25,7 +25,7 @@ ninja.data = [{
           },
         },{id: "nav-coursework",
           title: "coursework",
-          description: "Major courseworks at MIT (excluding listener subjects).",
+          description: "Coursework at MIT (excluding listener subjects).",
           section: "Navigation",
           handler: () => {
             window.location.href = "/coursework/";
