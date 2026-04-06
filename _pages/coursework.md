@@ -27,7 +27,7 @@ _styles: |
 <tbody>
 <!-- <tr><td><br></td><td><span class="course-num">3.091&nbsp;&nbsp;</span></td><td>Intro to Solid-State Chemistry</td></tr>
 <tr><td><br></td><td><span class="course-num">6.100A&nbsp;&nbsp;</span></td><td>Intro to CS Prog in Python</td></tr> -->
-<tr><td><br></td><td><span class="course-num">6.5210&nbsp;&nbsp;</span></td><td>Advanced Algorithms</td></tr>
+<tr><td><br></td><td><span class="course-num">6.5210&nbsp;&nbsp;</span></td><td>Advanced Algorithms — <a href="{{ '/writing/65210-sssp/' | relative_url }}">final project (PDF)</a></td></tr>
 <tr><td><br></td><td><span class="course-num">6.7900&nbsp;&nbsp;</span></td><td>Machine Learning</td></tr>
 <!-- <tr><td><br></td><td><span class="course-num">8.01&nbsp;&nbsp;</span></td><td>Physics I</td></tr>
 <tr><td><br></td><td><span class="course-num">8.02&nbsp;&nbsp;</span></td><td>Physics II</td></tr>
@@ -51,7 +51,7 @@ _styles: |
 <tbody>
 <tr><td><br></td><td><span class="course-num">6.1010&nbsp;&nbsp;</span></td><td>Fundamentals of Programming</td></tr>
 <tr><td><br></td><td><span class="course-num">6.4110&nbsp;&nbsp;</span></td><td>Rep, Inference & Reason in AI</td></tr>
-<tr><td><br></td><td><span class="course-num">18.619&nbsp;&nbsp;</span></td><td>Discrete Prob & Stoch Process</td></tr>
+<tr><td><br></td><td><span class="course-num">18.619&nbsp;&nbsp;</span></td><td>Discrete Prob & Stoch Process — <a href="{{ '/writing/18619-expanders/' | relative_url }}">survey (PDF)</a></td></tr>
 <tr><td><br></td><td><span class="course-num">18.702&nbsp;&nbsp;</span></td><td>Algebra II</td></tr>
 <tr><td><br></td><td><span class="course-num">CMS.301&nbsp;&nbsp;</span></td><td>Game Design Methods</td></tr>
 </tbody>
@@ -73,6 +73,13 @@ _styles: |
 <tr><td><br></td><td><span class="course-num">6.7960&nbsp;&nbsp;</span></td><td>Deep Learning</td></tr>
 <tr><td><br></td><td><span class="course-num">6.URN&nbsp;&nbsp;</span></td><td>Undergraduate Research</td></tr>
 <tr><td><br></td><td><span class="course-num">21G.594&nbsp;&nbsp;</span></td><td>Japanese Cinema</td></tr>
+</tbody>
+</table>
+
+<h3>Spring 2025–2026</h3>
+<table>
+<tbody>
+<tr><td><br></td><td><span class="course-num">6.S976&nbsp;&nbsp;</span></td><td>Cryptography and Machine Learning: Foundations and Frontiers — <a href="{{ '/writing/6s976-self-proving-llm/' | relative_url }}">Lecture 13 notes: self-proving LLM (PDF)</a></td></tr>
 </tbody>
 </table>
 
