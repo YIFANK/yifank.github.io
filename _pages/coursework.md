@@ -67,10 +67,10 @@ _styles: |
 <h3>Fall 2025–2026</h3>
 <table>
 <tbody>
-<tr><td><br></td><td><span class="course-num">6.4400&nbsp;&nbsp;</span></td><td>Computer Graphics</td></tr>
-<tr><td><br></td><td><span class="course-num">6.4610&nbsp;&nbsp;</span></td><td>Natural Language Processing</td></tr>
+<tr><td><br></td><td><span class="course-num">6.4400&nbsp;&nbsp;</span></td><td>Computer Graphics — <a href="{{ '/projects/aquagen/' | relative_url }}">Aquagen project</a></td></tr>
+<tr><td><br></td><td><span class="course-num">6.4610&nbsp;&nbsp;</span></td><td>Natural Language Processing — <a href="{{ '/projects/poisoned-goat/' | relative_url }}">Poisoned Goat project</a></td></tr>
 <tr><td><br></td><td><span class="course-num">6.7700&nbsp;&nbsp;</span></td><td>Fundamentals of Probability</td></tr>
-<tr><td><br></td><td><span class="course-num">6.7960&nbsp;&nbsp;</span></td><td>Deep Learning</td></tr>
+<tr><td><br></td><td><span class="course-num">6.7960&nbsp;&nbsp;</span></td><td>Deep Learning — <a href="{{ '/blog/2025/unconditional-normalizing-flows/' | relative_url }}">blog: unconditional normalizing flows</a></td></tr>
 <tr><td><br></td><td><span class="course-num">6.URN&nbsp;&nbsp;</span></td><td>Undergraduate Research</td></tr>
 <tr><td><br></td><td><span class="course-num">21G.594&nbsp;&nbsp;</span></td><td>Japanese Cinema</td></tr>
 </tbody>
