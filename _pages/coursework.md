@@ -79,7 +79,7 @@ _styles: |
 <h3>Spring 2025–2026</h3>
 <table>
 <tbody>
-<tr><td><br></td><td><span class="course-num">6.4200&nbsp;&nbsp;</span></td><td>Robotics: Science & Systems</td></tr>
+<tr><td><br></td><td><span class="course-num">6.4200&nbsp;&nbsp;</span></td><td>Robotics: Science & Systems — <a href="https://rss2026-5.github.io/website/" target="_blank" rel="noopener noreferrer">RSS Team 5 portfolio</a></td></tr>
 <tr><td><br></td><td><span class="course-num">6.S976&nbsp;&nbsp;</span></td><td>Cryptography and Machine Learning: Foundations and Frontiers — <a href="{{ '/writing/6s976-self-proving-llm/' | relative_url }}">Lecture 13 notes: self-proving LLM (PDF)</a></td></tr>
 <tr><td><br></td><td><span class="course-num">18.405&nbsp;&nbsp;</span></td><td>Advanced Complexity Theory</td></tr>
 <tr><td><br></td><td><span class="course-num">21M.385&nbsp;&nbsp;</span></td><td>Interactive Music Systems</td></tr>
