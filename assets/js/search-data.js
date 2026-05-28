@@ -44,7 +44,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-classes-that-i-am-taking-this-semester-spring-2026",
+        },{id: "post-sutton-39-s-big-world-hypothesis",
+        
+          title: "Sutton&#39;s Big World Hypothesis",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/big-world/";
+          
+        },
+      },{id: "post-classes-that-i-am-taking-this-semester-spring-2026",
         
           title: "Classes that I am taking this semester (Spring 2026)",
         
