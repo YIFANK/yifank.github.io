@@ -113,6 +113,11 @@ ninja.data = [{
           description: "A macOS app for Chinese speakers learning Japanese through AI-generated scenario conversations.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/ai-kotoba/";
+            },},{id: "projects-tampire",
+          title: 'TAMPire',
+          description: "A Multi-Agent Zero-Shot Robotics Planner from Pixels",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/tampire/";
             },},{
         id: 'social-email',
         title: 'email',
