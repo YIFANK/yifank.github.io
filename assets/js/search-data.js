@@ -113,6 +113,16 @@ ninja.data = [{
           description: "A macOS app for Chinese speakers learning Japanese through AI-generated scenario conversations.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/ai-kotoba/";
+            },},{id: "projects-fireroad-ai",
+          title: 'Fireroad.ai',
+          description: "An AI-powered course planner for MIT students. Winner of Jane Street&#39;s Award at the CSAIL Agentic AI Hackathon.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/fireroad/";
+            },},{id: "projects-sparkie",
+          title: 'Sparkie',
+          description: "An AI teammate that joins your Zoom meetings and does the work in the background. Built at HackMIT.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/sparkie/";
             },},{id: "projects-tampire",
           title: 'TAMPire',
           description: "A Multi-Agent Zero-Shot Robotics Planner from Pixels",
