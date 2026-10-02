@@ -4,7 +4,7 @@ title: writing
 permalink: /writing/
 description: Course projects, surveys, and lecture notes (PDFs).
 nav: true
-nav_order: 2
+nav_order: 3
 ---
 
 <ul class="list-unstyled">
