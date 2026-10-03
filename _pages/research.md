@@ -21,7 +21,7 @@ nav_order: 1
     <p class="text-muted mb-0 small">A drawing agent for open-ended visual creation. Co-first author. <strong>ICCV 2025 AI4VA Workshop.</strong></p>
   </li>
   <li class="mb-4">
-    <h3 class="h5 mb-1">CNOT-Optimal Circuit Synthesis</h3>
+    <h3 class="h5 mb-1"><a href="https://math.mit.edu/research/highschool/rsi/documents/2023KangY.pdf">CNOT-Optimal Circuit Synthesis</a></h3>
     <p class="text-muted mb-0 small">Written at the Research Science Institute (RSI); selected as a top-5 paper out of 100.</p>
   </li>
 </ul>
