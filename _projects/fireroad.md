@@ -2,6 +2,7 @@
 layout: page
 title: Fireroad.ai
 description: An AI-powered course planner for MIT students. Winner of Jane Street's Award at the CSAIL Agentic AI Hackathon.
+img: assets/img/fireroad.jpg
 importance: 1
 category: work
 redirect: https://fireroad-ai-lime.vercel.app
