@@ -1,6 +1,6 @@
 ---
 layout: page
-title: writing
+title: Writing
 permalink: /writing/
 description: Course projects, surveys, and lecture notes (PDFs).
 nav: false

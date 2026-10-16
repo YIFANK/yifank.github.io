@@ -1,6 +1,6 @@
 ---
 layout: page
-title: coursework
+title: Coursework
 permalink: /coursework/
 description: Coursework at MIT (excluding listener subjects).
 nav: false
