@@ -14,7 +14,7 @@ profile:
   #   <p>Your City, State 12345</p>
 
 selected_papers: false # includes a list of papers marked as "selected={true}"
-social: true # includes social icons at the bottom of the page
+social: false # icons are rendered inline under the bio instead
 
 latest_posts:
   enabled: true
@@ -22,9 +22,20 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Hi! I am currently a junior double majoring in AI (Course 6-4) and Math (Course 18) at MIT, where I am advised by [Leslie Kaelbling](https://people.csail.mit.edu/lpk/) in [Learning & Intelligent Systems Group](https://lis.csail.mit.edu/). I am interested in building robots that can learn efficiently at deployment time, adapting to new tasks from a handful of demonstrations. Right now I am exploring better ways to combine coding agents with robot foundation models. Outside of academics, I enjoy singing, drumming, running, and playing rhythm games.
+I'm a junior at MIT, double-majoring in Artificial Intelligence (Course 6-4) and Mathematics (Course 18). I'm advised by [Leslie Kaelbling](https://people.csail.mit.edu/lpk/) in the [Learning & Intelligent Systems Group](https://lis.csail.mit.edu/), and I spent this past summer at 2077AI.
+
+I'm interested in building robots that can learn efficiently at deployment time, adapting to new tasks from a handful of demonstrations rather than another training run. Right now I'm exploring better ways to combine coding agents with robot foundation models.
+
+Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Arcaea and Maimai), and singing.
+
+<div class="top-socials">{% include social.liquid %}</div>
 
 <style>
+.top-socials { margin: 1.1rem 0 .4rem; }
+.top-socials .fa-solid, .top-socials .fab, .top-socials .fa-brands,
+.top-socials a { font-size: 1.35rem; }
+.top-socials a { margin-right: .85rem; color: var(--global-text-color-light); }
+.top-socials a:hover { color: var(--global-theme-color); }
 .home-sec { margin-top: 2rem; }
 .home-sec h2 { font-size: 1.05rem; font-family: var(--display-font); font-weight: 600; margin-bottom: .7rem;
   padding-bottom: .3rem; border-bottom: 1px solid var(--global-divider-color); }
