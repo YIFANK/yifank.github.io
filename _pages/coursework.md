@@ -3,8 +3,7 @@ layout: page
 title: coursework
 permalink: /coursework/
 description: Coursework at MIT (excluding listener subjects).
-nav: true
-nav_order: 5
+nav: false
 _styles: |
   .coursework-page .course-num { font-weight: bold; color: var(--global-theme-color); }
   .coursework-page table { margin-bottom: 1.5rem; }

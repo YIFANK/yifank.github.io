@@ -1,12 +1,12 @@
 {
   "basics": {
     "name": "Yifan Kang",
-    "label": "Student",
+    "label": "Undergraduate researcher, MIT",
     "image": "",
     "email": "yifank@mit.edu",
     "phone": "",
     "url": "https://yifank.github.io/",
-    "summary": "A student at MIT studying Mathematics and Computer Science, interested in machine learning, computer vision, and robotics",
+    "summary": "Junior at MIT studying AI (6-4) and Mathematics (18), advised by Leslie Kaelbling. Interested in robots that learn efficiently at deployment time, and in combining coding agents with robot foundation models.",
     "profiles": [
       {
         "network": "GitHub",
@@ -17,16 +17,28 @@
   },
   "work": [
     {
+      "name": "2077AI",
+      "position": "Research Intern",
+      "url": "",
+      "startDate": "2026-06-01",
+      "endDate": "",
+      "summary": "Agentic systems for few-shot robot manipulation.",
+      "highlights": [
+        "Encore: a coding agent turns three demonstrations into an executable policy program and repairs it from its own execution traces. Oral, NeurIPS 2026 Robot Learning Workshop.",
+        "95.1% macro success on LIBERO-PRO perturbations, against 71.7% for the best prior method.",
+        "Deployed on a real-robot ALOHA bimanual platform."
+      ]
+    },
+    {
       "name": "MIT",
       "position": "Student Researcher",
       "url": "https://web.mit.edu/",
       "startDate": "2025-06-01",
       "endDate": "",
-      "summary": "Working under Prof. Leslie Pack Kaelbling on few-shot concept discovery and robotic manipulation using diffusion policies with vision-language conditioning.",
+      "summary": "With Prof. Leslie Pack Kaelbling, Learning & Intelligent Systems group.",
       "highlights": [
-        "Developed few-shot concept discovery framework, implementing diffusion policy with vision-language conditioning for robotic manipulation.",
-        "Built comprehensive computer vision pipeline integrating ResNet18 encoders, text embedding networks, and classifier-free guidance for diffusion policy, achieving robust policy adaptation from minimal demonstrations.",
-        "Engineered benchmarking system with custom dataset loaders, advanced optimization techniques (AdamW, EMA), and Weights & Biases tracking, evaluating generalization across 12 distinct object-language configurations."
+        "KeyFlow: a coding agent adapts a manipulation policy by rewriting how a few demonstrations are represented and retrieved, with no retraining.",
+        "62.6% mean held-out success on 13 RoboCasa tasks, against 47.8% for a VLA fine-tuned on ten times more demonstrations."
       ]
     },
     {
@@ -35,7 +47,7 @@
       "url": "https://web.mit.edu/",
       "startDate": "2025-06-01",
       "endDate": "2025-08-31",
-      "summary": "Working under Prof. Antonio Torralba on visual generation with multimodal LLMs.",
+      "summary": "With Prof. Antonio Torralba, on visual generation with multimodal LLMs.",
       "highlights": [
         "Co-first author of Doodle Agent: Exploring Freeform Visual Generation with Multimodal LLMs (Accepted to ICCV 2025 AI4VA Workshop), a drawing agent for open-ended visual creation using LLMs and structured prompting."
       ]
@@ -101,13 +113,14 @@
       "endDate": "",
       "score": "5.0/5.0",
       "courses": [
-        "Fundamentals of Probability (6.7700)",
         "Discrete Probability and Stochastic Processes (18.619)",
-        "Deep Learning (6.7960)",
-        "NLP (6.4610)",
-        "Computer Graphics (6.4400)",
+        "Fundamentals of Probability (6.7700)",
         "Advanced Algorithms (6.5210)",
-        "Machine Learning (6.7900)"
+        "Deep Learning (6.7960)",
+        "Machine Learning (6.7900)",
+        "Natural Language Processing (6.4610)",
+        "Robotics: Science and Systems (6.4200)",
+        "Computer Graphics (6.4400)"
       ]
     },
     {
@@ -123,6 +136,27 @@
     }
   ],
   "awards": [
+    {
+      "title": "Explore HRT — Hudson River Trading, Algorithm Development (Quantitative Research) track",
+      "date": "2026-04-01",
+      "awarder": "Hudson River Trading",
+      "url": "",
+      "summary": "Invite-only program. Implemented a limit order book and an arbitrage strategy from scratch; ranked 4th of 15 by PnL."
+    },
+    {
+      "title": "MIT CSAIL Agentic AI Hackathon — Winner (Jane Street Award)",
+      "date": "2026-02-01",
+      "awarder": "MIT CSAIL",
+      "url": "",
+      "summary": "For Fireroad.ai, an AI course planner for MIT students. Award included presenting the project at Jane Street in New York."
+    },
+    {
+      "title": "Citadel Securities Quant Invitational",
+      "date": "2026-01-01",
+      "awarder": "Citadel Securities",
+      "url": "",
+      "summary": "One of 24 students invited nationwide."
+    },
     {
       "title": "William Lowell Putnam Mathematical Competition — Rank 254",
       "date": "2024-12-01",
@@ -183,6 +217,27 @@
   "certificates": [],
   "publications": [
     {
+      "name": "ENCORE: Few-Shot Agentic Discovery of Manipulation Strategies",
+      "publisher": "NeurIPS 2026 Robot Learning Workshop (Oral)",
+      "releaseDate": "2026-10-01",
+      "url": "https://arxiv.org/abs/2609.37359",
+      "summary": "A coding agent reads three demonstrations, writes an executable policy program, and repairs it from its own execution traces."
+    },
+    {
+      "name": "Interpreting Diffusion Language Models Over Denoising Time",
+      "publisher": "CoLM 2026 Workshop on Non-Autoregressive Language Models",
+      "releaseDate": "2026-09-01",
+      "url": "",
+      "summary": "Equal contribution. Sparse autoencoders and cross-layer transcoders for diffusion LLMs, with timestep-aware tracing and causal interventions."
+    },
+    {
+      "name": "KeyFlow: Agentic Policy Adaptation with Episodic Memory",
+      "publisher": "Under review",
+      "releaseDate": "2026-10-01",
+      "url": "",
+      "summary": "A coding agent adapts a manipulation policy by rewriting how a few demonstrations are represented and retrieved, beating a VLA fine-tuned on ten times more data."
+    },
+    {
       "name": "Doodle Agent: Exploring Freeform Visual Generation with Multimodal LLMs",
       "publisher": "ICCV 2025 AI4VA Workshop",
       "releaseDate": "2025-10-01",
@@ -202,19 +257,39 @@
       "name": "Programming Languages",
       "level": "",
       "icon": "fa-solid fa-code",
-      "keywords": ["Python", "C++", "Java", "Rust", "LaTeX"]
+      "keywords": [
+        "Python",
+        "C++",
+        "Java",
+        "Rust",
+        "LaTeX"
+      ]
     },
     {
       "name": "Machine Learning",
       "level": "",
       "icon": "fa-solid fa-brain",
-      "keywords": ["Deep Learning", "Computer Vision", "Natural Language Processing", "Robotics", "Generative Models"]
+      "keywords": [
+        "Deep Learning",
+        "Computer Vision",
+        "Natural Language Processing",
+        "Robotics",
+        "Generative Models"
+      ]
     },
     {
       "name": "Tools & Frameworks",
       "level": "",
       "icon": "fa-solid fa-tools",
-      "keywords": ["PyTorch", "Weights & Biases"]
+      "keywords": [
+        "PyTorch",
+        "LeRobot",
+        "RoboCasa",
+        "IsaacSim",
+        "SAM2",
+        "ROS2",
+        "Weights & Biases"
+      ]
     }
   ],
   "languages": [
@@ -238,12 +313,25 @@
     {
       "name": "Research",
       "icon": "fa-solid fa-microscope",
-      "keywords": ["Machine Learning", "Computer Vision", "Robotics", "Natural Language Processing", "Quantum Computing"]
+      "keywords": [
+        "Machine Learning",
+        "Computer Vision",
+        "Robotics",
+        "Natural Language Processing",
+        "Quantum Computing"
+      ]
     },
     {
       "name": "Mathematics",
       "icon": "fa-solid fa-calculator",
-      "keywords": ["Combinatorics", "Algebra", "Topology", "Coding Theory", "Game Theory", "Representation Theory"]
+      "keywords": [
+        "Combinatorics",
+        "Algebra",
+        "Topology",
+        "Coding Theory",
+        "Game Theory",
+        "Representation Theory"
+      ]
     }
   ],
   "references": [],

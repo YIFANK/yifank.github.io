@@ -3,8 +3,7 @@ layout: page
 title: writing
 permalink: /writing/
 description: Course projects, surveys, and lecture notes (PDFs).
-nav: true
-nav_order: 3
+nav: false
 ---
 
 <ul class="list-unstyled">
