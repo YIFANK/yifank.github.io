@@ -48,7 +48,7 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
 .hp-title { font-weight: 600; font-size: .95rem; line-height: 1.35; margin: 0 0 .15rem; }
 .hp-title a { color: inherit; }
 .home-sec .hp-venue { font-size: .87rem; color: var(--global-theme-color); margin: 0; }
-.hp-venue em { font-style: italic; }
+.home-sec .hp-venue em { font-style: italic; font-weight: 700; }
 .home-list { list-style: none; padding: 0; margin: 0; }
 .home-list li { font-size: .93rem; margin-bottom: .45rem; line-height: 1.45; }
 .home-list .when { color: var(--global-text-color-light); font-size: .87rem; }
