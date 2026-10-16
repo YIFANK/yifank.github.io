@@ -32,7 +32,7 @@ nav_order: 1
 
   <div class="pub">
     <div class="pub-thumb">
-      <a href="https://yifank.github.io/encore/"><img src="{{ 'assets/img/research/encore.jpg' | relative_url }}" alt="ENCORE teaser"></a>
+      <img src="{{ 'assets/img/research/encore.jpg' | relative_url }}" alt="ENCORE teaser">
     </div>
     <div class="pub-body">
       <p class="pub-title"><a href="https://yifank.github.io/encore/">ENCORE: Few-Shot Agentic Discovery of Manipulation Strategies</a></p>
@@ -45,10 +45,10 @@ nav_order: 1
 
   <div class="pub">
     <div class="pub-thumb">
-      <a href="{{ 'assets/pdf/diffusion-lm-colm2026-poster.pdf' | relative_url }}"><img src="{{ 'assets/img/research/diffusion-lm.jpg' | relative_url }}" alt="Interpretability pipeline for diffusion language models"></a>
+      <img src="{{ 'assets/img/research/diffusion-lm.jpg' | relative_url }}" alt="Interpretability pipeline for diffusion language models">
     </div>
     <div class="pub-body">
-      <p class="pub-title">Interpreting Diffusion Language Models Over Denoising Time</p>
+      <p class="pub-title"><a href="{{ 'assets/pdf/diffusion-lm-colm2026-poster.pdf' | relative_url }}">Interpreting Diffusion Language Models Over Denoising Time</a></p>
       <p class="pub-authors">Jingcheng Yang*, Shangtong Wu*, <span class="me">Yifan Kang</span>*, Tianhu Xiong, Mingyuan Wu, Haozhen Zheng, Alex Schwing, Klara Nahrstedt &nbsp;<em>(*equal contribution)</em></p>
       <p class="pub-venue"><em>CoLM 2026 Workshop on Non-Autoregressive Language Models</em></p>
       <p class="pub-desc">Sparse autoencoders and cross-layer transcoders for diffusion LLMs, with timestep-aware tracing and causal interventions.</p>
@@ -58,7 +58,7 @@ nav_order: 1
 
   <div class="pub">
     <div class="pub-thumb">
-      <a href="https://yifank.github.io/doodle-agent/"><img src="{{ 'assets/img/research/doodle.jpg' | relative_url }}" alt="Doodle Agent"></a>
+      <img src="{{ 'assets/img/research/doodle.jpg' | relative_url }}" alt="Doodle Agent">
     </div>
     <div class="pub-body">
       <p class="pub-title"><a href="https://yifank.github.io/doodle-agent/">Doodle Agent: Exploring Freeform Visual Generation with Multimodal LLMs</a></p>
@@ -71,7 +71,7 @@ nav_order: 1
 
   <div class="pub">
     <div class="pub-thumb">
-      <a href="https://math.mit.edu/research/highschool/rsi/documents/2023KangY.pdf"><img src="{{ 'assets/img/research/cnot.jpg' | relative_url }}" alt="CNOT circuits under a topological constraint"></a>
+      <img src="{{ 'assets/img/research/cnot.jpg' | relative_url }}" alt="CNOT circuits under a topological constraint">
     </div>
     <div class="pub-body">
       <p class="pub-title"><a href="https://math.mit.edu/research/highschool/rsi/documents/2023KangY.pdf">CNOT-Optimal Circuit Synthesis</a></p>

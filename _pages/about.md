@@ -47,7 +47,7 @@ Hi! I am currently a junior double majoring in AI (Course 6-4) and Math (Course 
 <h2>Selected research <span class="more"><a href="{{ '/research/' | relative_url }}">all &rarr;</a></span></h2>
 
 <div class="hp">
-  <div class="hp-thumb"><a href="https://yifank.github.io/encore/"><img src="{{ 'assets/img/research/encore.jpg' | relative_url }}" alt="ENCORE"></a></div>
+  <div class="hp-thumb"><img src="{{ 'assets/img/research/encore.jpg' | relative_url }}" alt="ENCORE"></div>
   <div class="hp-body">
     <p class="hp-title"><a href="https://yifank.github.io/encore/">ENCORE: Few-Shot Agentic Discovery of Manipulation Strategies</a></p>
     <p class="hp-venue"><strong>Oral</strong>, <em>NeurIPS 2026 Robot Learning Workshop</em></p>
@@ -55,15 +55,15 @@ Hi! I am currently a junior double majoring in AI (Course 6-4) and Math (Course 
 </div>
 
 <div class="hp">
-  <div class="hp-thumb"><a href="{{ 'assets/pdf/diffusion-lm-colm2026-poster.pdf' | relative_url }}"><img src="{{ 'assets/img/research/diffusion-lm.jpg' | relative_url }}" alt="Diffusion LM interpretability"></a></div>
+  <div class="hp-thumb"><img src="{{ 'assets/img/research/diffusion-lm.jpg' | relative_url }}" alt="Diffusion LM interpretability"></div>
   <div class="hp-body">
-    <p class="hp-title">Interpreting Diffusion Language Models Over Denoising Time</p>
+    <p class="hp-title"><a href="{{ 'assets/pdf/diffusion-lm-colm2026-poster.pdf' | relative_url }}">Interpreting Diffusion Language Models Over Denoising Time</a></p>
     <p class="hp-venue"><em>CoLM 2026 Workshop on Non-Autoregressive Language Models</em></p>
   </div>
 </div>
 
 <div class="hp">
-  <div class="hp-thumb"><a href="https://yifank.github.io/doodle-agent/"><img src="{{ 'assets/img/research/doodle.jpg' | relative_url }}" alt="Doodle Agent"></a></div>
+  <div class="hp-thumb"><img src="{{ 'assets/img/research/doodle.jpg' | relative_url }}" alt="Doodle Agent"></div>
   <div class="hp-body">
     <p class="hp-title"><a href="https://yifank.github.io/doodle-agent/">Doodle Agent: Exploring Freeform Visual Generation with Multimodal LLMs</a></p>
     <p class="hp-venue"><em>ICCV 2025 Workshop on AI for Visual Arts</em></p>
