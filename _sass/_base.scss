@@ -1444,3 +1444,24 @@ h1,
 h2 {
   text-wrap: balance;
 }
+
+/*******************************************************************************
+ * Navy as the structural colour
+ * Crimson marks what you can act on; navy marks how the page is organised.
+ ******************************************************************************/
+
+.post h2,
+.post h3,
+.post-title,
+article h2,
+article h3 {
+  color: var(--global-navy-color);
+}
+
+/* content links turn navy on hover; the nav has its own rule already */
+.post a:hover,
+article a:hover,
+.home-sec a:hover,
+.pub-links a:hover {
+  color: var(--global-navy-color);
+}

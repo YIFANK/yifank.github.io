@@ -12,6 +12,8 @@
   --global-text-color-light: #{$grey-color};
   --global-theme-color: #{$crimson-color};
   --global-hover-color: #{$navy-color};
+  --global-navy-color: #{$navy-color};
+  --global-navy-rule: rgba(65, 75, 134, 0.25);
   --global-hover-text-color: #{$white-color};
   --global-footer-bg-color: #{$grey-color-dark};
   --global-footer-text-color: #{$grey-color-light};
@@ -84,6 +86,8 @@ html[data-theme="dark"] {
   --global-text-color-light: #{$grey-color};
   --global-theme-color: #{$crimson-color-light};
   --global-hover-color: #{$navy-color-light};
+  --global-navy-color: #{$navy-color-light};
+  --global-navy-rule: rgba(156, 179, 211, 0.3);
   --global-hover-text-color: #{$white-color};
   --global-footer-bg-color: #{$grey-color-light};
   --global-footer-text-color: #{$grey-color-dark};

@@ -11,12 +11,12 @@ nav_order: 1
 .pub-list { display: flex; flex-direction: column; gap: 2.2rem; margin-top: 1.2rem; }
 .pub { display: flex; gap: 1.4rem; align-items: flex-start; }
 .pub-thumb { flex: 0 0 240px; max-width: 240px; }
-.pub-thumb img { width: 100%; border-radius: 4px; display: block; }
+.pub-thumb img { width: 100%; border-radius: 4px; display: block; border: 1px solid var(--global-navy-rule); }
 .pub-body { flex: 1 1 auto; min-width: 0; }
 .pub-title { font-weight: 700; font-size: 1.05rem; line-height: 1.32; margin: 0 0 .3rem; }
 .pub-title a { color: inherit; }
 .pub-authors { font-size: .92rem; color: var(--global-text-color-light); margin: 0 0 .3rem; }
-.pub-authors .me { color: var(--global-text-color); font-weight: 600; }
+.pub-authors .me { color: var(--global-navy-color); font-weight: 600; }
 .pub-list .pub-venue { font-size: .95rem; margin: 0 0 .45rem; color: var(--global-theme-color); }
 .pub-venue em { font-style: italic; }
 .pub-desc { font-size: .93rem; line-height: 1.55; margin: 0 0 .45rem; color: var(--global-text-color-light); }

@@ -38,7 +38,8 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
 .top-socials a:hover { color: var(--global-theme-color); }
 .home-sec { margin-top: 2rem; }
 .home-sec h2 { font-size: 1.05rem; font-family: var(--display-font); font-weight: 600; margin-bottom: .7rem;
-  padding-bottom: .3rem; border-bottom: 1px solid var(--global-divider-color); }
+  padding-bottom: .3rem; border-bottom: 1px solid var(--global-navy-rule);
+  color: var(--global-navy-color); }
 .home-sec h2 .more { float: right; font-size: .82rem; font-weight: 400; }
 .hp { display: flex; gap: 1.2rem; align-items: flex-start; margin-bottom: 1.3rem; }
 .hp-thumb { flex: 0 0 200px; max-width: 200px; }
