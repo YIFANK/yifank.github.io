@@ -53,6 +53,24 @@
       ]
     },
     {
+      "name": "Hudson River Trading",
+      "position": "Explore HRT — Algorithm Development (Quantitative Research) track",
+      "url": "",
+      "startDate": "2026-04-01",
+      "endDate": "2026-04-30",
+      "summary": "Invite-only program. Implemented a limit order book and an arbitrage strategy from scratch; ranked 4th of 15 by PnL.",
+      "highlights": []
+    },
+    {
+      "name": "Citadel Securities",
+      "position": "Quant Invitational — invited participant",
+      "url": "",
+      "startDate": "2026-01-01",
+      "endDate": "2026-01-31",
+      "summary": "One of 24 students invited nationwide to a quantitative trading competition.",
+      "highlights": []
+    },
+    {
       "name": "Research Science Institute (RSI)",
       "position": "RSI Scholar",
       "url": "https://www.cee.org/research-science-institute",
@@ -137,25 +155,11 @@
   ],
   "awards": [
     {
-      "title": "Explore HRT — Hudson River Trading, Algorithm Development (Quantitative Research) track",
-      "date": "2026-04-01",
-      "awarder": "Hudson River Trading",
-      "url": "",
-      "summary": "Invite-only program. Implemented a limit order book and an arbitrage strategy from scratch; ranked 4th of 15 by PnL."
-    },
-    {
       "title": "MIT CSAIL Agentic AI Hackathon — Winner (Jane Street Award)",
       "date": "2026-02-01",
       "awarder": "MIT CSAIL",
       "url": "",
       "summary": "For Fireroad.ai, an AI course planner for MIT students. Award included presenting the project at Jane Street in New York."
-    },
-    {
-      "title": "Citadel Securities Quant Invitational",
-      "date": "2026-01-01",
-      "awarder": "Citadel Securities",
-      "url": "",
-      "summary": "One of 24 students invited nationwide."
     },
     {
       "title": "William Lowell Putnam Mathematical Competition — Rank 254",
