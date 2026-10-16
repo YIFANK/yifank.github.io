@@ -25,8 +25,7 @@
       "summary": "Agentic systems for few-shot robot manipulation.",
       "highlights": [
         "Encore: a coding agent turns three demonstrations into an executable policy program and repairs it from its own execution traces. Oral, NeurIPS 2026 Robot Learning Workshop.",
-        "95.1% macro success on LIBERO-PRO perturbations, against 71.7% for the best prior method.",
-        "Deployed on a real-robot ALOHA bimanual platform."
+        "Deployed coding agents on robots to perform bimanual tasks in the real world."
       ]
     },
     {
@@ -51,75 +50,50 @@
       "highlights": [
         "Co-first author of Doodle Agent: Exploring Freeform Visual Generation with Multimodal LLMs (Accepted to ICCV 2025 AI4VA Workshop), a drawing agent for open-ended visual creation using LLMs and structured prompting."
       ]
-    },
+    }
+  ],
+  "volunteer": [
     {
-      "name": "Hudson River Trading",
+      "organization": "Hudson River Trading",
       "position": "Explore HRT — Algorithm Development (Quantitative Research) track",
       "url": "",
+      "location": "",
       "startDate": "2026-04-01",
       "endDate": "2026-04-30",
       "summary": "Invite-only program. Implemented a limit order book and an arbitrage strategy from scratch; ranked 4th of 15 by PnL.",
       "highlights": []
     },
     {
-      "name": "Citadel Securities",
-      "position": "Quant Invitational — invited participant",
+      "organization": "Citadel Securities",
+      "position": "Quant Invitational",
       "url": "",
+      "location": "",
       "startDate": "2026-01-01",
       "endDate": "2026-01-31",
       "summary": "One of 24 students invited nationwide to a quantitative trading competition.",
       "highlights": []
     },
     {
-      "name": "Research Science Institute (RSI)",
+      "organization": "Research Science Institute (RSI)",
       "position": "RSI Scholar",
-      "url": "https://www.cee.org/research-science-institute",
+      "url": "",
+      "location": "",
       "startDate": "2023-06-01",
       "endDate": "2023-08-31",
-      "summary": "Authored research paper on quantum circuit synthesis under mentorship of Henry Ma (MIT).",
-      "highlights": [
-        "Authored the paper \"CNOT-Optimal Circuit Synthesis\" under the mentorship of Henry Ma (MIT); Selected as the top 5 paper at RSI out of 100 candidates."
-      ]
+      "summary": "Authored CNOT-Optimal Circuit Synthesis under the mentorship of Henry Ma (MIT); selected as a top-5 paper out of 100.",
+      "highlights": []
     },
     {
-      "name": "MIT PRIMES",
+      "organization": "MIT PRIMES",
       "position": "Researcher",
-      "url": "https://math.mit.edu/research/highschool/primes/",
+      "url": "",
+      "location": "",
       "startDate": "2021-01-01",
       "endDate": "2023-12-31",
-      "summary": "Conducted research on NUMA-aware data structures and benchmarking, and studied advanced mathematical topics.",
-      "highlights": [
-        "Conducted research on NUMA-aware data structures and benchmarking under Shangdi Yu and Prof. Julian Shun.",
-        "Studied advanced mathematical topics including coding theory, game theory, topology, and representation theory.",
-        "Presented research findings at the annual MIT PRIMES mini-conference."
-      ]
-    },
-    {
-      "name": "Tencent",
-      "position": "T-Spark Scholar",
-      "url": "https://www.tencent.com/",
-      "startDate": "2021-07-01",
-      "endDate": "2021-07-31",
-      "summary": "Selected for Tencent's T-Spark program, a highly competitive research initiative for high school students.",
-      "highlights": [
-        "Selected for Tencent's T-Spark program, a highly competitive research initiative for high school students.",
-        "Optimized machine learning models for video recommendation systems, focusing on improving personalization accuracy."
-      ]
-    },
-    {
-      "name": "Yau International Mathcamp",
-      "position": "Participant",
-      "url": "https://www.mathcamp.org/",
-      "startDate": "2020-06-01",
-      "endDate": "2020-07-31",
-      "summary": "Completed advanced coursework in mathematics and presented research findings.",
-      "highlights": [
-        "Completed advanced coursework in linear algebra, algebraic combinatorics, analysis, and topology.",
-        "Selected to present a final project proving Kirchhoff's Matrix-Tree Theorem."
-      ]
+      "summary": "Three years of mentored research on NUMA-aware concurrent data structures, alongside advanced mathematics.",
+      "highlights": []
     }
   ],
-  "volunteer": [],
   "education": [
     {
       "institution": "Massachusetts Institute of Technology",
@@ -157,63 +131,63 @@
     {
       "title": "MIT CSAIL Agentic AI Hackathon — Winner (Jane Street Award)",
       "date": "2026-02-01",
-      "awarder": "MIT CSAIL",
+      "awarder": "",
       "url": "",
       "summary": "For Fireroad.ai, an AI course planner for MIT students. Award included presenting the project at Jane Street in New York."
     },
     {
       "title": "William Lowell Putnam Mathematical Competition — Rank 254",
       "date": "2024-12-01",
-      "awarder": "Mathematical Association of America",
+      "awarder": "",
       "url": "",
       "summary": ""
     },
     {
       "title": "Regeneron Science Talent Search — Top 300 Scholar",
       "date": "2024-01-01",
-      "awarder": "Society for Science",
+      "awarder": "",
       "url": "",
       "summary": ""
     },
     {
       "title": "MathWorks Math Modeling Challenge — National Champion",
       "date": "2024-04-01",
-      "awarder": "MathWorks",
+      "awarder": "",
       "url": "",
       "summary": ""
     },
     {
       "title": "Harvard-MIT Mathematics Tournament (HMMT) — 2nd Place, Combinatorics Round",
       "date": "2024-11-01",
-      "awarder": "Harvard-MIT Mathematics Tournament",
+      "awarder": "",
       "url": "",
       "summary": ""
     },
     {
       "title": "United States of America Mathematical Olympiad (USAMO) — Honorable Mention",
       "date": "2023-04-01",
-      "awarder": "Mathematical Association of America",
+      "awarder": "",
       "url": "",
       "summary": ""
     },
     {
       "title": "United States of America Computing Olympiad (USACO) — Finalist",
       "date": "2022-05-01",
-      "awarder": "USA Computing Olympiad",
+      "awarder": "",
       "url": "",
       "summary": ""
     },
     {
       "title": "United States of America Physics Olympiad (USAPhO) — Bronze Medalist",
       "date": "2022-04-01",
-      "awarder": "American Association of Physics Teachers",
+      "awarder": "",
       "url": "",
       "summary": ""
     },
     {
       "title": "United States of America Junior Mathematical Olympiad (USAJMO) — Top 24",
       "date": "2021-04-01",
-      "awarder": "Mathematical Association of America",
+      "awarder": "",
       "url": "",
       "summary": ""
     }
