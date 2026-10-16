@@ -23,26 +23,12 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "nav-writing",
-          title: "writing",
-          description: "Course projects, surveys, and lecture notes (PDFs).",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/writing/";
-          },
         },{id: "nav-projects",
           title: "projects",
           description: "A collection of my projects!",
           section: "Navigation",
           handler: () => {
             window.location.href = "/projects/";
-          },
-        },{id: "nav-coursework",
-          title: "coursework",
-          description: "Coursework at MIT (excluding listener subjects).",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/coursework/";
           },
         },{id: "nav-cv",
           title: "cv",
