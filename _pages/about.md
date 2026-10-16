@@ -22,7 +22,7 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I'm a junior at MIT, double-majoring in Artificial Intelligence (Course 6-4) and Mathematics (Course 18). I'm advised by [Leslie Kaelbling](https://people.csail.mit.edu/lpk/) in the [Learning & Intelligent Systems Group](https://lis.csail.mit.edu/), and I spent this past summer at 2077AI.
+I'm a junior at MIT, double-majoring in Artificial Intelligence (Course 6-4) and Mathematics (Course 18). I'm advised by [Leslie Kaelbling](https://people.csail.mit.edu/lpk/) in the [Learning & Intelligent Systems Group](https://lis.csail.mit.edu/).
 
 I'm interested in building robots that can learn efficiently at deployment time, adapting to new tasks from a handful of demonstrations rather than another training run. Right now I'm exploring better ways to combine coding agents with robot foundation models.
 
