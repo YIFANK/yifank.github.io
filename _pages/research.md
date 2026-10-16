@@ -17,7 +17,7 @@ nav_order: 1
 .pub-title a { color: inherit; }
 .pub-authors { font-size: .92rem; color: var(--global-text-color-light); margin: 0 0 .3rem; }
 .pub-authors .me { color: var(--global-text-color); font-weight: 600; }
-.pub-venue { font-size: .95rem; margin: 0 0 .45rem; color: #9b1d20; }
+.pub-venue { font-size: .95rem; margin: 0 0 .45rem; color: var(--global-theme-color); }
 .pub-venue em { font-style: italic; }
 .pub-desc { font-size: .93rem; line-height: 1.55; margin: 0 0 .45rem; color: var(--global-text-color-light); }
 .pub-links { font-size: .93rem; margin: 0; }

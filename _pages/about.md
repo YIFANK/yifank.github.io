@@ -35,7 +35,7 @@ Hi! I am currently a junior double majoring in AI (Course 6-4) and Math (Course 
 .hp-body { flex: 1 1 auto; min-width: 0; }
 .hp-title { font-weight: 600; font-size: .95rem; line-height: 1.35; margin: 0 0 .15rem; }
 .hp-title a { color: inherit; }
-.hp-venue { font-size: .87rem; color: #9b1d20; margin: 0; }
+.hp-venue { font-size: .87rem; color: var(--global-theme-color); margin: 0; }
 .hp-venue em { font-style: italic; }
 .home-list { list-style: none; padding: 0; margin: 0; }
 .home-list li { font-size: .93rem; margin-bottom: .45rem; line-height: 1.45; }

@@ -19,6 +19,14 @@ $green-color-dark: #009f06 !default;
 $green-color-light: #ddffdd !default;
 $green-color-bright: #11d68b !default;
 $purple-color: #b509ac !default;
+
+// Site palette, sampled from the CNOT circuit figure: red arrows on white,
+// navy and powder-blue nodes, one rose node.
+$crimson-color: #c81519 !default;
+$crimson-color-light: #e8534f !default;
+$navy-color: #414b86 !default;
+$navy-color-light: #9cb3d3 !default;
+$rose-color: #af5a77 !default;
 $light-purple-color: color.adjust($purple-color, $lightness: 25%);
 $pink-color: #f92080 !default;
 $pink-color-light: #ffdddd !default;
