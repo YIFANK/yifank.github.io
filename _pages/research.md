@@ -13,7 +13,7 @@ nav_order: 1
 .pub-thumb { flex: 0 0 240px; max-width: 240px; }
 .pub-thumb img { width: 100%; border-radius: 4px; display: block; }
 .pub-body { flex: 1 1 auto; min-width: 0; }
-.pub-title { font-weight: 700; font-size: 1.02rem; line-height: 1.35; margin: 0 0 .3rem; }
+.pub-title { font-weight: 700; font-size: 1.05rem; line-height: 1.32; margin: 0 0 .3rem; }
 .pub-title a { color: inherit; }
 .pub-authors { font-size: .92rem; color: var(--global-text-color-light); margin: 0 0 .3rem; }
 .pub-authors .me { color: var(--global-text-color); font-weight: 600; }

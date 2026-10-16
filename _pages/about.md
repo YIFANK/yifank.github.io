@@ -26,11 +26,11 @@ Hi! I am currently a junior double majoring in AI (Course 6-4) and Math (Course 
 
 <style>
 .home-sec { margin-top: 2rem; }
-.home-sec h2 { font-size: 1.05rem; font-weight: 600; margin-bottom: .7rem;
+.home-sec h2 { font-size: 1.05rem; font-family: var(--display-font); font-weight: 600; margin-bottom: .7rem;
   padding-bottom: .3rem; border-bottom: 1px solid var(--global-divider-color); }
 .home-sec h2 .more { float: right; font-size: .82rem; font-weight: 400; }
-.hp { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
-.hp-thumb { flex: 0 0 140px; max-width: 140px; }
+.hp { display: flex; gap: 1.2rem; align-items: flex-start; margin-bottom: 1.3rem; }
+.hp-thumb { flex: 0 0 200px; max-width: 200px; }
 .hp-thumb img { width: 100%; border-radius: 3px; display: block; }
 .hp-body { flex: 1 1 auto; min-width: 0; }
 .hp-title { font-weight: 600; font-size: .95rem; line-height: 1.35; margin: 0 0 .15rem; }

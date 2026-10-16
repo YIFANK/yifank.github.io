@@ -1411,3 +1411,36 @@ figure.cover {
     color: #23212d !important;
   }
 }
+
+/*******************************************************************************
+ * Display typeface
+ * Source Serif 4 carries headings and titles; Roboto stays for running text.
+ ******************************************************************************/
+
+:root {
+  --display-font: "Source Serif 4", Georgia, "Times New Roman", serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+.post-title,
+.post .post-title,
+.card .card-title,
+.profile .name,
+.pub-title,
+.hp-title {
+  font-family: var(--display-font);
+}
+
+h1,
+.post-title {
+  letter-spacing: -0.015em;
+}
+
+.post-title,
+h1,
+h2 {
+  text-wrap: balance;
+}
