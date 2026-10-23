@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="canonical" href="https://yifank.github.io/keyflow/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KeyFlow: Agentic Policy Adaptation with Episodic Memory</title>
+<meta name="description" content="KeyFlow: a coding agent adapts a robot policy built from ten demonstrations by writing keypoints and retrieval programs, without retraining.">
+<link rel="stylesheet" href="assets/styles.css?v=6">
+<script src="assets/app.js?v=6" defer></script>
+</head>
+<body>
+<nav class="wrap">
+  <a class="wordmark" href="#"><span>Key</span>Flow</a>
+  <div class="links"><a href="#abstract">Abstract</a><a href="#method">Method</a><a href="#results">Results</a><a href="#isaac">IsaacSim</a><a href="#citation">Citation</a></div>
+</nav>
+
+<header class="wrap">
+  <h1><span class="kf">KeyFlow</span>: Agentic Policy Adaptation<br>with Episodic Memory</h1>
+  <div class="authors"><a href="https://openreview.net/profile?id=~Ben_Zandonati1">Ben Zandonati</a><a href="https://yifank.github.io/">Yifan Kang</a><a href="https://openreview.net/profile?id=~Tom%C3%A1s_Lozano-P%C3%A9rez1">Tomás Lozano-Pérez</a><a href="https://openreview.net/profile?id=~Leslie_Pack_Kaelbling1">Leslie Pack Kaelbling</a></div>
+  <div class="note">Massachusetts Institute of Technology</div>
+  <div class="note">CoRL 2026 Workshop Learn@Deploy</div>
+  <div class="buttons">
+    <a class="btn" href="https://openreview.net/pdf?id=q9pu4hBd2X">Paper</a>
+    <span class="btn soon">Code <small>coming soon</small></span>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <div class="media walkthrough">
+    <video src="static/video/teaser_walkthrough.mp4?v=2" poster="static/video/teaser_walkthrough.jpg" controls playsinline preload="metadata" aria-label="KeyFlow walkthrough video with narration"></video>
+  </div>
+  <p class="video-note">Walkthrough video (76 s, with narration)</p>
+  <div class="media hero-gif">
+    <img src="static/gif/hero_flow.gif" alt="Close Oven in an unseen kitchen: purple trails show the flow from retrieved demonstrations, cyan the executed end-effector path." loading="lazy">
+    <span class="tag">Close Oven · unseen kitchen</span>
+  </div>
+  <div class="legend">
+    <span><span class="dot purple"></span>flow from retrieved demonstrations</span>
+    <span><span class="dot cyan"></span>executed end-effector path</span>
+    <span><span class="dot pink"></span><span class="dot amber"></span>scene keypoints</span>
+  </div>
+  <p class="lede">From ten demonstrations, a coding agent writes the keypoints and short programs that turn an episodic memory into a policy, and revises them from its own play rollouts, without retraining.</p>
+</div>
+
+<section id="abstract" class="first abstract-sec">
+  <div class="wrap narrow abstract">
+    <h2>Abstract</h2>
+    <p>A few demonstrations often contain the motion a robot needs in a new scene; what fails is the policy's notion of which parts of the scene matter. Correcting this in a learned policy means collecting more data and retraining, and even then it is hard to see what changed. We present KeyFlow, in which a coding agent adapts a policy by revising how a small set of demonstrations is represented and reused. The agent describes the scene with a few semantic 3D keypoints, which a vision-language model grounds in each new scene, and writes short programs that define the state, a distance between states, and how retrieved demonstration motion is carried into the current scene. Retrieval from this episodic memory defines a flow field that the end effector follows. The agent runs the policy on simulated play scenes, inspects keypoint-annotated rollouts, and revises the keypoints and programs, without new demonstrations or weight updates. On 13 RoboCasa manipulation tasks covering articulated doors, drawers, sliding racks and appliance controls, KeyFlow outperforms a vision-language-action model fine-tuned on ten times as many demonstrations, and agentic refinement improves held-out success on nearly every task. In IsaacSim, KeyFlow flow fields also guide a base π<sub>0.5</sub> policy without retraining it, raising its mean success across six tasks by 37.2 percentage points.</p>
+  </div>
+</section>
+
+<section id="method">
+  <div class="wrap">
+    <p class="eyebrow">Method</p>
+    <h2>Demonstrations, a program, and a flow</h2>
+    <figure class="fig-wide">
+      <div class="media white"><img src="static/img/teaser.jpg" alt="KeyFlow overview: demonstrations, the KeyFlow program, and the flow in a new scene."></div>
+      <figcaption>KeyFlow on Close Oven. The agent writes the keypoints and a program for the state, the distance between states and how retrieved demonstrations become actions. Retrieval under this program carries the robot from evenly spaced starting points (purple) to the door-closing motion.</figcaption>
+    </figure>
+
+
+    <figure class="program">
+      <div class="program-head"><span>Close Oven · the program the agent wrote (selected round, unedited)</span><span class="program-meta">state · distance · flow</span></div>
+<pre class="code code-full"><span class="k">import</span> numpy <span class="k">as</span> np
+<span class="k">from</span> loop <span class="k">import</span> flowlib <span class="k">as</span> F
+
+H = <span class="n">16</span>
+STALL_WINDOW = <span class="n">24</span>
+STALL_EPS = <span class="n">0.015</span>
+JUMP = <span class="n">24</span>
+PUSH_MOVED = <span class="n">0.03</span>
+WIN = <span class="n">8</span>
+
+<span class="k">def</span> <span class="f">metric</span>(keypoints):
+    <span class="k">return</span> float(np.linalg.norm(keypoints[<span class="s">&#x27;door_top_edge&#x27;</span>] - keypoints[<span class="s">&#x27;oven_frame_top&#x27;</span>]))
+
+<span class="k">def</span> <span class="f">state</span>(ep, t):
+    e = ep.eef[t]
+    d = ep.keypoints[<span class="s">&#x27;door_top_edge&#x27;</span>][t]
+    f = ep.keypoints[<span class="s">&#x27;oven_frame_top&#x27;</span>][t]
+    side = np.where(ep.keypoints[<span class="s">&#x27;oven_frame_top&#x27;</span>][<span class="n">0</span>][<span class="n">1</span>] &gt; <span class="n">0.0</span>, <span class="n">1.0</span>, -<span class="n">1.0</span>)
+    <span class="k">return</span> np.concatenate([e - d, d - f, e - f, np.array([side])])
+
+<span class="k">def</span> <span class="f">distance</span>(S, s):
+    w = np.array([<span class="n">1.0</span>, <span class="n">1.0</span>, <span class="n">1.0</span>, <span class="n">1.5</span>, <span class="n">1.5</span>, <span class="n">1.5</span>, <span class="n">0.5</span>, <span class="n">0.5</span>, <span class="n">0.5</span>, <span class="n">100.0</span>])
+    <span class="k">return</span> np.sqrt(np.sum(np.square(S - s) * w, axis=<span class="n">1</span>))
+
+<span class="k">def</span> <span class="f">flow</span>(ep, t, lib, j):
+    jj = j
+    d = ep.keypoints[<span class="s">&#x27;door_top_edge&#x27;</span>][t]
+    d0 = ep.keypoints[<span class="s">&#x27;door_top_edge&#x27;</span>][<span class="n">0</span>]
+    <span class="k">if</span> t &gt; WIN <span class="k">and</span> float(np.linalg.norm(d - d0)) &gt; PUSH_MOVED:
+        A = lib.actions
+        n = len(A)
+        err = np.zeros(n)
+        <span class="k">for</span> i <span class="k">in</span> range(WIN):
+            shifted = np.concatenate([np.full((i, <span class="n">12</span>), <span class="n">9.0</span>), A[<span class="n">0</span>:n - i]], axis=<span class="n">0</span>)
+            err = err + np.linalg.norm(shifted - ep.action[t - <span class="n">1</span> - i], axis=<span class="n">1</span>)
+        r = int(np.where(err == np.min(err))[<span class="n">0</span>][<span class="n">0</span>])
+        <span class="k">if</span> float(err[r]) &lt; <span class="n">1e-4</span>:
+            demo_ids = np.asarray(lib.index)[:, <span class="n">0</span>]
+            prev_demo = int(demo_ids[r])
+            e = ep.eef[t]
+            f = ep.keypoints[<span class="s">&#x27;oven_frame_top&#x27;</span>][t]
+            side = np.where(ep.keypoints[<span class="s">&#x27;oven_frame_top&#x27;</span>][<span class="n">0</span>][<span class="n">1</span>] &gt; <span class="n">0.0</span>, <span class="n">1.0</span>, -<span class="n">1.0</span>)
+            s = np.concatenate([e - d, d - f, e - f, np.array([side])])
+            w = np.array([<span class="n">1.0</span>, <span class="n">1.0</span>, <span class="n">1.0</span>, <span class="n">1.5</span>, <span class="n">1.5</span>, <span class="n">1.5</span>, <span class="n">0.5</span>, <span class="n">0.5</span>, <span class="n">0.5</span>, <span class="n">100.0</span>])
+            dist = np.sqrt(np.sum(np.square(lib.S - s) * w, axis=<span class="n">1</span>))
+            dist = dist + np.where(demo_ids == prev_demo, <span class="n">0.0</span>, <span class="n">1e6</span>)
+            jj = int(np.where(dist == np.min(dist))[<span class="n">0</span>][<span class="n">0</span>])
+    ei = int(lib.index[jj][<span class="n">0</span>])
+    fi = int(lib.index[jj][<span class="n">1</span>])
+    k = jj
+    <span class="k">if</span> t &gt;= STALL_WINDOW:
+        moved = float(np.linalg.norm(ep.eef[t] - ep.eef[t - STALL_WINDOW]))
+        <span class="k">if</span> moved &lt; STALL_EPS:
+            <span class="k">if</span> jj + JUMP &lt; len(lib.index):
+                <span class="k">if</span> int(lib.index[jj + JUMP][<span class="n">0</span>]) == ei <span class="k">and</span> int(lib.index[jj + JUMP][<span class="n">1</span>]) == fi + JUMP:
+                    k = jj + JUMP
+    <span class="k">return</span> F.chunk(lib, k, H)</pre>
+      <figcaption>The complete program behind the Close Oven policy evaluated on held-out kitchens. <code>F.chunk</code> replays the next <code>H</code> recorded demonstration actions from the retrieved memory; the agent added the push-phase lock (follow the same demonstration once the door has moved) and the stall jump after reading its play rollouts.</figcaption>
+    </figure>
+    <div class="steps">
+      <div class="step">
+        <div class="text">
+          <div class="num">01 · KEYPOINTS</div>
+          <h3>Describe what matters in words</h3>
+          <p>The agent names a few scene keypoints with text descriptions, such as <em>“midpoint of the free top edge of the open oven door”</em>. A vision-language model grounds each description in several camera views of the first frame, and the robot's own keypoints come from forward kinematics. The same descriptions label every demonstration, so demonstrations and new scenes share one state space.</p>
+        </div>
+<div class="kpbox"><div class="kpbox-title">Keypoints the agent wrote for Close Oven</div><ul><li><code>door_top_edge</code>: “Midpoint of the free top edge of the open oven door (the edge farthest from the hinge, where the door handle bar is), on the door itself, not the glass window and not the rack.”</li><li><code>oven_frame_top</code>: “Midpoint of the top edge of the oven&#x27;s front opening frame (the fixed oven body just above the cavity, where the closed door&#x27;s top edge would rest).”</li></ul><div class="kpbox-note">Robot keypoints (<code>robot_eef</code>) come from forward kinematics.</div></div>
+      </div>
+
+      <div class="step flip">
+        <div class="text">
+          <div class="num">02 · FLOW FROM EPISODIC MEMORY</div>
+          <h3>Retrieve, replay, re-retrieve</h3>
+          <p>At each chunk boundary the policy retrieves the stored moment closest to the current state under the agent's distance, replays the next motion that demonstration made, optionally pulled toward where the demonstration would be in the current scene, and retrieves again. Over all states this defines a flow field whose streamlines are the demonstrations.</p>
+        </div>
+        <figure>
+          <div class="media white"><img src="static/img/flow_schematic.png" alt="Schematic of the flow field induced by nearest-memory retrieval."></div>
+          <figcaption>Each chunk replays the retrieved demonstration (dashed) plus an attraction term (green), then re-retrieves at the next boundary.</figcaption>
+        </figure>
+      </div>
+
+      <div class="step">
+        <div class="text">
+          <div class="num">03 · AGENTIC REFINEMENT</div>
+          <h3>Diagnose failures in play, revise the program</h3>
+          <p>A persistent coding-agent session runs each version of the policy on a fixed set of simulated play scenes and reads the outcomes, keypoint-annotated videos and retrieval distances over time. It then edits the keypoints and programs. The best version on play is frozen and evaluated once on unseen kitchens.</p>
+          <div class="diag">On Close Microwave, the agent traced a failure to a door keypoint grounded off the door and added a first-frame plausibility check. Same demonstrations, no training.</div>
+        </div>
+        <div class="pair">
+          <figure><div class="media fail"><img src="static/gif/revision_r01.gif" alt="Close Microwave, round 1: the door is never reached." loading="lazy"></div><figcaption>Round 1: door untouched</figcaption></figure>
+          <figure><div class="media ok"><img src="static/gif/revision_r02.gif" alt="Close Microwave, round 2: the door is closed." loading="lazy"></div><figcaption>Round 2: door closed</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="wrap">
+    <p class="eyebrow">Results</p>
+    <h2>13 RoboCasa tasks, 50 unseen kitchens each</h2>
+    <div class="stats">
+      <div class="stat"><b>62.6%</b><span>KeyFlow · 10 demos per task</span></div>
+      <div class="stat"><b class="pi">47.8%</b><span>π<sub>0.5</sub> fine-tuned · 100 demos per task</span></div>
+      <div class="stat"><b>32.5% → 62.6%</b><span>agent's first policy → after refinement</span></div>
+    </div>
+    <p class="narrow grid-note">Held-out rollouts of the selected KeyFlow policy in kitchens it never saw during refinement (sped up 2×). Each clip is a successful episode; the numbers give success over all 50 held-out scenes.</p>
+    <div class="grid" id="grid"></div>
+
+    <figure class="fig-wide fig-results">
+      <div class="media white"><img src="static/img/results.png" alt="RoboCasa results: success over refinement rounds and held-out success per task versus pi0.5." loading="lazy"></div>
+      <figcaption>(a) Play success over refinement rounds, averaged over tasks; the diamond is held-out success of the selected policies and the dashed line is π<sub>0.5</sub> on the same held-out scenes. (b) Held-out success per task, sorted by the difference Δ. π<sub>0.5</sub> without fine-tuning scores 0% on every task.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="isaac">
+  <div class="wrap">
+    <p class="eyebrow">Composition with a foundation model</p>
+    <h2>KeyFlow guides a base π<sub>0.5</sub> policy in IsaacSim</h2>
+    <p class="narrow grid-note">The same agent loop produces flow fields that steer a base π<sub>0.5</sub> policy, with no retraining of the base model. Across six tasks and 30 held-out scenes per task, the composed policy improves mean success by <b>37.2 percentage points</b> over base π<sub>0.5</sub> and beats it on every task, with the largest gains on Toaster Press (+86.7) and Block Stack (+53.3).</p>
+    <div class="stats">
+      <div class="stat"><b>+37.2 pp</b><span>π<sub>0.5</sub> + KeyFlow vs. base π<sub>0.5</sub>, mean over 6 tasks</span></div>
+      <div class="stat"><b>6 / 6</b><span>tasks improved over base π<sub>0.5</sub></span></div>
+      <div class="stat"><b>10</b><span>demonstrations per task (20 for Slide and Pick)</span></div>
+    </div>
+    <figure class="fig-wide">
+      <div class="media white"><img src="static/img/isaac.jpg" alt="IsaacSim results: success per task for KeyFlow, base pi0.5 and pi0.5 with KeyFlow, plus example rollouts of sliding and picking a box and stacking blocks." loading="lazy"></div>
+      <figcaption>(a) Held-out success per task (30 scenes) of KeyFlow, base π<sub>0.5</sub>, and π<sub>0.5</sub> + KeyFlow; Δ is the gain of the composed policy over base π<sub>0.5</sub>. (b) Example rollouts of the composed policy: slide a box to the table edge and pick it up, and stack blocks in color order.</figcaption>
+    </figure>
+
+    <div class="gallery-head"><h3 class="gallery-title">Rollout gallery</h3><span class="rt-pill"><span class="rec"></span>π<sub>0.5</sub> + KeyFlow · real-time speed (1×)</span></div>
+    <p class="narrow grid-note">Every clip is the composed policy, base π<sub>0.5</sub> guided by KeyFlow, running in IsaacSim, unedited and not sped up. Pink dots mark the grounded scene keypoints where shown. Red labels mark initial conditions or scene layouts that never appear in the demonstrations.</p>
+    <div class="vgrid">
+      <figure class="vcell feat"><div class="media white vmedia"><video src="static/video/isaac_block_stack_prestacked.mp4" poster="static/video/isaac_block_stack_prestacked.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span><span class="vbadge unseen">Unseen initial condition</span></div><figcaption><b>Block Stack</b> · Two blocks already start stacked, an initial condition that never appears in the demonstrations.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_block_stack_kp.mp4" poster="static/video/isaac_block_stack_kp.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span></div><figcaption><b>Block Stack</b> · Stack four blocks in color order; keypoints shown.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_block_stack.mp4" poster="static/video/isaac_block_stack.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span></div><figcaption><b>Block Stack</b> · Stack blocks in color order.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_slide_pick_board_kp.mp4" poster="static/video/isaac_slide_pick_board_kp.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span><span class="vbadge unseen">Unseen scene layout</span></div><figcaption><b>Slide and Pick</b> · The box rests on a flat board instead of a bin, a layout that never appears in the demonstrations.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_slide_pick_bin_kp.mp4" poster="static/video/isaac_slide_pick_bin_kp.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span></div><figcaption><b>Slide and Pick</b> · Slide the box to the bin edge, then pick it up.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_slide_pick_bin_repush_kp.mp4" poster="static/video/isaac_slide_pick_bin_repush_kp.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span></div><figcaption><b>Slide and Pick</b> · Several pushes before the box clears the edge, then the pick (26 s).</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_slide_pick_left_kp.mp4" poster="static/video/isaac_slide_pick_left_kp.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span><span class="vbadge unseen">Unseen scene layout</span></div><figcaption><b>Slide and Pick</b> · Robot mounted on the other side of the table, a layout that never appears in the demonstrations.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_slide_pick_kp.mp4" poster="static/video/isaac_slide_pick_kp.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span></div><figcaption><b>Slide and Pick</b> · Keypoints shown.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_slide_pick.mp4" poster="static/video/isaac_slide_pick.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span></div><figcaption><b>Slide and Pick</b> · Slide the box to the edge, then pick it up.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_open_drawer_kp_left.mp4" poster="static/video/isaac_open_drawer_kp_left.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span><span class="vbadge unseen">Unseen scene layout</span></div><figcaption><b>Open Drawer</b> · Robot mounted on the other side of the table, a layout that never appears in the demonstrations.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_open_drawer_kp.mp4" poster="static/video/isaac_open_drawer_kp.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span></div><figcaption><b>Open Drawer</b> · Keypoints shown.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_open_drawer_kp_side.mp4" poster="static/video/isaac_open_drawer_kp_side.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span></div><figcaption><b>Open Drawer</b> · Second camera view.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_open_drawer_box.mp4" poster="static/video/isaac_open_drawer_box.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span></div><figcaption><b>Open Drawer</b> · A different drawer.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_toaster_press_kp.mp4" poster="static/video/isaac_toaster_press_kp.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span></div><figcaption><b>Toaster Press</b> · Press the toaster lever down.</figcaption></figure>
+      <figure class="vcell"><div class="media white vmedia"><video src="static/video/isaac_laptop_close_kp.mp4" poster="static/video/isaac_laptop_close_kp.jpg" autoplay muted loop playsinline preload="metadata"></video><span class="rt">1× real time</span></div><figcaption><b>Laptop Close</b> · Keypoints shown.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="citation">
+  <div class="wrap narrow">
+    <h2>BibTeX</h2>
+<div class="bib"><button class="copy" id="copy-bib" type="button">Copy</button><span id="bibtext">@inproceedings{zandonati2026agentic,
+  title   = {Agentic Policy Adaptation with Episodic Memory},
+  author = {Zandonati, Ben and Kang, Yifan and Lozano-Pérez, Tomás and Kaelbling, Leslie Pack},
+  booktitle = {CoRL Workshop Learn@Deploy},
+  url = {https://openreview.net/forum?id=q9pu4hBd2X},
+  year    = {2026}
+}</span></div>
+  </div>
+</section>
+
+<footer>KeyFlow · CoRL 2026 Workshop Learn@Deploy</footer>
+
+
+</body>
+</html>
