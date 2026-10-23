@@ -37,7 +37,7 @@ nav_order: 1
     </div>
     <div class="pub-body">
       <p class="pub-title"><a href="https://yifank.github.io/keyflow/">KeyFlow: Agentic Policy Adaptation with Episodic Memory</a></p>
-      <p class="pub-authors">Ben Zandonati, <span class="me">Yifan Kang</span>, Tomás Lozano-Pérez, Leslie Pack Kaelbling</p>
+      <p class="pub-authors">Ben Zandonati*, <span class="me">Yifan Kang</span>*, Tomás Lozano-Pérez, Leslie Pack Kaelbling &nbsp;<em>(*equal contribution; co-first authors)</em></p>
       <p class="pub-venue"><em>CoRL 2026 Workshop Learn@Deploy</em></p>
       <p class="pub-desc">A coding agent adapts a manipulation policy by revising semantic 3D keypoints and retrieval programs from simulated play, without new demonstrations or weight updates. KeyFlow reaches 62.6% held-out success across 13 RoboCasa tasks and improves a base VLA by 37.2 percentage points across six IsaacSim tasks.</p>
       <p class="pub-links">[<a href="https://openreview.net/pdf?id=q9pu4hBd2X">Paper</a>] [<a href="https://yifank.github.io/keyflow/">Website</a>]</p>

@@ -213,7 +213,7 @@
       "publisher": "CoRL 2026 Workshop Learn@Deploy",
       "releaseDate": "2026-10-01",
       "url": "https://yifank.github.io/keyflow/",
-      "summary": "A coding agent adapts a manipulation policy by rewriting how a few demonstrations are represented and retrieved, beating a VLA fine-tuned on ten times more data."
+      "summary": "Co-first author (equal contribution with Ben Zandonati). A coding agent adapts a manipulation policy by rewriting how a few demonstrations are represented and retrieved, beating a VLA fine-tuned on ten times more data."
     },
     {
       "name": "Doodle Agent: Exploring Freeform Visual Generation with Multimodal LLMs",
