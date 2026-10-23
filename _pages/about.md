@@ -41,13 +41,16 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
   padding-bottom: .3rem; border-bottom: 1px solid var(--global-navy-rule);
   color: var(--global-navy-color); }
 .home-sec h2 .more { float: right; font-size: .82rem; font-weight: 400; }
-.hp { display: flex; gap: 1.2rem; align-items: flex-start; margin-bottom: 1.3rem; }
+.hp { display: flex; gap: 1.2rem; align-items: flex-start; margin-bottom: 1.7rem; }
 .hp-thumb { flex: 0 0 200px; max-width: 200px; }
 .hp-thumb img { width: 100%; border-radius: 3px; display: block; }
 .hp-body { flex: 1 1 auto; min-width: 0; }
-.hp-title { font-weight: 600; font-size: .95rem; line-height: 1.35; margin: 0 0 .15rem; }
+.hp-title { font-weight: 700; font-size: 1.05rem; line-height: 1.32; margin: 0 0 .3rem; }
 .hp-title a { color: inherit; }
-.home-sec .hp-venue { font-size: .87rem; color: var(--global-theme-color); margin: 0; }
+.hp-authors { font-size: .92rem; line-height: 1.5; color: var(--global-text-color-light); margin: 0 0 .3rem; }
+.hp-authors .me { color: var(--global-navy-color); font-weight: 600; }
+.home-sec .hp-venue { font-size: .95rem; color: var(--global-theme-color); margin: 0 0 .45rem; }
+.hp-links { font-size: .93rem; margin: 0; word-spacing: .25rem; }
 .home-sec .hp-venue em { font-style: italic; font-weight: 700; }
 .home-list { list-style: none; padding: 0; margin: 0; }
 .home-list li { font-size: .93rem; margin-bottom: .45rem; line-height: 1.45; }
@@ -58,29 +61,53 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
 <div class="home-sec">
 <h2>Selected research <span class="more"><a href="{{ '/research/' | relative_url }}">all &rarr;</a></span></h2>
 
-<div class="hp">
-  <div class="hp-thumb"><img src="{{ 'assets/img/research/encore.jpg' | relative_url }}" alt="ENCORE"></div>
-  <div class="hp-body">
-    <p class="hp-title"><a href="https://yifank.github.io/encore/">ENCORE: Few-Shot Agentic Discovery of Manipulation Strategies</a></p>
-    <p class="hp-venue"><strong>Oral</strong>, <em>NeurIPS 2026 Robot Learning Workshop</em></p>
+  <div class="hp">
+    <div class="hp-thumb">
+      <img src="{{ 'assets/img/research/keyflow-teaser.jpg' | relative_url }}" alt="Demonstrations in episodic memory and an agent-revised policy closing an oven in a new scene">
+    </div>
+    <div class="hp-body">
+      <p class="hp-title"><a href="https://yifank.github.io/keyflow/">KeyFlow: Agentic Policy Adaptation with Episodic Memory</a></p>
+      <p class="hp-authors">Ben Zandonati*, <span class="me">Yifan Kang</span>*, Tomás Lozano-Pérez, Leslie Pack Kaelbling &nbsp;<em>(*equal contribution; co-first authors)</em></p>
+      <p class="hp-venue"><em>CoRL 2026 Workshop Learn@Deploy</em></p>
+      <p class="hp-links">[<a href="https://openreview.net/pdf?id=q9pu4hBd2X">Paper</a>] [<a href="https://yifank.github.io/keyflow/">Website</a>]</p>
+    </div>
   </div>
-</div>
 
-<div class="hp">
-  <div class="hp-thumb"><img src="{{ 'assets/img/research/diffusion-lm.jpg' | relative_url }}" alt="Diffusion LM interpretability"></div>
-  <div class="hp-body">
-    <p class="hp-title"><a href="{{ 'assets/pdf/diffusion-lm-colm2026-poster.pdf' | relative_url }}">Interpreting Diffusion Language Models Over Denoising Time</a></p>
-    <p class="hp-venue"><em>CoLM 2026 Workshop on Non-Autoregressive Language Models</em></p>
+  <div class="hp">
+    <div class="hp-thumb">
+      <img src="{{ 'assets/img/research/encore.jpg' | relative_url }}" alt="ENCORE teaser">
+    </div>
+    <div class="hp-body">
+      <p class="hp-title"><a href="https://yifank.github.io/encore/">ENCORE: Few-Shot Agentic Discovery of Manipulation Strategies</a></p>
+      <p class="hp-authors"><span class="me">Yifan Kang</span>, Zihan Wang, Zhiwen Fan, Bangya Liu</p>
+      <p class="hp-venue"><strong>Oral Presentation</strong>, <em>NeurIPS 2026 Robot Learning Workshop</em></p>
+      <p class="hp-links">[<a href="https://arxiv.org/abs/2609.37359">Paper</a>] [<a href="https://yifank.github.io/encore/">Website</a>] [<a href="https://github.com/YIFANK/encore">Code</a>]</p>
+    </div>
   </div>
-</div>
 
-<div class="hp">
-  <div class="hp-thumb"><img src="{{ 'assets/img/research/doodle.jpg' | relative_url }}" alt="Doodle Agent"></div>
-  <div class="hp-body">
-    <p class="hp-title"><a href="https://yifank.github.io/doodle-agent/">Doodle Agent: Exploring Freeform Visual Generation with Multimodal LLMs</a></p>
-    <p class="hp-venue"><em>ICCV 2025 Workshop on AI for Visual Arts</em></p>
+  <div class="hp">
+    <div class="hp-thumb">
+      <img src="{{ 'assets/img/research/diffusion-lm.jpg' | relative_url }}" alt="Interpretability pipeline for diffusion language models">
+    </div>
+    <div class="hp-body">
+      <p class="hp-title"><a href="{{ 'assets/pdf/diffusion-lm-colm2026-poster.pdf' | relative_url }}">Interpreting Diffusion Language Models Over Denoising Time</a></p>
+      <p class="hp-authors">Jingcheng Yang*, Shangtong Wu*, <span class="me">Yifan Kang</span>, Tianhu Xiong, Mingyuan Wu, Haozhen Zheng, Alex Schwing, Klara Nahrstedt &nbsp;<em>(*equal contribution)</em></p>
+      <p class="hp-venue"><em>CoLM 2026 Workshop on Non-Autoregressive Language Models</em></p>
+      <p class="hp-links">[<a href="{{ 'assets/pdf/diffusion-lm-colm2026-poster.pdf' | relative_url }}">Poster</a>]</p>
+    </div>
   </div>
-</div>
+
+  <div class="hp">
+    <div class="hp-thumb">
+      <img src="{{ 'assets/img/research/doodle.jpg' | relative_url }}" alt="Doodle Agent">
+    </div>
+    <div class="hp-body">
+      <p class="hp-title"><a href="https://yifank.github.io/doodle-agent/">Doodle Agent: Exploring Freeform Visual Generation with Multimodal LLMs</a></p>
+      <p class="hp-authors">Dingning Cao*, <span class="me">Yifan Kang</span>*, Yael Vinker, Antonio Torralba &nbsp;<em>(*equal contribution)</em></p>
+      <p class="hp-venue"><em>ICCV 2025 Workshop on AI for Visual Arts (AI4VA)</em></p>
+      <p class="hp-links">[<a href="https://yifank.github.io/doodle-agent/">Website</a>]</p>
+    </div>
+  </div>
 </div>
 
 <div class="home-sec">
