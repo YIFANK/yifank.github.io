@@ -94,7 +94,7 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
     <div class="hp-body">
       <p class="hp-title"><a href="https://yifank.github.io/encore/">ENCORE: Few-Shot Agentic Discovery of Manipulation Strategies</a></p>
       <p class="hp-authors"><span class="me">Yifan Kang</span>, Zihan Wang, Zhiwen Fan, Bangya Liu</p>
-      <p class="hp-venue"><em>NeurIPS 2026 Robot Learning Workshop</em> <strong>(Oral)</strong> &nbsp;·&nbsp; <em>CoRL 2026 Workshop on Agentic Robotics</em></p>
+      <p class="hp-venue"><em>NeurIPS 2026 Robot Learning Workshop</em> <strong>(Oral, 6/43)</strong> &nbsp;·&nbsp; <em>CoRL 2026 Workshop on Agentic Robotics</em></p>
       <p class="hp-links">[<a href="https://arxiv.org/abs/2609.37359">Paper</a>] [<a href="https://yifank.github.io/encore/">Website</a>] [<a href="https://github.com/YIFANK/encore">Code</a>]</p>
     </div>
   </div>
