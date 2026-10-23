@@ -64,7 +64,7 @@ nav_order: 1
     <div class="pub-body">
       <p class="pub-title"><a href="https://yifank.github.io/encore/">ENCORE: Few-Shot Agentic Discovery of Manipulation Strategies</a></p>
       <p class="pub-authors"><span class="me">Yifan Kang</span>, Zihan Wang, Zhiwen Fan, Bangya Liu</p>
-      <p class="pub-venue"><strong>Oral Presentation</strong>, <em>NeurIPS 2026 Robot Learning Workshop</em></p>
+      <p class="pub-venue"><em>NeurIPS 2026 Robot Learning Workshop</em> <strong>(Oral)</strong> &nbsp;·&nbsp; <em>CoRL 2026 Workshop on Agentic Robotics</em></p>
       <p class="pub-desc">A coding agent reads three demonstrations, writes an executable policy program, and repairs it from its own execution traces.</p>
       <p class="pub-links">[<a href="https://arxiv.org/abs/2609.37359">Paper</a>] [<a href="https://yifank.github.io/encore/">Website</a>] [<a href="https://github.com/YIFANK/encore">Code</a>]</p>
     </div>
