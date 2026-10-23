@@ -202,6 +202,13 @@
       "summary": "A coding agent reads three demonstrations, writes an executable policy program, and repairs it from its own execution traces."
     },
     {
+      "name": "Generalized Planning Interfaces for Agentic Robotics",
+      "publisher": "CoRL 2026 Workshop on Agentic Robotics",
+      "releaseDate": "2026-10-01",
+      "url": "https://openreview.net/pdf?id=sU18hA2zbD",
+      "summary": "Second author. Ben Zandonati, Yifan Kang, Tomás Lozano-Pérez, Leslie Pack Kaelbling."
+    },
+    {
       "name": "Interpreting Diffusion Language Models Over Denoising Time",
       "publisher": "CoLM 2026 Workshop on Non-Autoregressive Language Models",
       "releaseDate": "2026-09-01",

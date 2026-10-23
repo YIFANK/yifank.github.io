@@ -46,6 +46,15 @@ nav_order: 1
 
 
   <div class="pub">
+    <div class="pub-body">
+      <p class="pub-title"><a href="https://openreview.net/pdf?id=sU18hA2zbD">Generalized Planning Interfaces for Agentic Robotics</a></p>
+      <p class="pub-authors">Ben Zandonati, <span class="me">Yifan Kang</span>, Tomás Lozano-Pérez, Leslie Pack Kaelbling</p>
+      <p class="pub-venue"><em>CoRL 2026 Workshop on Agentic Robotics</em></p>
+      <p class="pub-links">[<a href="https://openreview.net/pdf?id=sU18hA2zbD">Paper</a>]</p>
+    </div>
+  </div>
+
+  <div class="pub">
     <div class="pub-thumb">
       <img src="{{ 'assets/img/research/encore.jpg' | relative_url }}" alt="ENCORE teaser">
     </div>

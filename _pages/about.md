@@ -74,6 +74,15 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
   </div>
 
   <div class="hp">
+    <div class="hp-body">
+      <p class="hp-title"><a href="https://openreview.net/pdf?id=sU18hA2zbD">Generalized Planning Interfaces for Agentic Robotics</a></p>
+      <p class="hp-authors">Ben Zandonati, <span class="me">Yifan Kang</span>, Tomás Lozano-Pérez, Leslie Pack Kaelbling</p>
+      <p class="hp-venue"><em>CoRL 2026 Workshop on Agentic Robotics</em></p>
+      <p class="hp-links">[<a href="https://openreview.net/pdf?id=sU18hA2zbD">Paper</a>]</p>
+    </div>
+  </div>
+
+  <div class="hp">
     <div class="hp-thumb">
       <img src="{{ 'assets/img/research/encore.jpg' | relative_url }}" alt="ENCORE teaser">
     </div>
