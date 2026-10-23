@@ -69,7 +69,7 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
     </div>
     <div class="hp-body">
       <p class="hp-title"><a href="https://yifank.github.io/keyflow/">KeyFlow: Agentic Policy Adaptation with Episodic Memory</a></p>
-      <p class="hp-authors">Ben Zandonati*, <span class="me">Yifan Kang</span>*, Tomás Lozano-Pérez, Leslie Pack Kaelbling &nbsp;<em>(*equal contribution; co-first authors)</em></p>
+      <p class="hp-authors"><span class="me">Yifan Kang</span>*, Ben Zandonati*, Tomás Lozano-Pérez, Leslie Pack Kaelbling &nbsp;<em>(*equal contribution; co-first authors)</em></p>
       <p class="hp-venue"><em>CoRL 2026 Workshop Learn@Deploy</em></p>
       <p class="hp-links">[<a href="https://openreview.net/pdf?id=q9pu4hBd2X">Paper</a>] [<a href="https://yifank.github.io/keyflow/">Website</a>]</p>
     </div>
