@@ -65,7 +65,7 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
 
   <div class="hp">
     <div class="hp-thumb">
-      <img src="{{ 'assets/img/research/keyflow-teaser.jpg' | relative_url }}" alt="Demonstrations in episodic memory and an agent-revised policy closing an oven in a new scene">
+      <img src="{{ 'assets/img/research/keyflow-overview.jpg' | relative_url }}" alt="KeyFlow overview: an agent refines keypoints and a retrieval flow field through self-play, then generalizes to new scenes">
     </div>
     <div class="hp-body">
       <p class="hp-title"><a href="https://yifank.github.io/keyflow/">KeyFlow: Agentic Policy Adaptation with Episodic Memory</a></p>
