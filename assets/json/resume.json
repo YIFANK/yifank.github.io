@@ -36,7 +36,7 @@
       "endDate": "",
       "summary": "With Prof. Leslie Pack Kaelbling, Learning & Intelligent Systems group.",
       "highlights": [
-        "KeyFlow: a coding agent adapts a manipulation policy by rewriting how a few demonstrations are represented and retrieved, with no retraining.",
+        "KeyFlow (CoRL 2026 Workshop Learn@Deploy): a coding agent adapts a manipulation policy by rewriting how a few demonstrations are represented and retrieved, with no retraining.",
         "62.6% mean held-out success on 13 RoboCasa tasks, against 47.8% for a VLA fine-tuned on ten times more demonstrations."
       ]
     },
@@ -210,9 +210,9 @@
     },
     {
       "name": "KeyFlow: Agentic Policy Adaptation with Episodic Memory",
-      "publisher": "Under review",
+      "publisher": "CoRL 2026 Workshop Learn@Deploy",
       "releaseDate": "2026-10-01",
-      "url": "",
+      "url": "https://yifank.github.io/keyflow/",
       "summary": "A coding agent adapts a manipulation policy by rewriting how a few demonstrations are represented and retrieved, beating a VLA fine-tuned on ten times more data."
     },
     {
