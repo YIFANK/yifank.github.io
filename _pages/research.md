@@ -33,7 +33,7 @@ nav_order: 1
 
   <div class="pub">
     <div class="pub-thumb">
-      <img src="{{ 'assets/img/research/keyflow.jpg' | relative_url }}" alt="KeyFlow overview: demonstrations, a policy program, and a retrieval-induced flow field">
+      <img src="{{ 'assets/img/research/keyflow-teaser.jpg' | relative_url }}" alt="Demonstrations in episodic memory and an agent-revised policy closing an oven in a new scene">
     </div>
     <div class="pub-body">
       <p class="pub-title"><a href="https://yifank.github.io/keyflow/">KeyFlow: Agentic Policy Adaptation with Episodic Memory</a></p>
