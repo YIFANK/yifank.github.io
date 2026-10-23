@@ -83,7 +83,7 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
       <p class="hp-title"><a href="https://openreview.net/pdf?id=sU18hA2zbD">Generalized Planning Interfaces for Agentic Robotics</a></p>
       <p class="hp-authors">Ben Zandonati, <span class="me">Yifan Kang</span>, Tomás Lozano-Pérez, Leslie Pack Kaelbling</p>
       <p class="hp-venue"><em>CoRL 2026 Workshop on Agentic Robotics</em></p>
-      <p class="hp-links">[<a href="https://openreview.net/pdf?id=sU18hA2zbD">Paper</a>]</p>
+      <p class="hp-links">[<a href="https://openreview.net/pdf?id=sU18hA2zbD">Paper</a>] [<a href="https://sprout-project-d81650.pages.dev/">Website</a>]</p>
     </div>
   </div>
 
