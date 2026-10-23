@@ -64,7 +64,7 @@ nav_order: 1
     </div>
     <div class="pub-body">
       <p class="pub-title"><a href="{{ 'assets/pdf/diffusion-lm-colm2026-poster.pdf' | relative_url }}">Interpreting Diffusion Language Models Over Denoising Time</a></p>
-      <p class="pub-authors">Jingcheng Yang*, Shangtong Wu*, <span class="me">Yifan Kang</span>*, Tianhu Xiong, Mingyuan Wu, Haozhen Zheng, Alex Schwing, Klara Nahrstedt &nbsp;<em>(*equal contribution)</em></p>
+      <p class="pub-authors">Jingcheng Yang*, Shangtong Wu*, <span class="me">Yifan Kang</span>, Tianhu Xiong, Mingyuan Wu, Haozhen Zheng, Alex Schwing, Klara Nahrstedt &nbsp;<em>(*equal contribution)</em></p>
       <p class="pub-venue"><em>CoLM 2026 Workshop on Non-Autoregressive Language Models</em></p>
       <p class="pub-desc">Sparse autoencoders and cross-layer transcoders for diffusion LLMs, with timestep-aware tracing and causal interventions.</p>
       <p class="pub-links">[<a href="{{ 'assets/pdf/diffusion-lm-colm2026-poster.pdf' | relative_url }}">Poster</a>]</p>

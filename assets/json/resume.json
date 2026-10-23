@@ -206,7 +206,7 @@
       "publisher": "CoLM 2026 Workshop on Non-Autoregressive Language Models",
       "releaseDate": "2026-09-01",
       "url": "",
-      "summary": "Equal contribution. Sparse autoencoders and cross-layer transcoders for diffusion LLMs, with timestep-aware tracing and causal interventions."
+      "summary": "Sparse autoencoders and cross-layer transcoders for diffusion LLMs, with timestep-aware tracing and causal interventions."
     },
     {
       "name": "KeyFlow: Agentic Policy Adaptation with Episodic Memory",
