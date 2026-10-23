@@ -24,7 +24,9 @@ latest_posts:
 
 I'm a junior at MIT, double-majoring in Artificial Intelligence (Course 6-4) and Mathematics (Course 18). I'm advised by [Leslie Kaelbling](https://people.csail.mit.edu/lpk/) in the [Learning & Intelligent Systems Group](https://lis.csail.mit.edu/).
 
-I'm interested in building robots that can learn efficiently at deployment time, adapting to new tasks from a handful of demonstrations rather than another training run. Right now I'm exploring better ways to combine coding agents with robot foundation models.
+I want to build robots that can turn experience into new capabilities—not just execute what they learned during training. My research asks how robots can adapt after deployment: infer useful structure from a few demonstrations, diagnose failures through interaction, and revise their behavior without collecting large datasets or retraining from scratch.
+
+Currently, I’m working on robot-use agents that improve their policies from demonstrations. In [ENCORE](https://yifank.github.io/encore/), I explored how a coding agent can use demonstrations directly in context to generate executable manipulation programs and refine them through execution feedback. In [KeyFlow](https://yifank.github.io/keyflow/), I explored how an agent can optimize a non-parametric flow field constructed from a few demonstrations by revising the keypoints and retrieval programs that define it. Together, these projects investigate how agents can turn a small amount of experience into adaptable robot behavior without updating model weights.
 
 Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Arcaea and Maimai), and singing.
 
@@ -74,6 +76,9 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
   </div>
 
   <div class="hp">
+    <div class="hp-thumb">
+      <img src="{{ 'assets/img/research/gpi-teaser.jpg' | relative_url }}" alt="Generalized Planning Interfaces: behavior specifications, agent feedback, and graph synthesis for robot execution">
+    </div>
     <div class="hp-body">
       <p class="hp-title"><a href="https://openreview.net/pdf?id=sU18hA2zbD">Generalized Planning Interfaces for Agentic Robotics</a></p>
       <p class="hp-authors">Ben Zandonati, <span class="me">Yifan Kang</span>, Tomás Lozano-Pérez, Leslie Pack Kaelbling</p>

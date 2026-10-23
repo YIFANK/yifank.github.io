@@ -46,6 +46,9 @@ nav_order: 1
 
 
   <div class="pub">
+    <div class="pub-thumb">
+      <img src="{{ 'assets/img/research/gpi-teaser.jpg' | relative_url }}" alt="Generalized Planning Interfaces: behavior specifications, agent feedback, and graph synthesis for robot execution">
+    </div>
     <div class="pub-body">
       <p class="pub-title"><a href="https://openreview.net/pdf?id=sU18hA2zbD">Generalized Planning Interfaces for Agentic Robotics</a></p>
       <p class="pub-authors">Ben Zandonati, <span class="me">Yifan Kang</span>, Tomás Lozano-Pérez, Leslie Pack Kaelbling</p>
