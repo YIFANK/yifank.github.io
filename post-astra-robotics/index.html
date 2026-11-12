@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="canonical" href="https://yifank.github.io/post-astra-robotics/">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Post-Astra Robotics</title>
+<meta name="description" content="What frontier agents topping RoboDojo tells us about robotics, and what is left for roboticists.">
+<meta property="og:title" content="Post-Astra Robotics">
+<meta property="og:description" content="What frontier agents topping RoboDojo tells us about robotics, and what is left for roboticists.">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="style.css?v=27">
+</head>
+<body>
+<div id="tip" role="tooltip"></div>
+<a class="lang" href="zh.html" lang="zh-CN">中文</a>
+
+<header class="top col">
+  <div class="eyebrow">Yifan Kang · November 12, 2026</div>
+  <h1><em>Post-Astra</em> Robotics</h1>
+  <p class="dek">Frontier coding agents now lead a robot manipulation benchmark. Some thoughts on why, and on what that leaves for robotics research.</p>
+</header>
+
+<main>
+<section class="col">
+<p>I'm writing this from Austin during CoRL 2026, my first CoRL. I'm an undergrad and only started doing robotics research recently, so I spent most of the week listening to people who have been in the field far longer than I have. A lot of what I heard was about agents.</p>
+<p>On November 9, the first day of the main conference, Jim Fan's keynote had a slide about GPT-6 Astra, and within half an hour a clip of it was <a href="https://x.com/cdngdev/status/2119886555250929991">going around X</a>. CoRL also ran its first-ever call for late-breaking results this year, with agentic robotics as one of the two topics.</p>
+<p>In conversations between sessions, several researchers, some of them senior, seemed discouraged by how quickly LLMs are moving into robotics. If a coding agent can beat a VLA at manipulation, it's fair to ask what the last few years of policy learning were for, and what is left to work on. As someone deciding what to spend the next few years on, I've been asking the same thing.</p>
+<p>The same day, Anthropic reported that Claude Fable 5.2 scores 64.9% on RoboDojo Sim, against 39.4% for Opus 5.5, 29.8% for GPT-6 Astra and 27.6% for Fable 5.1. These are Anthropic's own runs at maximum effort, and the announcement doesn't say whether 64.9% is a success rate or a partial-credit score. Either way, a general-purpose language model with no robot policy head now sits ahead of most of the systems our field built for robot control.</p>
+</section>
+
+<figure class="col">
+  <div class="fig">
+    <h4>RoboDojo Sim, average over 42 tasks</h4>
+    <div class="legend"><span><i style="background:var(--accent)"></i>Anthropic internal run (metric unspecified)</span><span><i style="background:var(--accent-2)"></i>Agent harness, partial-credit score</span><span><i style="background:var(--gray-mark)"></i>Learned robot policy, partial-credit score</span></div>
+    <svg class="chart" id="fig1" role="img" aria-label="Bar chart of RoboDojo Sim averages by system"></svg>
+  </div>
+  <figcaption><b>Fig. 1.</b> Same GPT-6 Astra, two scores: 29.8 alone, 63.6 inside the AGP harness. Protocols differ across sources.</figcaption>
+</figure>
+
+<section class="col">
+<p>I have two reactions to it, and I suspect neither is the popular one:</p>
+<div class="twin"><div><span>Reaction 1</span>This result isn't very surprising.</div><div><span>Reaction 2</span>It's still very good news for robotics research.</div></div>
+<p>Most of the excitement I've seen comes with a sense that this came out of nowhere, but I think it follows fairly directly from what the benchmark measures and from what robotics already knew how to do. The second goes against the mood I described above, where people who work on robot learning read this result as the end of their approach. Manipulation has changed paradigms several times before (Fig. 2), and the older methods mostly stayed on as parts of the new systems. IK and motion planning outlasted the move to learning, and the agents now leading RoboDojo call them as tools. I expect learned policies to be kept in the same way. Working through why the first reaction holds also makes it clearer where the open problems are.</p>
+</section>
+
+<figure class="wide">
+  <div class="fig">
+    <h4>Paradigms in robot manipulation, 1961–2026</h4>
+    
+    <div class="eras-scroll"><div class="eras-in"><div class="eras-cards" id="eras-cards"></div>
+    <svg class="chart" id="fig-eras" role="img" aria-label="Timeline of paradigms in robot manipulation from 1961 to 2026"></svg></div></div>
+    <div id="era-panel" class="era-panel" hidden></div>
+  </div>
+  <figcaption><b>Fig. 2.</b> Click a photo to open a small demo of that era. Hover or tap a dot for details.</figcaption>
+</figure>
+
+<section class="col">
+<p>The agent paradigm has a short history of its own. As frontier models got stronger, robotics trusted them with more of the stack: first choosing among skills that were trained separately, then writing the program that calls perception and control, then improving a robot system on their own against a score, and most recently outputting the actions themselves (Fig. 3).</p>
+</section>
+
+<figure class="wide">
+  <div class="fig">
+    <h4>Inside the agent paradigm: what the LLM is trusted with</h4>
+    <div class="eras-scroll"><div class="eras-in"><div class="eras-cards ag-cards" id="ag-cards"></div>
+    <svg class="chart" id="fig-ag" role="img" aria-label="Timeline of how the LLM has been used inside the agent paradigm, 2022 to 2026"></svg></div></div>
+    <div id="ag-panel" class="era-panel ag-panel" hidden></div>
+  </div>
+  <figcaption><b>Fig. 3.</b> Click a card to see how that stage works. Hover or tap a dot for details.</figcaption>
+</figure>
+
+
+
+
+<section class="col">
+<h2><span class="num">§1</span>Look at what the benchmark asks for</h2>
+<p>RoboDojo has 42 simulated tasks in five categories: Generalization, Precision, Long-Horizon, Memory, and Open, with 50 episodes per task. The task list says more than the leaderboard does. A few examples:</p>
+<ul>
+<li>arrange number blocks so that they form a correct equation (Open)</li>
+<li>play tic-tac-toe (Long-Horizon)</li>
+<li>swap blocks around, keeping track of which is which (Memory)</li>
+<li>imitate a sorting sequence you were shown earlier (Memory)</li>
+</ul>
+<p>In the equation task the robot has to read the digits, work out the arithmetic, decide which block goes where, then find those blocks and move them. Only that last part is really about motor control.</p>
+<p>Today's VLAs have learned impressive action distributions; they fold laundry and open drawers they've never seen before. What they're missing is something like a brain. A VLA maps recent observations and an instruction to the next chunk of actions, and there's nowhere in that loop to hold a plan, track hidden state, or catch an arithmetic mistake. Tic-tac-toe mostly tests that missing piece, so it says little about how good the policy's hands are.</p>
+<p>A frontier LLM approaches the benchmark from the other direction. It's already good at reasoning, memory and breaking a task into steps, and what it needs is a way to turn its decisions into motion.</p>
+</section>
+
+<figure class="wide">
+  <div class="gallery g2">
+    <div class="lane">
+      <h5>Tasks that need a brain</h5>
+      <div class="clips">
+        <div class="clip"><video data-src="media/s0_l000_solve_equation.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Solve equation</b><span class="badge ok">90%</span></div></div>
+        <div class="clip"><video data-src="media/s0_l000_play_tic_tac_toe.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Tic-tac-toe</b><span class="badge ok">62%</span></div></div>
+        <div class="clip"><video data-src="media/s0_l000_swap_blocks.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Swap blocks</b><span class="badge ok">96%</span></div></div>
+        <div class="clip"><video data-src="media/s0_l000_classify_objects.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Classify objects</b><span class="badge ok">92%</span></div></div>
+      </div>
+    </div>
+    <div class="lane">
+      <h5>Tasks that need hands</h5>
+      <div class="clips">
+        <div class="clip"><video data-src="media/s0_l000_insert_key.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Insert key</b><span class="badge no">0%</span></div></div>
+        <div class="clip"><video data-src="media/s0_l000_plug_in_charger.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Plug in charger</b><span class="badge no">4%</span></div></div>
+        <div class="clip"><video data-src="media/s0_l000_fill_egg_holder.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Fill egg holder</b><span class="badge no">0%</span></div></div>
+        <div class="clip"><video data-src="media/s0_l000_fasten_screws.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Fasten screws</b><span class="badge ok">90%</span></div></div>
+      </div>
+    </div>
+  </div>
+  <figcaption><b>Fig. 4.</b> GPT-6 Astra + AGP, head camera. Badges: success over 50 episodes. Data: AGP dataset, CC-BY-4.0.</figcaption>
+</figure>
+
+<section class="col">
+<h2><span class="num">§2</span>Robotics already had the hands (for some tasks)</h2>
+<p>Anyone who has taken a classical manipulation course learns this early on, though it's easy to miss if you came into the field through imitation learning.</p>
+<p>If you know where things are in 3D, a lot of manipulation is already solved. Given an object pose, you can sample grasps, solve inverse kinematics for the arm, plan a collision-free path and track it with a feedback controller. These methods are old and mostly hand-designed, and they work across objects and arms, which is what makes them general.</p>
+<p>Some of this goes back a long way. Shakey was planning its actions with STRIPS in 1971. In the late 1980s, Lozano-Pérez's Handey system planned pick-and-place motions, grasps included, from a geometric model of the scene. RRT (LaValle, 1998) made motion planning practical for high-dimensional arms, and task-and-motion planning (Kaelbling and Lozano-Pérez, 2011, among many others) tied symbolic plans to geometric ones. Most of what the agent in Fig. 5 calls is a descendant of this work.</p>
+<p>What they never had was something to drive them. Every new task needed someone to write the state machine by hand, deciding which object to pick first, where it goes, what counts as done and what to do when a grasp slips. That engineering cost is a big part of why the field moved toward end-to-end learning.</p>
+<p>An agent takes over most of that cost. It looks at the scene, writes a program that calls perception, IK and the planner, runs it, looks again, and tries again if something went wrong. A VLA has to learn failure recovery from data, whereas an agent gets a basic version of it just by checking its own work.</p>
+<p>Ken Goldberg made a similar argument in September, in an essay titled <a href="https://x.com/Ken_Goldberg/status/2100986412762087909">“Goosebumps”</a>, where he calls agentic robotics “a third path between two dominant cultures in robotics.” I learned the learning culture first, and it was useful to be reminded how much of the other one is doing the work here.</p>
+</section>
+
+<figure class="wide">
+  <div class="fig">
+    <h4>Two ways to get from pixels to motion</h4>
+    <div class="arch">
+      <div>
+        <div class="arch-h"><b>End-to-end VLA</b></div>
+        <svg class="chart" viewBox="0 0 480 590" role="img" aria-label="VLA: image and instruction pass through one network that outputs an action chunk">
+          <defs>
+            <marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--faint)"/></marker>
+            <clipPath id="th1"><rect x="30" y="456" width="132" height="99" rx="6"/></clipPath>
+          </defs>
+          <!-- not in the loop -->
+          <text x="240" y="34" text-anchor="middle" font-size="13" fill="var(--faint)">not in the loop</text>
+          <g font-size="13" fill="var(--faint)" text-anchor="middle">
+            <rect x="40" y="48" width="120" height="34" rx="17" fill="none" stroke="var(--gray-mark)" stroke-dasharray="4 3"/><text x="100" y="70">plan</text>
+            <rect x="180" y="48" width="120" height="34" rx="17" fill="none" stroke="var(--gray-mark)" stroke-dasharray="4 3"/><text x="240" y="70">memory</text>
+            <rect x="320" y="48" width="120" height="34" rx="17" fill="none" stroke="var(--gray-mark)" stroke-dasharray="4 3"/><text x="380" y="70">check &amp; retry</text>
+          </g>
+          <!-- output: action chunk -->
+          <text x="240" y="196" text-anchor="middle" font-size="13" fill="var(--ink)">action chunk → robot, then the next chunk</text>
+          <g font-size="12" fill="var(--ink)" text-anchor="middle" id="chunk"></g>
+          <line x1="240" y1="304" x2="240" y2="252" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#a3)"/>
+          <!-- backbone -->
+          <g class="tokrow" data-y="312" data-x0="20" data-x1="460"></g>
+          <rect x="20" y="330" width="440" height="52" rx="8" fill="var(--surface)" stroke="var(--gray-mark)" stroke-width="1.5"/>
+          <text x="240" y="361" text-anchor="middle" font-size="15" fill="var(--ink)">VLA</text>
+          <g class="tokrow" data-y="390" data-x0="20" data-x1="460"></g>
+          <!-- inputs -->
+          <polygon points="50,446 142,446 130,416 62,416" fill="var(--accent)" opacity=".25"/>
+          <image href="media/eq_first.jpg" x="30" y="456" width="132" height="99" clip-path="url(#th1)" preserveAspectRatio="xMidYMid slice"/>
+          <rect x="190" y="488" width="250" height="32" rx="6" fill="var(--note-bg)" stroke="var(--note-rule)"/>
+          <text x="315" y="509" text-anchor="middle" font-size="13" fill="var(--ink)">"solve the equation"</text>
+          <line x1="315" y1="486" x2="315" y2="410" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#a3)"/>
+        </svg>
+      </div>
+      <div>
+        <div class="arch-h"><b>Agent + classical tools</b></div>
+        <svg class="chart" viewBox="0 0 480 590" role="img" aria-label="Agent: an LLM writes a program that calls perception, IK, planning and control, then re-observes and retries">
+          <defs>
+            <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--faint)"/></marker>
+            <marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--accent)"/></marker>
+            <clipPath id="th2"><rect x="30" y="456" width="132" height="99" rx="6"/></clipPath>
+            <clipPath id="th3"><rect x="334" y="30" width="120" height="90" rx="6"/></clipPath>
+          </defs>
+          <!-- tools -->
+          <rect x="14" y="30" width="300" height="100" rx="10" fill="none" stroke="var(--accent-2)" stroke-dasharray="4 3"/>
+          <g font-size="12.5" fill="var(--ink)" text-anchor="middle">
+            <rect x="26" y="46" width="134" height="32" rx="6" fill="var(--accent-2)" fill-opacity=".16"/><text x="93" y="67">perception</text>
+            <rect x="168" y="46" width="134" height="32" rx="6" fill="var(--accent-2)" fill-opacity=".16"/><text x="235" y="67">inverse kinematics</text>
+            <rect x="26" y="86" width="134" height="32" rx="6" fill="var(--accent-2)" fill-opacity=".16"/><text x="93" y="107">motion planner</text>
+            <rect x="168" y="86" width="134" height="32" rx="6" fill="var(--accent-2)" fill-opacity=".16"/><text x="235" y="107">controller</text>
+          </g>
+          <line x1="316" y1="74" x2="330" y2="74" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#a4)"/>
+          <image href="media/eq_last.jpg" x="334" y="30" width="120" height="90" clip-path="url(#th3)" preserveAspectRatio="xMidYMid slice"/>
+          <line x1="164" y1="154" x2="164" y2="134" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#a4)"/>
+          <!-- code -->
+          <rect x="20" y="156" width="440" height="128" rx="8" fill="var(--tint)" stroke="var(--rule)"/>
+          <g font-size="12.5" fill="var(--ink)" id="code"></g>
+          <line x1="164" y1="302" x2="164" y2="288" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#a4)"/>
+          <!-- backbone -->
+          <g class="tokrow" data-y="312" data-x0="20" data-x1="460" data-accent="1"></g>
+          <rect x="20" y="330" width="440" height="52" rx="8" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.5"/>
+          <text x="240" y="361" text-anchor="middle" font-size="15" fill="var(--ink)">frontier LLM agent</text>
+          <g class="tokrow" data-y="390" data-x0="20" data-x1="460" data-accent="1"></g>
+          <!-- inputs -->
+          <polygon points="50,446 142,446 130,416 62,416" fill="var(--accent)" opacity=".25"/>
+          <image href="media/eq_first.jpg" x="30" y="456" width="132" height="99" clip-path="url(#th2)" preserveAspectRatio="xMidYMid slice"/>
+          <rect x="190" y="488" width="250" height="32" rx="6" fill="var(--note-bg)" stroke="var(--note-rule)"/>
+          <text x="315" y="509" text-anchor="middle" font-size="13" fill="var(--ink)">"solve the equation"</text>
+          <line x1="315" y1="486" x2="315" y2="410" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#a4)"/>
+          <!-- feedback loop -->
+          <path d="M456 75 H472 V572 H96 V560" fill="none" stroke="var(--accent)" stroke-width="1.6" marker-end="url(#a5)"/>
+          <rect x="196" y="558" width="236" height="28" rx="14" fill="var(--surface)" stroke="var(--accent)"/>
+          <text x="314" y="577" text-anchor="middle" font-size="12" fill="var(--ink)">new image → verify → retry</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <figcaption><b>Fig. 5.</b> Read bottom to top. The agent's code is a condensed version of Fig. 6.</figcaption>
+</figure>
+
+<section class="col">
+<p>It helps to look at what the agent actually does inside one of these episodes. AGP released the full event log for every episode. The model's private reasoning is encrypted, but the messages it writes and every tool call it makes are there. Below is layout 0 of the solve-equation task, which it finished in twelve tool calls.</p>
+</section>
+
+<figure class="wide">
+  <div class="fig">
+    <h4>One episode, call by call</h4>
+    <div class="tplayer">
+    <div class="tp-left">
+      <div class="tp-video"><video id="tp-video" data-blob="media/eq_trace.mp4" muted playsinline preload="auto"></video><span class="tp-badge" id="tp-badge"></span></div>
+      <div class="tp-ctl"><button id="tp-play" aria-label="Play">▶</button><div class="tp-bar" id="tp-bar" role="slider" aria-label="Episode position" tabindex="0"></div></div>
+      <div class="tp-meta"><span id="tp-step">call 1 of 8</span><span id="tp-act">robot action 0 / 157</span></div>
+      <div class="tp-legend"><span><i class="say"></i>message</span><span><i class="meas"></i>measure</span><span><i class="run"></i>run (robot moves)</span></div>
+    </div>
+    <ol class="trace" id="tp-list">
+      <li data-f0="0" data-f1="0" data-hold="1.8"><span class="n">1</span><span class="k say">message</span><span class="q">“The missing operator is division: 8 ÷ 2 = 4. I’ll place the division piece upright on the empty pad, leave the other pieces untouched, and return both arms home.”</span></li>
+      <li data-f0="0" data-f1="0" data-hold="1.6"><span class="n">2</span><span class="k tool">measure</span><span>top-camera pixel (400, 320) → 3D point (0.177, 0.151, 0.008) m, footprint 44 × 28 mm at −48.5°; same for the empty pad at (283, 204)</span></li>
+      <li data-f0="0" data-f1="27" data-hold="0"><span class="n">3</span><span class="k tool">run</span><span>retreat, then <code>R ee g+0,0,.045 down130.79 plan</code>: move above the piece with the planner <span class="ok">→ reached, 0.1 mm error</span></span></li>
+      <li data-f0="27" data-f1="66" data-hold="0"><span class="n">4</span><span class="k tool">run</span><span>descend to contact, close, lift <span class="ok">→ server checks: grasp attempt, object follows</span></span></li>
+      <li data-f0="66" data-f1="120" data-hold="0"><span class="n">5</span><span class="k tool">run</span><span>re-measure the pad, carry the piece above it</span></li>
+      <li data-f0="120" data-f1="120" data-hold="1.8"><span class="n">6</span><span class="k say">message</span><span class="q">“The division piece is held above the empty pad. I’m checking its position before lowering and releasing it.”</span></li>
+      <li data-f0="120" data-f1="120" data-hold="2.0"><span class="n">7</span><span class="k tool">measure ×3</span><span>find the held piece from the top and wrist cameras <span class="warn">→ wrist depth match uncertain (3.6 cm)</span>, so it supplies its own height estimate, 7.8 cm, from where the fingers grip</span></li>
+      <li data-f0="120" data-f1="157" data-hold="0"><span class="n">8</span><span class="k tool">run</span><span>place slowly, open, retreat, both arms home <span class="ok">→ success</span></span></li>
+    </ol>
+    </div>
+  </div>
+  <figcaption><b>Fig. 6.</b> Solve equation, layout 0, abridged. Drag the bar or click a call. The video holds still while the agent writes or measures; robot motion plays at half speed.</figcaption>
+</figure>
+
+<section class="col">
+<p>The agent never outputs a joint command. It decides what to do in one sentence, and everything after that goes through tools that turn pixels into 3D points or plan a path to a pose. Before releasing the piece, the one step it can't undo, it measures again and works around a depth estimate it doesn't trust. This holds across the dataset: about 21,000 <code>measure</code> and 47,500 <code>run</code> calls over 2,100 episodes, roughly one in five reporting a failure the agent had to handle. In 260 episodes it also issued about 5,200 of those calls from JavaScript it wrote; the log keeps the calls but not the scripts.</p>
+<p>One thing to keep in mind about this setup is that the AGP prompts also include a few hand-written hints per task, such as how wide to open the gripper before picking up a nut. Some human task knowledge is still in the loop, written as text instead of code.</p>
+</section>
+
+<section class="col">
+<h2><span class="num">§3</span>Why now?</h2>
+<p>The architecture isn't new either. In 2022, SayCan had a language model pick among learned skills, and Code as Policies had one write Python against perception and control APIs. VoxPoser (2023) had a model compose 3D value maps for a motion planner to follow. Those systems showed the idea working on short tabletop tasks, with models much weaker than today's. With tools that are decades old and an architecture that is four years old, what changed has to be on the model side. I'd point to four things that improved at roughly the same time.</p>
+<ul>
+<li><strong>Coding.</strong> Driving a robot this way means writing and debugging real programs over many steps, which earlier models couldn't keep up for long.</li>
+<li><strong>Spatial vision.</strong> The model has to locate the mug in coordinates accurately enough for IK to use, which is much harder than recognizing it.</li>
+<li><strong>Reasoning budget.</strong> A few hundred robot actions take a lot of thinking even when compressed into code, and models can now spend that much without losing the thread.</li>
+<li><strong>Self-improvement.</strong> When an attempt fails, the agent can watch the result, work out what went wrong and revise the code at test time. For a learned policy, learning from that failure means collecting recovery demonstrations and retraining; here it is an edit, and the fix carries over to the next attempt. Given a value function, the same loop runs without a person in it. ENPIRE reaches 99% on dexterous tasks this way, with agents rewriting the training code after every round (Fig. 3).</li>
+</ul>
+<p>I don't know how much of this comes from generic pretraining. The labs don't say what they trained on, and the authors of <i>An Unexpected Robot Policy</i> point out that for a closed-weight model, contamination with benchmark-related material can't be ruled out. Either way, several separate abilities had to arrive at about the same time, which is part of why the jump looked so sudden.</p>
+
+<h2><span class="num">§4</span>Where it fails</h2>
+<p>Anthropic has published only the average for Fable 5.2, with no per-category breakdown. The closest public data I found is Agent as Policy (AGP): GPT-6 Astra running inside Codex at high reasoning effort, with all 2,100 RoboDojo episodes (42 tasks × 50) released on Hugging Face. Success here means full task completion:</p>
+<table class="tbl">
+<thead><tr><th>Category</th><th class="n">Success</th><th class="n">Partial-credit score</th></tr></thead>
+<tbody>
+<tr><td>Memory</td><td class="n">91.0%</td><td class="n">92.2</td></tr>
+<tr><td>Open</td><td class="n">62.3%</td><td class="n">65.8</td></tr>
+<tr><td>Generalization</td><td class="n">54.7%</td><td class="n">59.8</td></tr>
+<tr><td>Precision</td><td class="n">44.0%</td><td class="n">50.9</td></tr>
+<tr><td>Long-Horizon</td><td class="n">28.8%</td><td class="n">49.5</td></tr>
+<tr class="total"><td>Average</td><td class="n">56.1%</td><td class="n">63.6</td></tr>
+</tbody></table>
+<p>Since this is a different model and harness from Fable 5.2, I'd treat it as suggestive. Still, the <em>same</em> GPT-6 Astra scored 29.8% in Anthropic's runs and 29.0 (22.5% success) in <i>An Unexpected Robot Policy</i>, where it chose end-effector targets itself and a planner only executed them. With <code>measure</code> and multi-step <code>run</code> it gets 63.6, close to Fable 5.2.</p>
+</section>
+
+<figure class="wide">
+  <div class="fig">
+    <h4>Every RoboDojo task, GPT-6 Astra + AGP</h4>
+    <svg class="chart" id="fig-all" role="img" aria-label="Dot plot of success rate for all 42 tasks, grouped by category"></svg>
+  </div>
+  <figcaption><b>Fig. 7.</b> One dot per task. The dark tick and the number on the right are the category average.</figcaption>
+</figure>
+
+<section class="col">
+<p>Memory at 91% is what you'd expect. Precision at 44% is more surprising, since that's high for a system with no trained manipulation policy. The per-task numbers help explain it.</p>
+</section>
+
+<figure class="col">
+  <div class="fig">
+    <div class="seg" role="group" aria-label="Category"><button aria-pressed="true" data-cat="Precision">Precision</button><button aria-pressed="false" data-cat="Long-Horizon">Long-Horizon</button></div>
+    <div class="legend"><span><i style="background:var(--accent)"></i>Success rate</span><span><i style="background:var(--accent);opacity:.28"></i>Partial-credit score</span></div>
+    <svg class="chart" id="fig-cat" role="img" aria-label="Per-task success and score bars"></svg>
+  </div>
+  <figcaption><b>Fig. 8.</b> Light bar: partial-credit score.</figcaption>
+</figure>
+
+<section class="col">
+<p>The 44% averages tasks near 90% with tasks near zero. Hitting a xylophone key needs precise positioning in free space; once the agent has located the key, it just moves there. Inserting a key needs precision in contact. Small pose errors make it jam, and fixing them takes fast force feedback the agent doesn't have. Peg-in-hole has been studied at least since Whitney's work on compliant assembly in 1982, where the usual answer was a wrist that gives a little under contact. Neither a coding agent nor a planner has that built in.</p>
+<p>The task definitions make the difference concrete. Fasten screws, the one hands task the agent handles well, turns out to be closer to the xylophone. In the simulator the screws are hexagonal nuts that have to sit on posts to within 1 mm, and turning isn't checked, so it comes down to precise placement. Insert key needs the key upright to within 7°, pushed 2.5 cm into the lock, and then turned.</p>
+</section>
+
+<figure class="col">
+  <div class="pair">
+    <div class="clip"><video data-src="media/s0_l000_play_Xylophone.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Play xylophone</b><span class="badge ok">90%</span></div></div>
+    <div class="clip"><video data-src="media/s0_l000_insert_key.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Insert key</b><span class="badge no">0%</span></div></div>
+  </div>
+  <figcaption><b>Fig. 9.</b> Both are Precision tasks.</figcaption>
+</figure>
+
+<section class="col">
+<p>That makes me think the brain-versus-hands split I started with is a bit too coarse. A more useful distinction might be:</p>
+<ul>
+<li><strong>Geometry-dominated manipulation</strong>: if the object can be localized and the motion planned, the agent and classical tools usually manage it.</li>
+<li><strong>Contact-dominated manipulation</strong>: tight insertion, in-hand dexterity, deformables, and other tasks that depend on forces you can't see in an image. The agent doesn't have a good tool to call for these.</li>
+</ul>
+<p>Long-Horizon, the weakest category at 28.8%, splits the same way (switch Fig. 8 to Long-Horizon). The agent does well when a task is long because it involves thinking, like sorting objects by class or playing a game. It fails when a task is long because one fine placement repeats many times, like eggs into an egg holder or pieces onto a stacking toy's pegs, and one slip anywhere fails the episode. In one fill-egg-holder episode it used 682 of its 700 allowed actions and still didn't finish. The plans look fine; the errors are small manipulation mistakes that compound.</p>
+</section>
+
+<figure class="col">
+  <div class="pair">
+    <div class="clip"><video data-src="media/s0_l000_classify_objects.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Classify objects</b><span class="badge ok">92%</span></div></div>
+    <div class="clip"><video data-src="media/s0_l000_organize_table.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Organize table</b><span class="badge no">32%</span></div></div>
+  </div>
+  <figcaption><b>Fig. 10.</b> Both are Long-Horizon tasks.</figcaption>
+</figure>
+
+<section class="col">
+<p>All of this is simulation, and the real-robot evidence is thinner. The authors of <i>An Unexpected Robot Policy</i> stopped their real-robot trials of GPT-6 Astra after it repeatedly issued unsafe actions, some of which damaged hardware; in their reading, Astra understood the tasks more reliably than it executed them safely. Goldberg's group did better by keeping the model out of the control loop. Astra built a simulation of a sponge-wiping task from a short video and refined a controller against it, and the exported code ran on their real robot, though one trial knocked over the metal bar because its mass couldn't be inferred from video. In both cases the understanding transferred to hardware more easily than the contact did.</p>
+</section>
+
+<section class="col">
+<h2><span class="num">§5</span>Speed</h2>
+<p>The objection I hear most often is about latency. The AGP logs report 300.6 hours of wall time for 14.3 hours of simulated robot motion, about 8.6 minutes per episode. Of the 300 hours, 208 were spent outside tool calls, in model inference and the agent runtime; simulation, rendering, and motion planning together took 93.</p>
+</section>
+
+<figure class="col">
+  <div class="fig">
+    <h4>Where 2,100 episodes spent their time (GPT-6 Astra + AGP)</h4>
+    <div class="big"><div><b>8.6 min</b><span>wall time per episode</span></div><div><b>21×</b><span>wall time ÷ simulated robot time</span></div><div><b>69%</b><span>of wall time outside tool calls</span></div></div>
+    <div class="legend"><span><i style="background:var(--accent)"></i>Model inference + agent runtime</span><span><i style="background:var(--accent-2)"></i>Tool calls (sim, render, planning)</span><span><i style="background:var(--ink)"></i>Simulated robot time</span></div>
+    <svg class="chart" id="fig-time" role="img" aria-label="Stacked bar of wall-clock time"></svg>
+  </div>
+  <figcaption><b>Fig. 11.</b> The dark box is time the robot was actually moving.</figcaption>
+</figure>
+
+<section class="col">
+<p>Per episode, that is about six minutes of agent time against 24.5 seconds of robot motion. The agent makes a median of 31 tool calls, and at each one it re-reads a growing context (1.45 million input tokens per episode, 96% served from cache) and writes a couple hundred tokens, about 5,900 output tokens per episode in all. I see three places to get that time down.</p>
+<ul>
+<li><b>Faster hardware.</b> The same model decodes faster on newer chips and better serving stacks, and the spread is already large: on <a href="https://artificialanalysis.ai/">Artificial Analysis</a>, Cerebras serves gpt-oss-120B at over 1,700 tokens per second, while the fastest frontier-tier models are listed at a few hundred. I count 1.5–2× per year.</li>
+<li><b>Smaller models.</b> The <a href="https://www.nature.com/articles/s42256-025-01137-0">densing law</a> paper finds that the parameters needed to reach a fixed benchmark score halve about every 3.5 months, roughly 10× per year. Decoding doesn't speed up in proportion, and robot work may shrink more slowly than benchmarks, so I count 1.5–3×. A small model can probably call <code>rotate_face("R")</code> just fine; deciding how to hold an unfamiliar object or how to recover from a subtle failure seems much harder, so the model that handles surprises may stay large while routine calls go to a small one.</li>
+<li><b>Fewer output tokens.</b> Newer models spend fewer tokens on the same result. In a footnote to Goldberg's essay, Jay Chooi reports Astra scoring 95% on a robot control task where Fable 5.1 scored 40%, with 6.2× fewer output tokens. OpenAI <a href="https://openai.com/index/gpt-5-6-frontier-intelligence-efficiency/">reports</a> GPT-5.6 Sol beating Fable 5 on a coding agent index with under half the output tokens. Fewer calls help too, since every call re-reads the context. I count 1.5–2.5× per year.</li>
+</ul>
+<p>Multiplied together, that is 3.4× to 15× per year. Bringing six minutes down to 24.5 seconds takes about 14×, which lands somewhere between late 2027 and early 2029. That covers only the agent's share. Each episode also spends about 2.6 minutes inside tool calls, mostly simulation and motion planning, which need their own speedup; on a real robot, part of that time becomes the motion itself.</p>
+</section>
+
+<figure class="col">
+  <div class="fig">
+    <h4>Agent time per episode, extrapolated</h4>
+    <svg class="chart" id="fig-speed" role="img" aria-label="Log-scale projection of agent minutes per episode under three yearly speedup rates, against robot motion time"></svg>
+  </div>
+  <figcaption><b>Fig. 12.</b> Today's 5.9 minutes under three yearly speedups. Dots mark where it matches robot motion.</figcaption>
+</figure>
+
+<section class="col">
+<p>Even then, some reasoning stays on the critical path, because recovering means looking at the result and deciding what to do. The design that made most sense to me this summer was asynchronous: a skill keeps executing while a monitor watches it, and the agent thinks in parallel and steps in only when something goes off track. Robotics has been here before. Brooks argued in 1986 for fast reactive layers that don't wait on a planner, and the three-layer architectures that followed (Gat, 1998) put a slow deliberative layer on top of a skill sequencer and a fast controller. The difference now is that the deliberative layer is worth waiting for.</p>
+<p>Does the LLM eventually become System 1 too, the fast layer that does dexterous control? I don't think so. The speedups above help a small robot model just as much: faster chips and distillation make it faster too, and on the same hardware the smaller model always reacts first. The gap is also a different size. Matching robot motion time takes about 14× in agent speed, while closing a contact loop at hundreds of hertz takes a thousand times more than that. And dexterity isn't mainly a speed problem. The agent on RoboDojo is equally slow on every task, yet it scores 96% on swap blocks and 0% on insert key, because knowing where the key goes doesn't tell you how to feel it into the slot. That knowledge comes from contact data, which web text and video contain very little of.</p>
+<p>A general model does take over once it gets under a task's latency threshold. After that, being faster stops mattering and generality wins, the way general models replaced most specialized translation systems. I expect that to happen in the middle of the stack, the pick-and-place decisions VLAs make today at a few hertz, which an agent calling a planner and a controller may cover within a couple of years. For dexterous control the threshold is milliseconds, and System 1 stays a separate, smaller model. What I expect to change is who builds it. The agent can write the controller, set up the simulator, collect the data and train the policy it will later call.</p>
+
+<h2><span class="num">§6</span>Is this the Bitter Lesson?</h2>
+<p>I've heard people say robotics just got Bitter Lessoned, since a general model beat the specialists. I think that's a misreading of Sutton. His argument is that general methods that scale with computation, mainly search and learning, eventually beat approaches built on hand-encoded human knowledge. That's a claim about methods, and it says nothing specific about LLMs or about end-to-end training.</p>
+<p>If you do read it as an argument for end-to-end learning, the result goes against it. The scaling bet in robotics was that more demonstrations and bigger VLAs would eventually pick up reasoning as well. On this benchmark that hasn't happened yet. In the Open category, which holds solve equation and the language-conditioned tasks, no learned policy on the RoboDojo leaderboard scores above 25, while the top six agent entries score between 49 and 78. What worked here is a model calling IK and motion planners, the same hand-built components that the end-to-end view expected us to discard.</p>
+<p>Read the way Sutton wrote it, there's no real conflict, because writing programs and searching over them at test time is itself a general method that scales with compute. The more interesting question is where compute is best spent in robotics, whether on policy training, test-time reasoning, planning, or learning during deployment.</p>
+
+<h2><span class="num">§7</span>Why this is good news</h2>
+<p>High-level reasoning is becoming something you can get from an API. That removes a set of problems that robot learning was never in a good position to solve by collecting teleoperation data anyway, things like arithmetic, memory, task decomposition, and knowing what a charger is for.</p>
+<p>What's left for us is mostly the physical side of manipulation, plus the problem of making all of this cheap and fast enough to use. Moravec pointed out in 1988 that the abilities we think of as intelligent, like arithmetic and games, are computationally easy, while perception and motor skill are hard. RoboDojo looks like the same observation almost forty years later: the agent solves the equation and then struggles to insert the key.</p>
+<p>There's also a more practical reason to be optimistic, which is that agents are starting to do the slow parts of robotics research. The sponge-wiping simulation from Goldberg's essay took Astra under an hour to build from a short video, sponge deformation included. In <a href="https://arxiv.org/abs/2611.11941">Flip Anything</a>, one of this year's CoRL late-breaking papers, a coding agent raises object-flipping success in simulation from 24.7% to 95.0% through its own iterations. Building simulators, tuning controllers and running ablations take up a large share of a robotics student's time, and all three are getting cheaper.</p>
+<p>Learned policies don't become irrelevant either. Two entries on the RoboDojo agent track, including the second-ranked one, pair an agent with a learned model: GO-3 Nano Preview with a world-action model and PhysicalRSI with a VLA. The best insert-key score on the entire leaderboard, 48.4, belongs to PhysicalRSI. Goldberg's skill libraries can include VLA policies too. A reliable contact-rich skill is exactly the kind of tool an agent wants to call, so policy learning now has a new kind of user.</p>
+
+<h2><span class="num">§8</span>What roboticists can work on</h2>
+<ul class="bets">
+<li><strong>Work on what the agent can't do by itself.</strong>Contact-rich manipulation, dexterity and tool use, where the agent knows what should happen but can't make it happen. No entry on the leaderboard gets past 50 on insert key. Force- and touch-aware skills, compliance and fast reactive control are all things an agent would call if they existed as reliable tools.</li>
+<li><strong>Think beyond pick-and-place.</strong>The AGP tools reduce the world to points and poses, and most of what the agent does well fits that description. A towel, a pile of beans or a cable doesn't have a single pose, and neither do dynamic tasks like throwing or catching.</li>
+<li><strong>Improve the agent.</strong>Beyond speed (§5), open questions include how to compile its traces into small fast policies and how it can train its own skills when they keep failing.</li>
+</ul>
+</section>
+
+<figure class="col">
+  <div class="fig">
+    <h4>Where the open problems are</h4>
+    <svg class="chart" id="fig-map" viewBox="0 0 640 420" role="img" aria-label="Two-by-two map: geometry to contact, cheap to expensive">
+      <rect x="70" y="20" width="560" height="350" fill="none" stroke="var(--rule)"/>
+      <rect x="70" y="195" width="280" height="175" fill="var(--accent)" opacity=".12"/>
+      <line x1="350" y1="20" x2="350" y2="370" stroke="var(--rule)"/><line x1="70" y1="195" x2="630" y2="195" stroke="var(--rule)"/>
+      <g font-size="12" fill="var(--muted)">
+        <text x="70" y="392">geometry-dominated</text><text x="630" y="392" text-anchor="end">contact-dominated →</text>
+        <text x="56" y="370" transform="rotate(-90 56 370)">cheap in agent time</text>
+        <text x="56" y="20" text-anchor="end" transform="rotate(-90 56 20)">expensive →</text>
+      </g>
+      <g font-size="12.5" fill="var(--ink)">
+        <text x="90" y="225" font-weight="600" fill="var(--accent)">agents handle today</text>
+        <text x="90" y="260">stack blocks · push T</text><text x="90" y="284">solve equation · xylophone</text>
+        <text x="90" y="60" font-weight="600" fill="var(--muted)">make it cheaper</text>
+        <text x="90" y="92">organize table</text><text x="90" y="116">pack objects into box</text><text x="90" y="140">make toast</text>
+        <text x="370" y="225" font-weight="600" fill="var(--bad)">no good tool to call</text>
+        <text x="370" y="260">insert key · plug in charger</text><text x="370" y="284">in-hand reorientation</text>
+        <text x="370" y="60" font-weight="600" fill="var(--bad)">both problems at once</text>
+        <text x="370" y="92">fill egg holder</text><text x="370" y="116">fold, then hang clothes</text><text x="370" y="140">dexterous tool use</text>
+      </g>
+    </svg>
+    <div class="map-m" aria-hidden="true">
+      <span></span><b class="ax">geometry-dominated</b><b class="ax">contact-dominated →</b>
+      <b class="ay">expensive</b>
+      <div><b class="h">make it cheaper</b>organize table<br>pack objects into box<br>make toast</div>
+      <div><b class="h bad">both problems at once</b>fill egg holder<br>fold, then hang clothes<br>dexterous tool use</div>
+      <b class="ay">cheap in agent time</b>
+      <div class="ok"><b class="h acc">agents handle today</b>stack blocks · push T<br>solve equation · xylophone</div>
+      <div><b class="h bad">no good tool to call</b>insert key · plug in charger<br>in-hand reorientation</div>
+    </div>
+  </div>
+  <figcaption><b>Fig. 13.</b> Illustrative; examples placed by hand.</figcaption>
+</figure>
+
+<section class="col">
+<p>I came to Austin asking the same question as the people I talked to between sessions, whether there is still something left for me to work on. As the conference wraps up, I'm fairly sure there is. The key that jams and the eggs that slip were hard before Astra and are still hard, and the agents that fail at them can now help build the simulators and controllers it will take to fix them.</p>
+</section>
+</main>
+
+<footer class="col">
+  <b>Sources</b>
+  <ul>
+  <li>Anthropic, <a href="https://www.anthropic.com/claude-fable-and-mythos-5-2">Introducing Claude Fable 5.2 and Claude Mythos 5.2</a> (2026-11-09)</li>
+  <li><a href="https://arxiv.org/abs/2607.04434">RoboDojo paper</a> and <a href="https://robodojo-benchmark.com/leaderboard">leaderboard</a></li>
+  <li><a href="https://arxiv.org/abs/2609.24170">An Unexpected Robot Policy: Early Evaluations of GPT-6 Astra on RoboDojo and Beyond</a></li>
+  <li><a href="https://arxiv.org/abs/2609.12541">Agent as Policy for Robotic Manipulation</a> and the <a href="https://huggingface.co/datasets/Agent-as-Policy/agent-as-policy-robodojo">RoboDojo episode dataset</a> (videos, per-task results; CC-BY-4.0)</li>
+  <li>Humanoids Daily, <a href="https://www.humanoidsdaily.com/news/anthropic-claude-fable-5-2-robotics-robodojo">leaderboard context for Fable 5.2</a></li>
+  <li>Rich Sutton, <a href="http://www.incompleteideas.net/IncIdeas/BitterLesson.html">The Bitter Lesson</a> (2019)</li>
+  <li>S. Xie, K. Chen, K. Goldberg, <a href="https://arxiv.org/abs/2611.11941">Flip Anything with Agentic Robotics Self-Learning</a> (CoRL 2026 late-breaking)</li>
+  <li>Ken Goldberg, <a href="https://x.com/Ken_Goldberg/status/2100986412762087909">Goosebumps: a Paradigm Shift is Occurring in Robotics</a> (2026-09-18)</li>
+  <li>Xiao et al., <a href="https://www.nature.com/articles/s42256-025-01137-0">Densing law of LLMs</a>, Nature Machine Intelligence (2025)</li>
+  <li>OpenAI, <a href="https://openai.com/index/gpt-5-6-frontier-intelligence-efficiency/">How GPT-5.6 fuses frontier intelligence with frontier efficiency</a></li>
+  <li><a href="https://artificialanalysis.ai/">Artificial Analysis</a> output-speed leaderboard (Nov 2026)</li>
+  </ul>
+  <b>Older work</b>
+  <ul>
+  <li>R. Fikes and N. Nilsson, STRIPS: A new approach to the application of theorem proving to problem solving. <i>Artificial Intelligence</i>, 1971.</li>
+  <li>D. Whitney, Quasi-static assembly of compliantly supported rigid parts. <i>J. Dynamic Systems, Measurement, and Control</i>, 1982.</li>
+  <li>R. Brooks, A robust layered control system for a mobile robot. <i>IEEE J. Robotics and Automation</i>, 1986.</li>
+  <li>H. Moravec, <i>Mind Children</i>. Harvard University Press, 1988.</li>
+  <li>T. Lozano-Pérez, J. Jones, E. Mazer, P. O'Donnell, Task-level planning of pick-and-place robot motions. <i>IEEE Computer</i>, 1989.</li>
+  <li>S. LaValle, Rapidly-exploring random trees: a new tool for path planning. Tech. report, Iowa State, 1998.</li>
+  <li>E. Gat, On three-layer architectures. In <i>Artificial Intelligence and Mobile Robots</i>, 1998.</li>
+  <li>L. Kaelbling and T. Lozano-Pérez, Hierarchical task and motion planning in the now. ICRA, 2011.</li>
+  <li>M. Ahn et al., <a href="https://arxiv.org/abs/2204.01691">Do As I Can, Not As I Say</a> (SayCan), 2022.</li>
+  <li>J. Liang et al., <a href="https://arxiv.org/abs/2209.07753">Code as Policies</a>, 2022.</li>
+  <li>W. Huang et al., <a href="https://arxiv.org/abs/2307.05973">VoxPoser</a>, 2023.</li>
+  </ul>
+  <b>Photo credits (Fig. 2)</b>
+  <ul>
+  <li>Unimate, 1967: Frank Q. Brown / Los Angeles Times, <a href="https://commons.wikimedia.org/wiki/File:Unimate_pouring_coffee_for_a_woman_at_Biltmore_Hotel,_1967.jpg">Wikimedia Commons</a>, CC BY 4.0</li>
+  <li>Shakey: The wub, <a href="https://commons.wikimedia.org/wiki/File:SRI_Shakey_robot,_1969,_Computer_History_Museum.jpg">Wikimedia Commons</a>, CC BY-SA 4.0</li>
+  <li>Baxter: Xavier Caré, <a href="https://commons.wikimedia.org/wiki/File:Innorobo_2015_-_Rethink_Robotics_-_Baxter.JPG">Wikimedia Commons</a>, CC BY-SA 4.0</li>
+  <li>Open X-Embodiment Collaboration, <a href="https://arxiv.org/abs/2310.08864">Fig. 1</a> (cropped), CC BY 4.0</li>
+  <li>AGP episode frame, <a href="https://huggingface.co/datasets/Agent-as-Policy/agent-as-policy-robodojo">AGP dataset</a>, CC BY 4.0</li>
+  </ul>
+</footer>
+
+<script src="figs.js?v=27"></script>
+<script src="eras.js?v=27"></script>
+<script src="agentic.js?v=27"></script>
+<script src="trace.js?v=27"></script>
+</body>
+</html>
