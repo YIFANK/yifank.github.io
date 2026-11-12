@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-sutton-39-s-big-world-hypothesis",
+        },{id: "post-post-astra-robotics",
+        
+          title: "Post-Astra Robotics",
+        
+        description: "Frontier coding agents now lead a robot manipulation benchmark. Some thoughts on why, and on what that leaves for robotics research.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/post-astra-robotics/";
+          
+        },
+      },{id: "post-sutton-39-s-big-world-hypothesis",
         
           title: "Sutton&#39;s Big World Hypothesis",
         
