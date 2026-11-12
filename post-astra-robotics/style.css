@@ -189,3 +189,12 @@ footer li{margin:4px 0}
 .ag-panel .era-demo svg{touch-action:auto}
 .ag-src{font-family:var(--mono);font-size:12.5px!important;color:var(--muted)!important}
 .ag-panel svg text{white-space:pre}
+
+/* §8 open problems */
+.probs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;counter-reset:none}
+.probs li{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:16px 18px 14px;margin:0}
+.probs .pn{display:block;font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--accent);letter-spacing:.06em}
+.probs b{display:block;font-family:var(--display);font-weight:700;font-size:19px;line-height:1.25;margin:4px 0 8px;color:var(--ink)}
+.probs p{font-size:15.5px;line-height:1.6;margin:0;color:var(--ink)}
+@media (max-width:860px){.probs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.probs{grid-template-columns:1fr}}
