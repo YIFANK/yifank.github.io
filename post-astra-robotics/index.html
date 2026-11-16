@@ -60,7 +60,7 @@
 <h2><span class="num">§1</span>Manipulation benchmarks now test the brain</h2>
 <p>Newer manipulation benchmarks ask for more than motor skill. RoboDojo, which most of this post draws on, is a good example. Among its 42 simulated tasks, the robot has to arrange number blocks into a correct equation, play tic-tac-toe, or swap blocks around while keeping track of which is which.</p>
 <p>In the equation task the robot has to read the digits, work out the arithmetic, decide which block goes where, then find those blocks and move them. Only that last part is really about motor control.</p>
-<p>Today's VLAs have learned impressive action distributions; they fold laundry and open drawers they've never seen before. What they're missing is something like a brain. A VLA maps recent observations and an instruction to the next chunk of actions, and there's nowhere in that loop to hold a plan, track hidden state, or catch an arithmetic mistake. Tasks like these mostly test that missing piece, so they say little about how good a policy's hands are.</p>
+<p>Today's VLAs have learned impressive action distributions; they fold laundry and open drawers they've never seen before. What they're missing is something like a brain. Most current VLAs map recent observations and an instruction to the next chunk of actions. Some add memory or a high-level planner, but they often lack the explicit, persistent and editable task state that a coding agent has by construction: a place to hold a plan, track hidden state, or catch an arithmetic mistake. Tasks like these mostly test that missing piece, so they say little about how good a policy's hands are.</p>
 <p>A frontier LLM approaches these tasks from the other direction. It's already good at reasoning, memory and breaking a task into steps, and what it needs is a way to turn its decisions into motion.</p>
 </section>
 
@@ -255,16 +255,11 @@
 <section class="col">
 <p>Faster chips, smaller models and models that need fewer tokens for the same answer each cut into that, together something like 3–15× a year. At that rate the agent catches up with the robot somewhere between late 2027 and early 2029.</p>
 <p>Even then, some reasoning stays on the critical path, since recovering from a mistake means looking at the result and deciding what to do next. Brooks argued in 1986 for fast reactive layers that don't wait on a planner, and the three-layer architectures that followed (Gat, 1998) put a slow deliberative layer on top of a skill sequencer and a fast controller. The agent fits in the top layer: it thinks while a skill runs and steps in when the skill goes off track.</p>
-<p>I don't expect the LLM to take over the fast layer as well. A general model takes over a layer once it gets under that layer's latency, and I expect that to happen first in the middle of the stack, the pick-and-place decisions VLAs make today at a few hertz. Closing a contact loop at hundreds of hertz needs roughly a thousand times more speedup than keeping pace with the robot, and the same hardware gains make a small robot model faster too.</p>
-<p>Speed still matters a great deal. A small model with the same reasoning would make these agents cheap and fast enough to run on real robots, and that would already change how robots are deployed. It wouldn't fix contact, though. The agent is just as slow on swap blocks, where it scores 96%, as on insert key, where it scores 0%. Knowing where the key goes doesn't tell you how to feel it into the slot. So the fast layer stays a separate, smaller model, though the agent may be the one that builds it, setting up the simulator, collecting the data and training the policy it will later call.</p>
+<p>NVIDIA's <a href="https://research.nvidia.com/labs/gear/gr00t-2/assets/gr00t2_whitepaper.pdf">GR00T 2</a>, presented at CoRL the same day, is built this way. On its own it scores 35.5% on RoboDojo. With RL post-training and run as a tool under a frontier agent that plans the task, watches progress and repairs failures with code, it reaches 75.8%, the highest reported score, though on one of RoboDojo's three layout banks. On real robots the same split takes three cluttered assembly tasks from 71–84 successes out of 100 to 97–98.</p>
+<p>Speed also matters a great deal for deployment. A small model with the same reasoning would make these agents cheap and fast enough to run on real robots, and that alone would change how robots are deployed.</p>
 
-<h2><span class="num">§4</span>Moravec's paradox, again</h2>
-<p>In 1988 Hans Moravec pointed out that the abilities we think of as intelligent, like arithmetic and chess, are comparatively easy for computers, while the perception and motor skill a one-year-old has are hard. RoboDojo reads like the same observation almost forty years later: the agent solves the equation and then can't insert the key.</p>
-<p>For robot learning this is good news. High-level reasoning is becoming something you can get from an API, which takes away problems that teleoperation data was never going to solve well: arithmetic, memory, task decomposition, knowing what a charger is for. What's left is the part Moravec called hard, and it is now much easier to see.</p>
-<p>It also means learned policies aren't going away. NVIDIA's <a href="https://research.nvidia.com/labs/gear/gr00t-2/assets/gr00t2_whitepaper.pdf">GR00T 2</a>, presented at CoRL the same day, splits the work along this line. On its own it scores 35.5% on RoboDojo. With RL post-training and run as a tool under a frontier agent that plans the task, watches progress and repairs failures with code, it reaches 75.8%, the highest reported score, though on one of RoboDojo's three layout banks. On real robots the same split takes three cluttered assembly tasks from 71–84 successes out of 100 to 97–98.</p>
-
-<h2><span class="num">§5</span>What we can work on</h2>
-<p>If the paradox holds, most of the work left in manipulation sits below the agent. These are the problems I think are still open.</p>
+<h2><span class="num">§4</span>What we can work on</h2>
+<p>It's difficult to predict what the final solution for general robotics will be. High-level reasoning is becoming something you can get from an API, which takes away problems that teleoperation data was never going to solve well: arithmetic, memory, task decomposition, knowing what a charger is for. What's still unclear is where agentic robotics stops. If it can't do contact-rich and dexterous tasks today, what is the fundamental reason? Is it the interface, which gives the agent images and poses but no forces? Is it speed? Or is it something more scale would fix? These are the problems I think are still open.</p>
 </section>
 
 <figure class="wide">
@@ -272,12 +267,13 @@
 <li><span class="pn">01</span><b>Dexterity and contact</b><p>Insertion, in-hand manipulation and deformables depend on forces a camera can't see, and the agent has no tool for them yet.</p></li>
 <li><span class="pn">02</span><b>Speed and reactivity</b><p>Agents think in seconds while contact needs milliseconds, so fast policies have to run underneath them.</p></li>
 <li><span class="pn">03</span><b>Improving in deployment</b><p>A robot that improves on the job needs real-world success signals, resets and safe exploration, and lessons that carry over between tasks.</p></li>
-<li><span class="pn">04</span><b>Evaluation</b><p>Most evidence is from simulation and scores across reports don't compare. Robotics needs cheap real-robot benchmarks that separate reasoning from physical skill.</p></li>
+<li><span class="pn">04</span><b>Agentic robotics</b><p>Making agents reliable enough to call a task solved, and making it scalable to train LLMs on robotics tasks.</p></li>
 </ol>
 </figure>
 
 <section class="col">
-<p>I think this lets roboticists be more ambitious than ever. Until recently, a project usually had to choose between the brain and the hands: planners handled long tasks in simplified worlds, and learned policies handled short motor skills like folding a shirt or opening a drawer. With reasoning available from an API, we can work on tasks that need both, like assembling furniture from its manual, cooking from a recipe in a kitchen the robot hasn't seen, or repairing a machine, where the plan is long and the hard steps are contact-rich. These are also the tasks that would matter outside the lab.</p>
+<p>For robotics, a task only counts as solved when the success rate is very high, and solving it also takes reactiveness and dexterity. It's still unclear to me how LLMs would scale to all of these. So even if we believe LLMs are the final solution, it may be worth working on what makes training LLMs on robotics tasks scalable.</p>
+<p>Either way, I think roboticists can be more ambitious now than ever. Until recently, a project usually had to choose between the brain and the hands: planners handled long tasks in simplified worlds, and learned policies handled short motor skills like folding a shirt or opening a drawer. With reasoning available from an API, we can work on tasks that need both, like assembling furniture from its manual, cooking from a recipe in a kitchen the robot hasn't seen, or repairing a machine, where the plan is long and the hard steps are contact-rich. These are also the tasks that would matter outside the lab.</p>
 </section>
 </main>
 
@@ -295,7 +291,6 @@
   <ul>
   <li>R. Fikes and N. Nilsson, STRIPS: A new approach to the application of theorem proving to problem solving. <i>Artificial Intelligence</i>, 1971.</li>
   <li>R. Brooks, A robust layered control system for a mobile robot. <i>IEEE J. Robotics and Automation</i>, 1986.</li>
-  <li>H. Moravec, <i>Mind Children</i>. Harvard University Press, 1988.</li>
   <li>T. Lozano-Pérez, J. Jones, E. Mazer, P. O'Donnell, Task-level planning of pick-and-place robot motions. <i>IEEE Computer</i>, 1989.</li>
   <li>S. LaValle, Rapidly-exploring random trees: a new tool for path planning. Tech. report, Iowa State, 1998.</li>
   <li>E. Gat, On three-layer architectures. In <i>Artificial Intelligence and Mobile Robots</i>, 1998.</li>
