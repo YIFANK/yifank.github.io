@@ -4,23 +4,19 @@
   const S=[
     {name:tr('Picks a skill','选技能'),start:2022.3,
      h:tr('The LLM picks which skill runs next','LLM 选下一步跑哪个技能'),
-     p:[tr('SayCan gives the LLM a menu of skills the robot already has, each trained separately. For an instruction like “I spilled my drink, can you help?”, the LLM scores how useful each skill would be as the next step, a learned value function scores how likely it is to succeed from the current state, and the robot runs the skill with the best product.','SayCan 给 LLM 一份机器人已有技能的清单，每个技能单独训练。比如指令是“我把饮料洒了，能帮忙吗？”，LLM 给每个技能打分，看它作为下一步有多有用；一个学到的价值函数打分，看它在当前状态下有多大可能成功；机器人执行两者乘积最高的技能。'),
-        tr('The LLM never touches motion. It only orders skills, and the plan can only be as good as the menu. Inner Monologue added feedback, so the LLM could see whether a step worked before choosing the next.','LLM 完全不碰动作，只负责排技能顺序，计划的上限就是这份清单。Inner Monologue 加了反馈，让 LLM 在选下一步之前能看到上一步成没成功。')],
+     p:[tr('SayCan multiplies the LLM’s guess of how useful each pretrained skill is by a learned estimate of whether it can succeed, and runs the best one. The plan can only be as good as the skill menu.','SayCan 把 LLM 对每个现成技能“有没有用”的打分，乘上一个学到的“能不能成”的估计，执行乘积最高的那个。计划的上限就是这份技能清单。')],
      src:[['SayCan','https://arxiv.org/abs/2204.01691'],['Inner Monologue','https://arxiv.org/abs/2207.05608']]},
     {name:tr('Writes the program','写程序'),start:2022.7,
      h:tr('The LLM writes the program that calls perception and control','LLM 写程序，调用感知和控制'),
-     p:[tr('Code as Policies has the LLM write Python against a small API: detect objects, read their positions, pick and place. Loops, arithmetic and spatial phrases like “a bit left of the bowl” become code, which is exactly what a menu of skills could not express.','Code as Policies 让 LLM 对着一个小 API 写 Python：检测物体、读位置、抓取放置。循环、算术和“碗左边一点”这类空间描述都变成代码，这正是技能清单表达不了的。'),
-        tr('VoxPoser has the LLM write code that builds 3D maps of where to go and what to avoid, and a motion planner follows them. The AGP harness in this post works the same way, with a much stronger model, measurement tools, and dozens of calls per episode.','VoxPoser 让 LLM 写代码搭出 3D 地图，标出该去哪、该避开哪，再由运动规划器去执行。本文的 AGP 也是这个思路，只是模型强得多、有测量工具，每个 episode 调用几十次。')],
+     p:[tr('Code as Policies has the LLM write Python against perception and control APIs, so loops, arithmetic and phrases like “a bit left of the bowl” become code. The AGP agent in this post works the same way, with a far stronger model.','Code as Policies 让 LLM 调用感知和控制 API 写 Python，循环、算术和“碗左边一点”这类说法都变成了代码。本文的 AGP agent 也是这样工作的，只是模型强得多。')],
      src:[['Code as Policies','https://arxiv.org/abs/2209.07753'],['VoxPoser','https://arxiv.org/abs/2307.05973']]},
     {name:tr('Self-improves','自我改进'),start:2023.8,
      h:tr('Given a score, the agent improves the robot on its own','给一个评分，agent 自己把机器人改好'),
-     p:[tr('This is the step from writing a controller once to improving it. Give the agent a value function, such as a success check, a reward or a test suite, and it proposes a change, runs it, scores the result and keeps what helps. In ML the same loop is called autoresearch: Karpathy’s version edits LLM training code overnight and keeps whatever lowers validation loss. Eureka (2023) was an early robotics case, writing reward functions for RL.','这一步是从“写一次控制器”变成“持续改进它”。给 agent 一个价值函数，比如成功判定、奖励或一组测试，它就会提出修改、运行、打分，保留有用的改动。在机器学习里这个循环叫 autoresearch：Karpathy 的版本整夜修改 LLM 训练代码，保留能降低验证损失的改动。Eureka（2023）是机器人里的早期例子，让 LLM 写强化学习的奖励函数。'),
-        tr('ENPIRE runs this loop on real robots. Each round resets the scene, runs the policy and checks the outcome; coding agents read the logs, consult the literature and change the training code to fix failure modes, reaching 99% on dexterous tasks like fastening a zip tie. ASPIRE keeps the programs that work as a skill library, and Waddle Labs sells the loop as a product that writes and debugs control code for a new arm in about 20 minutes.','ENPIRE 在真机上跑这个循环：每轮重置场景、运行策略、检查结果；编程 agent 读日志、查文献、改训练代码去修失败模式，在扎扎带这类灵巧任务上做到 99%。ASPIRE 把有效的程序留成技能库；Waddle Labs 把这个循环做成产品，约 20 分钟为新机械臂写好并调通控制代码。')],
+     p:[tr('Given a score, the agent proposes a change, runs it, checks the result and keeps what helps, the loop Karpathy calls autoresearch. ENPIRE runs it on real robots and reaches 99% on dexterous tasks like fastening a zip tie.','给一个评分，agent 就提出修改、运行、看结果、保留有用的改动，也就是 Karpathy 说的 autoresearch。ENPIRE 在真机上跑这个循环，在扎扎带这类灵巧任务上做到 99%。')],
      src:[['Eureka','https://arxiv.org/abs/2310.12931'],['autoresearch','https://github.com/karpathy/autoresearch'],['ENPIRE','https://arxiv.org/abs/2606.19980'],['ASPIRE','https://arxiv.org/abs/2607.00272'],['Waddle Labs','https://www.ycombinator.com/companies/waddle-labs']]},
     {name:tr('Drives the robot','直接控制机器人'),start:2026.52,
      h:tr('The LLM outputs the actions itself','LLM 自己输出动作'),
-     p:[tr('The newest step skips the learned layer. In NVIDIA’s Astranomy study, GPT-6 Astra outputs end-effector or joint targets in chunks at 15 Hz, with the simulation paused while it thinks. A call takes about 18.6 seconds on average.','最新的一步跳过了学到的那一层。在 NVIDIA 的 Astranomy 研究里，GPT-6 Astra 以 15 Hz 分段输出末端或关节目标，思考时仿真暂停。每次调用平均约 18.6 秒。'),
-        tr('It works better than expected, 66% on their 120-task suite, but the same model reached 75% when it could call tools instead. Anthropic’s July study found Claude models still mostly fail when they must drive the joints themselves, though newer models are improving.','效果比预想的好，在他们 120 个任务的测试集上是 66%；但同一个模型在能调用工具时达到 75%。Anthropic 7 月的研究发现，Claude 模型自己驱动关节时大多还是失败，不过新模型在进步。')],
+     p:[tr('In NVIDIA’s Astranomy study, GPT-6 Astra outputs end-effector or joint targets at 15 Hz, with the simulation paused while it thinks. It reaches 66%, against 75% for the same model when it can call tools.','在 NVIDIA 的 Astranomy 研究里，GPT-6 Astra 以 15 Hz 输出末端或关节目标，思考时仿真暂停。它拿到 66%，而同一个模型能调用工具时是 75%。')],
      src:[['Astranomy','https://research.nvidia.com/labs/srl/projects/astranomy/'],[tr('Anthropic, July 2026','Anthropic，2026 年 7 月'),'https://www.anthropic.com/research/claude-plays-robotics']]}];
   const M=[[0,2022.3,'SayCan',tr('LLM scores × learned affordances pick the next skill.','LLM 打分 × 学到的可行性，选出下一个技能。')],
     [0,2022.55,'Inner Monologue',tr('Adds success feedback between steps.','在步骤之间加入成功与否的反馈。')],
@@ -79,12 +75,12 @@
       A(p,124,124,176,62);A(p,468,48,486,48);B(p,488,30,62,58,{fill:'var(--tint)'});T(p,519,54,tr('run','执行'),{'text-anchor':'middle','font-size':11.5});T(p,519,70,tr('skill','技能'),{'text-anchor':'middle','font-size':11.5});
       T(p,176,196,tr('LLM: useful next step?  ×  value fn: can it succeed here?','LLM：这一步有用吗？ × 价值函数：从这里能成功吗？'),{'font-size':11,fill:'var(--muted)','xml:space':'preserve'})},
     p=>{ // Code as Policies
-      B(p,14,40,128,44);T(p,24,60,tr('“stack the blocks','“把积木按大小'));T(p,24,76,tr('by size”','叠起来”'));A(p,78,84,78,112);LLM(p,43,114);
-      B(p,170,24,230,150,{fill:'var(--tint)'});
-      ['blocks = detect("block")','blocks.sort(key=size)','base = blocks.pop()','for b in reversed(blocks):','  put_on(b, base)','  base = b'].forEach((s,i)=>{const t=T(p,182,48+i*21,s,{'font-size':11.5,'xml:space':'preserve'});if(/detect|put_on/.test(s))t.setAttribute('fill','var(--accent)')});
-      A(p,113,134,166,110);
-      [[tr('perception','感知'),44],[tr('pick & place','抓放'),94]].forEach(([s,y0])=>{B(p,428,y0,110,34);T(p,483,y0+21,s,{'text-anchor':'middle','font-size':11.5})});
-      A(p,402,70,426,62);A(p,402,110,426,110);ARM(p,483,200,[[483,160],[520,150]],{w:6})},
+      B(p,10,14,144,46);T(p,22,33,tr('“stack the blocks','“把积木按大小'),{'font-size':11.5});T(p,22,49,tr('by size”','叠起来”'),{'font-size':11.5});
+      A(p,82,61,82,75);LLM(p,47,77);A(p,118,97,172,97);
+      B(p,174,24,226,146,{fill:'var(--tint)'});
+      ['blocks = detect("block")','blocks.sort(key=size)','base = blocks.pop()','for b in reversed(blocks):','  put_on(b, base)','  base = b'].forEach((s,i)=>{const t=T(p,188,50+i*20,s,{'font-size':11.5,'xml:space':'preserve'});if(/detect|put_on/.test(s))t.setAttribute('fill','var(--accent)')});
+      [[tr('perception','感知'),29],[tr('pick & place','抓放'),109]].forEach(([s,y0])=>{B(p,424,y0,112,34);T(p,480,y0+21,s,{'text-anchor':'middle','font-size':11.5})});
+      A(p,402,46,422,46);A(p,402,126,422,126);A(p,480,144,480,154);ARM(p,480,200,[[480,168],[512,158]],{w:6})},
     p=>{ // self-improvement loop
       const cx=170,cy=110,r=80,N=[[tr('propose a','提出修改'),tr('change','（代码、奖励）')],[tr('run on robot','在真机或'),tr('or in sim','仿真上运行')],[tr('score it with','用价值函数'),tr('the value fn','打分')],[tr('keep it if','更好就保留，'),tr('better','否则回退')]];
       el('circle',{cx,cy,r,fill:'none',stroke:'var(--gray-mark)','stroke-width':2,'stroke-dasharray':'5 5'},p);

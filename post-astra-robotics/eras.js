@@ -14,7 +14,7 @@
     {t:tr('Imitation at scale, VLAs','大规模模仿学习、VLA'),
      p:[tr('Instead of trial and error, collect human demonstrations across many labs and train one large model on all of them. RT-2 started from a pretrained vision-language model, so instructions and some web knowledge came along.','不再靠试错，而是在很多实验室收集人类示教，用全部数据训练一个大模型。RT-2 从预训练的视觉语言模型出发，于是指令理解和一部分网络知识也一起带了过来。'),
         tr('These policies move fluently on tasks that resemble their data. There is no step where they plan or check, so an instruction that needs reasoning gets smooth motion toward the wrong goal. Try the third instruction.','这类策略在和训练数据相似的任务上动作很流畅。但它们没有规划或检查的环节，所以需要推理的指令会得到一段很顺、但目标错了的动作。试试第三条指令。')]},
-    {t:tr('Agents calling tools','调用工具的 agent'),
+    {t:tr('Agentic robotics','Agentic robotics'),
      p:[tr('A frontier model writes a program against perception, planning and learned skills, runs it, checks the result and tries again. Code as Policies showed the idea in 2022. In 2026, ENPIRE and ASPIRE had coding agents improve real-robot policies and grow skill libraries, and GPT-6 Astra and Fable 5.2 made the approach competitive on RoboDojo.','前沿模型针对感知、规划和学到的技能写程序，运行它，检查结果，失败了就再试。Code as Policies 在 2022 年展示了这个思路。2026 年，ENPIRE 和 ASPIRE 让编程 agent 改进真机策略、积累技能库，GPT-6 Astra 和 Fable 5.2 让这条路在 RoboDojo 上有了竞争力。'),
         tr('Watch the two clocks. Most of the time goes to thinking, and the hard part is still the grasp itself.','注意那两个计时器。大部分时间花在思考上，而难的部分仍然是抓取本身。')]}];
 

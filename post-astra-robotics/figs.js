@@ -30,7 +30,7 @@ const CAT={"Memory":91.0,"Open":62.25,"Generalization":54.67,"Precision":44.0,"L
 
 /* Fig 1 */
 (function(){
-  const rows=[["Q0-Preview",tr("leaderboard agent","排行榜智能体"),74.2,"agent"],["Fable 5.2",tr("Anthropic run, max effort","Anthropic 内部评测，最高 effort"),64.9,"anth"],["GPT-6 Astra + AGP harness",tr("AGP dataset, high effort","AGP 数据集，high effort"),63.63,"agent"],["GO-3 Nano Preview",tr("leaderboard agent","排行榜智能体"),61.9,"agent"],["WALL-OSS-1.0-lite",tr("top learned policy","最强学习型策略"),42.59,"policy"],["Opus 5.5",tr("Anthropic run, max effort","Anthropic 内部评测，最高 effort"),39.4,"anth"],["Gemini 4 Argon",tr("Anthropic run, high effort","Anthropic 内部评测，high effort"),34.2,"anth"],["GPT-6 Astra",tr("Anthropic run, max effort","Anthropic 内部评测，最高 effort"),29.8,"anth"],["Fable 5.1",tr("Anthropic run, max effort","Anthropic 内部评测，最高 effort"),27.6,"anth"]];
+  const rows=[["GR00T 2 + agent",tr("NVIDIA, 1 of 3 layout banks","NVIDIA，三组布局中的一组"),75.8,"agent"],["Q0-Preview",tr("leaderboard agent","排行榜智能体"),74.2,"agent"],["Fable 5.2",tr("Anthropic run, max effort","Anthropic 内部评测，最高 effort"),64.9,"anth"],["GPT-6 Astra + AGP harness",tr("AGP dataset, high effort","AGP 数据集，high effort"),63.63,"agent"],["GO-3 Nano Preview",tr("leaderboard agent","排行榜智能体"),61.9,"agent"],["WALL-OSS-1.0-lite",tr("top learned policy","最强学习型策略"),42.59,"policy"],["Opus 5.5",tr("Anthropic run, max effort","Anthropic 内部评测，最高 effort"),39.4,"anth"],["GR00T 2",tr("NVIDIA, policy alone","NVIDIA，策略单独运行"),35.5,"policy"],["Gemini 4 Argon",tr("Anthropic run, high effort","Anthropic 内部评测，high effort"),34.2,"anth"],["GPT-6 Astra",tr("Anthropic run, max effort","Anthropic 内部评测，最高 effort"),29.8,"anth"],["Fable 5.1",tr("Anthropic run, max effort","Anthropic 内部评测，最高 effort"),27.6,"anth"]];
   const col={anth:'var(--accent)',agent:'var(--accent-2)',policy:'var(--gray-mark)'};
   const W=NARROW?440:640,L=NARROW?172:190,R=50,rh=28,H=rows.length*rh+30,svg=document.getElementById('fig1');
   svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
@@ -53,7 +53,7 @@ const CAT={"Memory":91.0,"Open":62.25,"Generalization":54.67,"Precision":44.0,"L
     ['media/era_shakey.jpg',tr('Model-based planning & control','基于模型的规划与控制'),'1971–',1971,2015,tr('Plan over a geometric model, then control. IK, motion planners and controllers are now agent tools.','在几何模型上规划，再去控制。逆运动学、运动规划器和控制器现在是 agent 的工具。'),tr('Shakey, SRI, 1969','Shakey，SRI，1969')],
     ['media/era_baxter.jpg',tr('Learning from robot data','从机器人数据中学习'),'2015–',2015,2022,tr('Robots collect their own trials; grasping and control are learned with deep nets and RL.','机器人自己采试验数据，用深度网络和强化学习学抓取和控制。'),tr('Baxter, used for the 50K-grasp study','Baxter，5 万次抓取研究用的机器人')],
     ['media/era_oxe.jpg',tr('Imitation at scale, VLAs','大规模模仿学习、VLA'),'2022–',2022,2026,tr('Teleoperated demonstrations pooled across labs; pretrained vision-language models output actions.','跨实验室汇集遥操作示教，预训练视觉语言模型直接输出动作。'),tr('Open X-Embodiment episodes','Open X-Embodiment 的 episode')],
-    ['media/eq_last.jpg',tr('Agents calling tools','调用工具的 agent'),'2026–',2026,2027,tr('A frontier model writes programs that call perception, planning and learned skills, then checks the result.','前沿模型写程序调用感知、规划和学到的技能，再检查结果。'),tr('GPT-6 Astra + AGP, solve equation','GPT-6 Astra + AGP，解方程')]];
+    ['media/eq_last.jpg',tr('Agentic robotics','Agentic robotics'),'2026–',2026,2027,tr('A frontier model writes programs that call perception, planning and learned skills, then checks the result.','前沿模型写程序调用感知、规划和学到的技能，再检查结果。'),tr('GPT-6 Astra + AGP, solve equation','GPT-6 Astra + AGP，解方程')]];
   const M=[
     [0,1961,'Unimate',tr('First industrial robot arm, at a GM plant.','第一台工业机械臂，用在通用汽车工厂。')],
     [1,1971,'STRIPS',tr('Fikes & Nilsson: the planner behind Shakey.','Fikes 和 Nilsson：Shakey 用的规划器。')],
@@ -124,7 +124,7 @@ const CAT={"Memory":91.0,"Open":62.25,"Generalization":54.67,"Precision":44.0,"L
   const cats=["Memory","Open","Generalization","Precision","Long-Horizon"];
   const LBL={solve_equation:'up',play_tic_tac_toe:'up',insert_key:'up',plug_in_charger:'down',play_Xylophone:'down',fasten_screws:'up',fill_egg_holder:'up',classify_objects:'down',organize_table:'down',swap_blocks:'down'};
   const label=new Set(Object.keys(LBL));
-  const W=NARROW?380:960,L=NARROW?4:150,R=NARROW?52:76,rh=NARROW?108:70,top=NARROW?66:40,H=(cats.length-1)*rh+top+(NARROW?62:50),svg=document.getElementById('fig-all');
+  const W=NARROW?380:960,L=NARROW?4:150,R=NARROW?52:76,rh=NARROW?108:70,top=NARROW?66:40,H=(cats.length-1)*rh+top+(NARROW?62:50),svg=document.getElementById('fig-all');if(!svg)return;
   svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
   const x=v=>L+(W-L-R)*v/100,CW=6.6; // mono 11px ≈ 6.6px per character
   for(const g of [0,25,50,75,100]){el('line',{x1:x(g),x2:x(g),y1:top-30,y2:H-24,stroke:'var(--rule)','stroke-dasharray':g%100?'2 4':null},svg);const t=el('text',{x:x(g),y:H-6,'text-anchor':'middle','font-size':11,fill:'var(--faint)'},svg);t.textContent=g+'%'}
@@ -154,7 +154,7 @@ const CAT={"Memory":91.0,"Open":62.25,"Generalization":54.67,"Precision":44.0,"L
 
 /* Fig 5: per-category bars with toggle */
 (function(){
-  const svg=document.getElementById('fig-cat');
+  const svg=document.getElementById('fig-cat');if(!svg)return;
   function draw(c){
     svg.innerHTML='';
     const ts=T.filter(t=>t[1]===c).sort((a,b)=>b[2]-a[2]||b[3]-a[3]);
