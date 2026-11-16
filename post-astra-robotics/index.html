@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="style.css?v=28">
+<link rel="stylesheet" href="style.css?v=34">
 </head>
 <body>
 <div id="tip" role="tooltip"></div>
@@ -27,11 +27,10 @@
 
 <main>
 <section class="col">
-<p>I'm writing this from Austin during CoRL 2026, my first CoRL. I'm an undergrad and only started doing robotics research recently, so I spent most of the week listening to people who have been in the field far longer than I have. A lot of what I heard was about agents.</p>
-<p>On November 9, the first day of the main conference, Jim Fan's keynote had a slide about GPT-6 Astra, and within half an hour a clip of it was <a href="https://x.com/cdngdev/status/2119886555250929991">going around X</a>. CoRL also ran its first-ever call for late-breaking results this year, with agentic robotics as one of the two topics.</p>
-<p>In conversations between sessions, several researchers, some of them senior, seemed discouraged by how quickly LLMs are moving into robotics. If a coding agent can beat a VLA at manipulation, it's fair to ask what the last few years of policy learning were for, and what is left to work on. As someone deciding what to spend the next few years on, I've been asking the same thing.</p>
-<p>The same day, Anthropic reported that Claude Fable 5.2 scores 64.9% on RoboDojo Sim, against 39.4% for Opus 5.5, 29.8% for GPT-6 Astra and 27.6% for Fable 5.1. These are Anthropic's own runs at maximum effort, and the announcement doesn't say whether 64.9% is a success rate or a partial-credit score. Either way, a general-purpose language model with no robot policy head now sits ahead of most of the systems our field built for robot control.</p>
-<p>Anthropic hasn't released per-task results, so for most of this post I use the closest open data I could find. <a href="https://arxiv.org/abs/2609.12541">Agent as Policy</a> (AGP) runs GPT-6 Astra inside a coding-agent harness and released all 2,100 of its RoboDojo episodes, logs and videos included. It scores 63.6, about where Fable 5.2 is.</p>
+<p>I started writing this blog post in Austin during CoRL 2026. As an undergrad attending CoRL for the first time, I spent a lot of time listening to discussions among PhD students and senior researchers.</p>
+<p>On November 9, the first day of the main conference, Jim Fan's keynote had a slide about GPT-6 Astra, and within half an hour a clip of it was <a href="https://x.com/cdngdev/status/2119886555250929991">going around X</a>. CoRL also ran its first-ever call for late-breaking results this year, with agentic robotics as one of the two topics. The same day, Anthropic reported that Claude Fable 5.2 scored 64.9% on RoboDojo Sim. People started saying that <a href="https://x.com/alexalbert__/status/2119869925288558799">the Bitter Lesson was coming for robotics</a>.</p>
+<p>Whatever area of robotics people worked in, agentic robotics had become the elephant in the room, something we couldn't ignore.</p>
+<p>Fable 5.2's score puts it ahead of every learned policy on the RoboDojo leaderboard (Fig. 1). Anthropic hasn't released per-task results, so for most of this post I use the closest open data I could find. <a href="https://arxiv.org/abs/2609.12541">Agent as Policy</a> (AGP) runs GPT-6 Astra inside a coding-agent harness and released all 2,100 of its RoboDojo episodes, logs and videos included. It scores 63.6, about where Fable 5.2 is.</p>
 </section>
 
 <figure class="col">
@@ -40,42 +39,25 @@
     <div class="legend"><span><i style="background:var(--accent)"></i>Anthropic internal run (metric unspecified)</span><span><i style="background:var(--accent-2)"></i>Agent harness, partial-credit score</span><span><i style="background:var(--gray-mark)"></i>Learned robot policy, partial-credit score</span></div>
     <svg class="chart" id="fig1" role="img" aria-label="Bar chart of RoboDojo Sim averages by system"></svg>
   </div>
-  <figcaption><b>Fig. 1.</b> Same GPT-6 Astra, two scores: 29.8 alone, 63.6 inside the AGP harness. Protocols differ across sources.</figcaption>
+  <figcaption><b>Fig. 1.</b> Same GPT-6 Astra, two scores: 29.8 alone, 63.6 inside the AGP harness. Protocols differ across sources; GR00T 2 + agent ran on one of three layout banks.</figcaption>
 </figure>
 
 <section class="col">
-<p>I have two reactions to it, and I suspect neither is the popular one:</p>
-<div class="twin"><div><span>Reaction 1</span>This result isn't very surprising.</div><div><span>Reaction 2</span>It's still very good news for robotics research.</div></div>
-<p>Most of the excitement I've seen comes with a sense that this came out of nowhere, but I think it follows fairly directly from what the benchmark measures and from what robotics already knew how to do. The second goes against the mood I described above, where people who work on robot learning read this result as the end of their approach. Manipulation has changed paradigms several times before (Fig. 2), and the older methods mostly stayed on as parts of the new systems. IK and motion planning outlasted the move to learning, and the agents now leading RoboDojo call them as tools. I expect learned policies to be kept in the same way. Working through why the first reaction holds also makes it clearer where the open problems are.</p>
+<p>This is an impressive result, but I don't think it means robotics is solved, or that it came out of nowhere. Most of the excitement I've seen treats it as a surprise. I think it follows fairly directly from what the benchmark measures and from what robotics already knew how to do, and working through why also shows what is left to work on.</p>
 </section>
 
-<figure class="wide">
-  <div class="fig">
-    <h4>Paradigms in robot manipulation, 1961–2026</h4>
-    
-    <div class="eras-scroll"><div class="eras-in"><div class="eras-cards" id="eras-cards"></div>
-    <svg class="chart" id="fig-eras" role="img" aria-label="Timeline of paradigms in robot manipulation from 1961 to 2026"></svg></div></div>
-    <div id="era-panel" class="era-panel" hidden></div>
-  </div>
-  <figcaption><b>Fig. 2.</b> Click a photo to open a small demo of that era. Hover or tap a dot for details.</figcaption>
-</figure>
+
 
 
 
 
 
 <section class="col">
-<h2><span class="num">§1</span>Look at what the benchmark asks for</h2>
-<p>RoboDojo has 42 simulated tasks in five categories: Generalization, Precision, Long-Horizon, Memory, and Open, with 50 episodes per task. The task list says more than the leaderboard does. A few examples:</p>
-<ul>
-<li>arrange number blocks so that they form a correct equation (Open)</li>
-<li>play tic-tac-toe (Long-Horizon)</li>
-<li>swap blocks around, keeping track of which is which (Memory)</li>
-<li>imitate a sorting sequence you were shown earlier (Memory)</li>
-</ul>
+<h2><span class="num">§1</span>Manipulation benchmarks now test the brain</h2>
+<p>Newer manipulation benchmarks ask for more than motor skill. RoboDojo, which most of this post draws on, is a good example. Among its 42 simulated tasks, the robot has to arrange number blocks into a correct equation, play tic-tac-toe, or swap blocks around while keeping track of which is which.</p>
 <p>In the equation task the robot has to read the digits, work out the arithmetic, decide which block goes where, then find those blocks and move them. Only that last part is really about motor control.</p>
-<p>Today's VLAs have learned impressive action distributions; they fold laundry and open drawers they've never seen before. What they're missing is something like a brain. A VLA maps recent observations and an instruction to the next chunk of actions, and there's nowhere in that loop to hold a plan, track hidden state, or catch an arithmetic mistake. Tic-tac-toe mostly tests that missing piece, so it says little about how good the policy's hands are.</p>
-<p>A frontier LLM approaches the benchmark from the other direction. It's already good at reasoning, memory and breaking a task into steps, and what it needs is a way to turn its decisions into motion.</p>
+<p>Today's VLAs have learned impressive action distributions; they fold laundry and open drawers they've never seen before. What they're missing is something like a brain. A VLA maps recent observations and an instruction to the next chunk of actions, and there's nowhere in that loop to hold a plan, track hidden state, or catch an arithmetic mistake. Tasks like these mostly test that missing piece, so they say little about how good a policy's hands are.</p>
+<p>A frontier LLM approaches these tasks from the other direction. It's already good at reasoning, memory and breaking a task into steps, and what it needs is a way to turn its decisions into motion.</p>
 </section>
 
 <figure class="wide">
@@ -99,17 +81,30 @@
       </div>
     </div>
   </div>
-  <figcaption><b>Fig. 3.</b> GPT-6 Astra + AGP, head camera. Badges: success over 50 episodes. Data: AGP dataset, CC-BY-4.0.</figcaption>
+  <figcaption><b>Fig. 2.</b> GPT-6 Astra + AGP, head camera. Badges: success over 50 episodes. Data: AGP dataset, CC-BY-4.0.</figcaption>
 </figure>
 
 <section class="col">
-<h2><span class="num">§2</span>Robotics already had the hands (for some tasks)</h2>
-<p>Anyone who has taken a classical manipulation course learns this early on, though it's easy to miss if you came into the field through imitation learning.</p>
-<p>If you know where things are in 3D, a lot of manipulation is already solved. Given an object pose, you can sample grasps, solve inverse kinematics for the arm, plan a collision-free path and track it with a feedback controller. These methods are old and mostly hand-designed, and they work across objects and arms, which is what makes them general.</p>
-<p>Some of this goes back a long way. Shakey was planning its actions with STRIPS in 1971. In the late 1980s, Lozano-Pérez's Handey system planned pick-and-place motions, grasps included, from a geometric model of the scene. RRT (LaValle, 1998) made motion planning practical for high-dimensional arms, and task-and-motion planning (Kaelbling and Lozano-Pérez, 2011, among many others) tied symbolic plans to geometric ones. Most of what the agent in Fig. 4 calls is a descendant of this work.</p>
-<p>What they never had was something to drive them. Every new task needed someone to write the state machine by hand, deciding which object to pick first, where it goes, what counts as done and what to do when a grasp slips. That engineering cost is a big part of why the field moved toward end-to-end learning.</p>
-<p>An agent takes over most of that cost. It looks at the scene, writes a program that calls perception, IK and the planner, runs it, looks again, and tries again if something went wrong. A VLA has to learn failure recovery from data, whereas an agent gets a basic version of it just by checking its own work.</p>
-<p>Ken Goldberg made a similar argument in September, in an essay titled <a href="https://x.com/Ken_Goldberg/status/2100986412762087909">“Goosebumps”</a>, where he calls agentic robotics “a third path between two dominant cultures in robotics.” I learned the learning culture first, and it was useful to be reminded how much of the other one is doing the work here.</p>
+<h2><span class="num">§2</span>The Revival of Old-Fashioned Robotics</h2>
+<p>Before deep learning, robotics already had most of the pieces these tasks need. Given an object's pose, you can sample grasps, solve inverse kinematics for the arm, plan a collision-free path and track it with a feedback controller. These methods are mostly hand-designed, and they work across objects and arms.</p>
+<p>They could handle long tasks, too. Shakey planned multi-step actions with STRIPS in 1971. In the late 1980s, Lozano-Pérez's Handey system planned pick-and-place motions, grasps included, from a geometric model of the scene. RRT (LaValle, 1998) made motion planning practical for high-dimensional arms, and task-and-motion planning (Kaelbling and Lozano-Pérez, 2011, among many others) chained symbolic and geometric plans over many steps.</p>
+<p>The bottleneck was human engineering. Every new task needed someone to model the scene and write the state machine by hand: which object to pick first, where it goes, what counts as done, what to do when a grasp slips. A system built for one setup usually needed more engineering to work in the next one. That cost is a big part of why the field moved toward end-to-end learning, which replaced hand-written structure with data.</p>
+</section>
+
+<figure class="wide">
+  <div class="fig">
+    <h4>Paradigms in robot manipulation, 1961–2026</h4>
+    
+    <div class="eras-scroll"><div class="eras-in"><div class="eras-cards" id="eras-cards"></div>
+    <svg class="chart" id="fig-eras" role="img" aria-label="Timeline of paradigms in robot manipulation from 1961 to 2026"></svg></div></div>
+    <div id="era-panel" class="era-panel" hidden></div>
+  </div>
+  <figcaption><b>Fig. 3.</b> Click a photo to open a small demo of that era. Hover or tap a dot for details.</figcaption>
+</figure>
+
+<section class="col">
+<p>A coding agent takes over most of that engineering. It looks at the scene, writes a program that calls perception, IK and the planner, runs it, looks again, and changes the program if something went wrong (Fig. 4). A VLA has to learn failure recovery from data, while an agent gets a basic version of it by checking its own work.</p>
+<p>Ken Goldberg made a similar argument in September, in an essay titled <a href="https://x.com/Ken_Goldberg/status/2100986412762087909">“Goosebumps”</a>, where he calls agentic robotics “a third path between two dominant cultures in robotics.” I came into robotics through the learning culture, so it was a useful reminder of how much the other one still does.</p>
 </section>
 
 <figure class="wide">
@@ -148,7 +143,7 @@
         </svg>
       </div>
       <div>
-        <div class="arch-h"><b>Agent + classical tools</b></div>
+        <div class="arch-h"><b>Agentic Robotics</b></div>
         <svg class="chart" viewBox="0 0 480 590" role="img" aria-label="Agent: an LLM writes a program that calls perception, IK, planning and control, then re-observes and retries">
           <defs>
             <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--faint)"/></marker>
@@ -194,7 +189,7 @@
 </figure>
 
 <section class="col">
-<p>It helps to look at what the agent actually does inside one of these episodes. AGP released the full event log for every episode. The model's private reasoning is encrypted, but the messages it writes and every tool call it makes are there. Below is layout 0 of the solve-equation task, which it finished in twelve tool calls.</p>
+<p>Let's look at an example from RoboDojo. AGP released the full event log for every episode, minus the model's private reasoning. Fig. 5 replays one, the solve-equation task, which the agent finished in twelve tool calls.</p>
 </section>
 
 <figure class="wide">
@@ -223,14 +218,11 @@
 </figure>
 
 <section class="col">
-<p>The agent never outputs a joint command. It decides what to do in one sentence, and everything after that goes through tools that turn pixels into 3D points or plan a path to a pose. Before releasing the piece, the one step it can't undo, it measures again and works around a depth estimate it doesn't trust. This holds across the dataset: about 21,000 <code>measure</code> and 47,500 <code>run</code> calls over 2,100 episodes, roughly one in five reporting a failure the agent had to handle. In 260 episodes it also issued about 5,200 of those calls from JavaScript it wrote; the log keeps the calls but not the scripts.</p>
-<p>One thing to keep in mind about this setup is that the AGP prompts also include a few hand-written hints per task, such as how wide to open the gripper before picking up a nut. Some human task knowledge is still in the loop, written as text instead of code.</p>
+<p>Every command here is the model's own output, worked out in its reasoning, but it is almost never a joint command: across all 2,100 episodes it sent about a hundred joint-space moves, against roughly 50,000 end-effector targets. It works in pixels and poses and leaves the joints to IK and the planner. In Fig. 5, before releasing the piece, the one step it can't undo, it measures again and works around a depth estimate it doesn't trust. Across the dataset, about one tool call in five reports a failure the agent has to handle.</p>
+<p>The AGP prompts also include a few hand-written hints per task, such as how wide to open the gripper before picking up a nut, so some human engineering is still in the loop, written as text instead of code.</p>
+<p>The same stack also explains where the agent fails. On the hands tasks in Fig. 2 it scores 0% on inserting a key and filling an egg holder and 4% on plugging in a charger. These depend on contact forces that a camera can't see, and the old tools were never good at contact either.</p>
 </section>
 
-<section class="col">
-<h2><span class="num">§3</span>Why now?</h2>
-<p>The architecture isn't new either. As frontier models got stronger, robotics trusted them with more of the stack (Fig. 6): first choosing among skills that were trained separately, then writing the program that calls perception and control, then improving a robot system on its own against a score, and most recently outputting the actions themselves. SayCan, Code as Policies and VoxPoser showed the idea working on short tabletop tasks in 2022 and 2023, with models much weaker than today's. With tools that are decades old and an architecture that is four years old, what changed has to be on the model side.</p>
-</section>
 <figure class="wide">
   <div class="fig">
     <h4>Inside the agent paradigm: what the LLM is trusted with</h4>
@@ -240,89 +232,10 @@
   </div>
   <figcaption><b>Fig. 6.</b> Click a card to see how that stage works. Hover or tap a dot for details.</figcaption>
 </figure>
-<section class="col">
-<p>I'd point to four things that improved at roughly the same time.</p>
-<ul>
-<li><strong>Coding.</strong> Driving a robot this way means writing and debugging real programs over many steps, which earlier models couldn't keep up for long.</li>
-<li><strong>Spatial vision.</strong> The model has to locate the mug in coordinates accurately enough for IK to use, which is much harder than recognizing it.</li>
-<li><strong>Reasoning budget.</strong> A few hundred robot actions take a lot of thinking even when compressed into code, and models can now spend that much without losing the thread.</li>
-<li><strong>Self-improvement.</strong> When an attempt fails, the agent can watch the result, work out what went wrong and revise the code at test time. For a learned policy, learning from that failure means collecting recovery demonstrations and retraining; here it is an edit, and the fix carries over to the next attempt. Given a value function, the same loop runs without a person in it. ENPIRE reaches 99% on dexterous tasks this way, with agents rewriting the training code after every round (Fig. 6).</li>
-</ul>
-<p>I don't know how much of this comes from generic pretraining. The labs don't say what they trained on, and the authors of <i>An Unexpected Robot Policy</i> point out that for a closed-weight model, contamination with benchmark-related material can't be ruled out. Either way, several separate abilities had to arrive at about the same time, which is part of why the jump looked so sudden.</p>
-
-<h2><span class="num">§4</span>Where it fails</h2>
-<p>Here is how AGP's 63.6 breaks down. Success means full task completion; the partial-credit score is what the leaderboard reports.</p>
-<table class="tbl">
-<thead><tr><th>Category</th><th class="n">Success</th><th class="n">Partial-credit score</th></tr></thead>
-<tbody>
-<tr><td>Memory</td><td class="n">91.0%</td><td class="n">92.2</td></tr>
-<tr><td>Open</td><td class="n">62.3%</td><td class="n">65.8</td></tr>
-<tr><td>Generalization</td><td class="n">54.7%</td><td class="n">59.8</td></tr>
-<tr><td>Precision</td><td class="n">44.0%</td><td class="n">50.9</td></tr>
-<tr><td>Long-Horizon</td><td class="n">28.8%</td><td class="n">49.5</td></tr>
-<tr class="total"><td>Average</td><td class="n">56.1%</td><td class="n">63.6</td></tr>
-</tbody></table>
-<p>The harness matters about as much as the model. The <em>same</em> GPT-6 Astra scored 29.8% in Anthropic's runs and 29.0 (22.5% success) in <i>An Unexpected Robot Policy</i>, where it chose end-effector targets itself and a planner only executed them. Given <code>measure</code> and multi-step <code>run</code>, it more than doubles that. So the failures below are mostly about what the tools can't do.</p>
-</section>
-
-<figure class="wide">
-  <div class="fig">
-    <h4>Every RoboDojo task, GPT-6 Astra + AGP</h4>
-    <svg class="chart" id="fig-all" role="img" aria-label="Dot plot of success rate for all 42 tasks, grouped by category"></svg>
-  </div>
-  <figcaption><b>Fig. 7.</b> One dot per task. The dark tick and the number on the right are the category average.</figcaption>
-</figure>
 
 <section class="col">
-<p>Memory at 91% is what you'd expect. Precision at 44% is more surprising, since that's high for a system with no trained manipulation policy. The per-task numbers help explain it.</p>
-</section>
-
-<figure class="col">
-  <div class="fig">
-    <div class="seg" role="group" aria-label="Category"><button aria-pressed="true" data-cat="Precision">Precision</button><button aria-pressed="false" data-cat="Long-Horizon">Long-Horizon</button></div>
-    <div class="legend"><span><i style="background:var(--accent)"></i>Success rate</span><span><i style="background:var(--accent);opacity:.28"></i>Partial-credit score</span></div>
-    <svg class="chart" id="fig-cat" role="img" aria-label="Per-task success and score bars"></svg>
-  </div>
-  <figcaption><b>Fig. 8.</b> Light bar: partial-credit score.</figcaption>
-</figure>
-
-<section class="col">
-<p>The 44% averages tasks near 90% with tasks near zero. Hitting a xylophone key needs precise positioning in free space; once the agent has located the key, it just moves there. Inserting a key needs precision in contact. Small pose errors make it jam, and fixing them takes fast force feedback the agent doesn't have. Peg-in-hole has been studied at least since Whitney's work on compliant assembly in 1982, where the usual answer was a wrist that gives a little under contact. Neither a coding agent nor a planner has that built in.</p>
-<p>The task definitions make the difference concrete. Fasten screws, the one hands task the agent handles well, turns out to be closer to the xylophone. In the simulator the screws are hexagonal nuts that have to sit on posts to within 1 mm, and turning isn't checked, so it comes down to precise placement. Insert key needs the key upright to within 7°, pushed 2.5 cm into the lock, and then turned.</p>
-</section>
-
-<figure class="col">
-  <div class="pair">
-    <div class="clip"><video data-src="media/s0_l000_play_Xylophone.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Play xylophone</b><span class="badge ok">90%</span></div></div>
-    <div class="clip"><video data-src="media/s0_l000_insert_key.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Insert key</b><span class="badge no">0%</span></div></div>
-  </div>
-  <figcaption><b>Fig. 9.</b> Both are Precision tasks.</figcaption>
-</figure>
-
-<section class="col">
-<p>That makes me think the brain-versus-hands split I started with is a bit too coarse. A more useful distinction might be:</p>
-<ul>
-<li><strong>Geometry-dominated manipulation</strong>: if the object can be localized and the motion planned, the agent and classical tools usually manage it.</li>
-<li><strong>Contact-dominated manipulation</strong>: tight insertion, in-hand dexterity, deformables, and other tasks that depend on forces you can't see in an image. The agent doesn't have a good tool to call for these.</li>
-</ul>
-<p>Long-Horizon, the weakest category at 28.8%, splits the same way (switch Fig. 8 to Long-Horizon). The agent does well when a task is long because it involves thinking, like sorting objects by class or playing a game. It fails when a task is long because one fine placement repeats many times, like eggs into an egg holder or pieces onto a stacking toy's pegs, and one slip anywhere fails the episode. In one fill-egg-holder episode it used 682 of its 700 allowed actions and still didn't finish. The plans look fine; the errors are small manipulation mistakes that compound.</p>
-</section>
-
-<figure class="col">
-  <div class="pair">
-    <div class="clip"><video data-src="media/s0_l000_classify_objects.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Classify objects</b><span class="badge ok">92%</span></div></div>
-    <div class="clip"><video data-src="media/s0_l000_organize_table.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>Organize table</b><span class="badge no">32%</span></div></div>
-  </div>
-  <figcaption><b>Fig. 10.</b> Both are Long-Horizon tasks.</figcaption>
-</figure>
-
-<section class="col">
-<p>All of this is simulation, and the real-robot evidence is thinner. The authors of <i>An Unexpected Robot Policy</i> stopped their real-robot trials of GPT-6 Astra after it repeatedly issued unsafe actions, some of which damaged hardware; in their reading, Astra understood the tasks more reliably than it executed them safely. Goldberg's group did better by keeping the model out of the control loop. Astra built a simulation of a sponge-wiping task from a short video and refined a controller against it, and the exported code ran on their real robot, though one trial knocked over the metal bar because its mass couldn't be inferred from video. In both cases the understanding transferred to hardware more easily than the contact did.</p>
-</section>
-
-<section class="col">
-<h2><span class="num">§5</span>Is it fast enough?</h2>
-<p>Contact is one gap. Time is the other, and it's the objection I hear most often. The AGP logs report 300.6 hours of wall time for 14.3 hours of simulated robot motion, about 8.6 minutes per episode. Of the 300 hours, 208 were spent outside tool calls, in model inference and the agent runtime; simulation, rendering, and motion planning together took 93.</p>
+<h2><span class="num">§3</span>Thinking in seconds</h2>
+<p>The objection I hear most often is about time. In the AGP logs an episode takes 8.6 minutes for 24.5 seconds of robot motion, and about six of those minutes are the model thinking rather than simulation or planning (Fig. 7). The model alone would have to get about 14× faster to keep up with the robot.</p>
 </section>
 
 <figure class="col">
@@ -332,60 +245,35 @@
     <div class="legend"><span><i style="background:var(--accent)"></i>Model inference + agent runtime</span><span><i style="background:var(--accent-2)"></i>Tool calls (sim, render, planning)</span><span><i style="background:var(--ink)"></i>Simulated robot time</span></div>
     <svg class="chart" id="fig-time" role="img" aria-label="Stacked bar of wall-clock time"></svg>
   </div>
-  <figcaption><b>Fig. 11.</b> The dark box is time the robot was actually moving.</figcaption>
+  <figcaption><b>Fig. 7.</b> The dark box is time the robot was actually moving.</figcaption>
 </figure>
 
 <section class="col">
-<p>Per episode, that is about six minutes of agent time against 24.5 seconds of robot motion. The agent makes a median of 31 tool calls, and at each one it re-reads a growing context (1.45 million input tokens per episode, 96% served from cache) and writes a couple hundred tokens, about 5,900 output tokens per episode in all. I see three places to get that time down.</p>
-<ul>
-<li><b>Faster hardware.</b> On <a href="https://artificialanalysis.ai/">Artificial Analysis</a>, Cerebras already serves gpt-oss-120B at over 1,700 tokens per second, against a few hundred for the fastest frontier-tier models. I count 1.5–2× per year.</li>
-<li><b>Smaller models.</b> By the <a href="https://www.nature.com/articles/s42256-025-01137-0">densing law</a>, the parameters needed for a fixed benchmark score halve about every 3.5 months. Decoding doesn't speed up in proportion, and routine calls can go to a small model while a large one handles surprises, so I count 1.5–3×.</li>
-<li><b>Fewer output tokens.</b> In a footnote to Goldberg's essay, Jay Chooi reports Astra beating Fable 5.1 on a robot control task, 95% to 40%, with 6.2× fewer output tokens. I count 1.5–2.5× per year.</li>
-</ul>
-<p>Multiplied together, that is 3.4× to 15× per year. Bringing six minutes down to 24.5 seconds takes about 14×, which lands somewhere between late 2027 and early 2029, for the agent's share alone; the 2.6 minutes per episode spent inside tools need their own speedup.</p>
-</section>
+<p>Faster chips, smaller models and models that need fewer tokens for the same answer each cut into that, together something like 3–15× a year. At that rate the agent catches up with the robot somewhere between late 2027 and early 2029.</p>
+<p>Even then, some reasoning stays on the critical path, since recovering from a mistake means looking at the result and deciding what to do next. Brooks argued in 1986 for fast reactive layers that don't wait on a planner, and the three-layer architectures that followed (Gat, 1998) put a slow deliberative layer on top of a skill sequencer and a fast controller. The agent fits in the top layer: it thinks while a skill runs and steps in when the skill goes off track.</p>
+<p>I don't expect the LLM to take over the fast layer as well. A general model takes over a layer once it gets under that layer's latency, and I expect that to happen first in the middle of the stack, the pick-and-place decisions VLAs make today at a few hertz. Closing a contact loop at hundreds of hertz needs roughly a thousand times more speedup than keeping pace with the robot, and the same hardware gains make a small robot model faster too.</p>
+<p>Speed still matters a great deal. A small model with the same reasoning would make these agents cheap and fast enough to run on real robots, and that would already change how robots are deployed. It wouldn't fix contact, though. The agent is just as slow on swap blocks, where it scores 96%, as on insert key, where it scores 0%. Knowing where the key goes doesn't tell you how to feel it into the slot. So the fast layer stays a separate, smaller model, though the agent may be the one that builds it, setting up the simulator, collecting the data and training the policy it will later call.</p>
 
-<figure class="col">
-  <div class="fig">
-    <h4>Agent time per episode, extrapolated</h4>
-    <svg class="chart" id="fig-speed" role="img" aria-label="Log-scale projection of agent minutes per episode under three yearly speedup rates, against robot motion time"></svg>
-  </div>
-  <figcaption><b>Fig. 12.</b> Today's 5.9 minutes under three yearly speedups. Dots mark where it matches robot motion.</figcaption>
-</figure>
+<h2><span class="num">§4</span>Moravec's paradox, again</h2>
+<p>In 1988 Hans Moravec pointed out that the abilities we think of as intelligent, like arithmetic and chess, are comparatively easy for computers, while the perception and motor skill a one-year-old has are hard. RoboDojo reads like the same observation almost forty years later: the agent solves the equation and then can't insert the key.</p>
+<p>For robot learning this is good news. High-level reasoning is becoming something you can get from an API, which takes away problems that teleoperation data was never going to solve well: arithmetic, memory, task decomposition, knowing what a charger is for. What's left is the part Moravec called hard, and it is now much easier to see.</p>
+<p>It also means learned policies aren't going away. NVIDIA's <a href="https://research.nvidia.com/labs/gear/gr00t-2/assets/gr00t2_whitepaper.pdf">GR00T 2</a>, presented at CoRL the same day, splits the work along this line. On its own it scores 35.5% on RoboDojo. With RL post-training and run as a tool under a frontier agent that plans the task, watches progress and repairs failures with code, it reaches 75.8%, the highest reported score, though on one of RoboDojo's three layout banks. On real robots the same split takes three cluttered assembly tasks from 71–84 successes out of 100 to 97–98.</p>
 
-<section class="col">
-<p>Some reasoning stays on the critical path even then, because recovering means looking at the result and deciding what to do. Robotics has an old answer to that. Brooks argued in 1986 for fast reactive layers that don't wait on a planner, and the three-layer architectures that followed (Gat, 1998) put a slow deliberative layer on top of a skill sequencer and a fast controller. The agent fits in that top layer, thinking in parallel while a skill runs and stepping in when it goes off track.</p>
-<p>Does the LLM eventually become System 1 too, the fast layer that does dexterous control? I don't think so. A general model takes over a layer once it gets under that layer's latency threshold, and I expect that to happen in the middle of the stack, the pick-and-place decisions VLAs make today at a few hertz. A contact loop at hundreds of hertz needs about a thousand times more than the 14× above, and the same speedups make a small robot model faster too. Speed also isn't what's missing. The agent is equally slow on every RoboDojo task, yet it scores 96% on swap blocks and 0% on insert key, because knowing where the key goes doesn't tell you how to feel it into the slot. That comes from contact data, which web text and video contain very little of. So System 1 stays a separate, smaller model, back where §4 left off. What may change is who builds it: the agent can set up the simulator, collect the data and train the policy it will later call.</p>
-
-<h2><span class="num">§6</span>Is this the Bitter Lesson?</h2>
-<p>On the day of the Fable 5.2 release, Anthropic's Alex Albert <a href="https://x.com/alexalbert__/status/2119869925288558799">posted</a> that “robotics will fall to the bitter lesson too.” I think he's right, though probably not in the way the line is usually read in robotics. Sutton's argument is that general methods that scale with computation, mainly search and learning, eventually beat approaches built on hand-encoded human knowledge. It's a claim about methods, and it says nothing specific about LLMs or end-to-end training.</p>
-<p>In robotics it usually gets read as a case for end-to-end learning: more demonstrations and bigger VLAs would eventually pick up reasoning as well. On this benchmark that hasn't happened. In the Open category, which holds solve equation and the language-conditioned tasks, no learned policy on the RoboDojo leaderboard scores above 25, while the top six agent entries score between 49 and 78. What worked is a model calling IK and motion planners, the hand-built components the end-to-end view expected us to discard.</p>
-<p>Read the way Sutton wrote it, the result fits. Writing programs and searching over them at test time is a general method that scales with compute, and the planners sit outside it as tools. If robotics falls to the bitter lesson, it may fall with IK still in the loop. The more interesting question is where compute is best spent, whether on policy training, test-time reasoning, planning, or learning during deployment.</p>
-
-<h2><span class="num">§7</span>Why this is good news</h2>
-<p>High-level reasoning is becoming something you can get from an API. That removes a set of problems that robot learning was never in a good position to solve by collecting teleoperation data anyway, things like arithmetic, memory, task decomposition, and knowing what a charger is for.</p>
-<p>What's left for us is mostly the physical side of manipulation, plus the problem of making all of this cheap and fast enough to use. Moravec pointed out in 1988 that the abilities we think of as intelligent, like arithmetic and games, are computationally easy, while perception and motor skill are hard. RoboDojo looks like the same observation almost forty years later: the agent solves the equation and then struggles to insert the key.</p>
-<p>There's also a more practical reason to be optimistic, which is that agents are starting to do the slow parts of robotics research. The sponge-wiping simulation from Goldberg's essay took Astra under an hour to build from a short video, sponge deformation included. In <a href="https://arxiv.org/abs/2611.11941">Flip Anything</a>, one of this year's CoRL late-breaking papers, a coding agent raises object-flipping success in simulation from 24.7% to 95.0% through its own iterations. Building simulators, tuning controllers and running ablations take up a large share of a robotics student's time, and all three are getting cheaper.</p>
-<p>Learned policies don't become irrelevant either. Two entries on the RoboDojo agent track, including the second-ranked one, pair an agent with a learned model: GO-3 Nano Preview with a world-action model and PhysicalRSI with a VLA. The best insert-key score on the entire leaderboard, 48.4, belongs to PhysicalRSI. Goldberg's skill libraries can include VLA policies too. A reliable contact-rich skill is exactly the kind of tool an agent wants to call, so policy learning now has a new kind of user.</p>
-
-<h2><span class="num">§8</span>What's still open</h2>
-<p>Putting the earlier sections together, these are the problems I think stand between today's agents and general-purpose robots. A better language model helps with some of them, but none of them goes away on its own.</p>
+<h2><span class="num">§5</span>What we can work on</h2>
+<p>If the paradox holds, most of the work left in manipulation sits below the agent. These are the problems I think are still open.</p>
 </section>
 
 <figure class="wide">
-<ol class="probs" aria-label="Six open problems">
-<li><span class="pn">01</span><b>Dexterity and contact</b><p>Insertion, in-hand manipulation, cloth, granular material and dynamic skills like throwing all depend on forces and states a camera can't see. The agent knows what should happen but has no tool that makes it happen. Force and touch sensing, compliance and learned contact skills are what it would call.</p></li>
-<li><span class="pn">02</span><b>Speed and reactivity</b><p>Agent time has to fall about 14× just to match robot motion, and contact control needs reactions within milliseconds. That calls for a slow deliberative layer on top of fast policies, and for ways to compile what the agent worked out into small policies that run without it.</p></li>
-<li><span class="pn">03</span><b>Improving in deployment</b><p>A robot that gets better on the job needs a success signal in the real world, a way to reset after failures and safe exploration. Long tasks need each step to work almost every time, so failures have to be caught and recovered from, and what the agent learns has to carry over to the next task instead of staying in one session.</p></li>
-<li><span class="pn">04</span><b>Sim-to-real and safety</b><p>Agents can now build their own simulators, but mass, friction and stiffness are hard to infer from video, and an agent that understands a task can still issue actions that break hardware. Safety constraints have to sit below the agent, where a wrong plan can't override them.</p></li>
-<li><span class="pn">05</span><b>Cross-embodiment transfer</b><p>IK, planners and skills are still written robot by robot, and the tooling for dexterous hands and humanoids is thin. An agent harness may move to a new robot by swapping its tools, but the learned skills underneath don't move with it.</p></li>
-<li><span class="pn">06</span><b>Evaluation</b><p>Almost all of the evidence in this post comes from simulation, scores from different reports aren't comparable, and closed models may have seen benchmark material. Robotics needs cheaper real-robot evaluation and benchmarks that separate reasoning from physical skill.</p></li>
+<ol class="probs probs-4" aria-label="Four open problems">
+<li><span class="pn">01</span><b>Dexterity and contact</b><p>Insertion, in-hand manipulation and deformables depend on forces a camera can't see, and the agent has no tool for them yet.</p></li>
+<li><span class="pn">02</span><b>Speed and reactivity</b><p>Agents think in seconds while contact needs milliseconds, so fast policies have to run underneath them.</p></li>
+<li><span class="pn">03</span><b>Improving in deployment</b><p>A robot that improves on the job needs real-world success signals, resets and safe exploration, and lessons that carry over between tasks.</p></li>
+<li><span class="pn">04</span><b>Evaluation</b><p>Most evidence is from simulation and scores across reports don't compare. Robotics needs cheap real-robot benchmarks that separate reasoning from physical skill.</p></li>
 </ol>
 </figure>
 
-
 <section class="col">
-<p>I came to Austin asking the same question as the people I talked to between sessions, whether there is still something left for me to work on. As the conference wraps up, I'm fairly sure there is. The key that jams and the eggs that slip were hard before Astra and are still hard, and the agents that fail at them can now help build the simulators and controllers it will take to fix them.</p>
+<p>I think this lets roboticists be more ambitious than ever. Until recently, a project usually had to choose between the brain and the hands: planners handled long tasks in simplified worlds, and learned policies handled short motor skills like folding a shirt or opening a drawer. With reasoning available from an API, we can work on tasks that need both, like assembling furniture from its manual, cooking from a recipe in a kitchen the robot hasn't seen, or repairing a machine, where the plan is long and the hard steps are contact-rich. These are also the tasks that would matter outside the lab.</p>
 </section>
 </main>
 
@@ -394,20 +282,14 @@
   <ul>
   <li>Anthropic, <a href="https://www.anthropic.com/claude-fable-and-mythos-5-2">Introducing Claude Fable 5.2 and Claude Mythos 5.2</a> (2026-11-09)</li>
   <li><a href="https://arxiv.org/abs/2607.04434">RoboDojo paper</a> and <a href="https://robodojo-benchmark.com/leaderboard">leaderboard</a></li>
-  <li><a href="https://arxiv.org/abs/2609.24170">An Unexpected Robot Policy: Early Evaluations of GPT-6 Astra on RoboDojo and Beyond</a></li>
   <li><a href="https://arxiv.org/abs/2609.12541">Agent as Policy for Robotic Manipulation</a> and the <a href="https://huggingface.co/datasets/Agent-as-Policy/agent-as-policy-robodojo">RoboDojo episode dataset</a> (videos, per-task results; CC-BY-4.0)</li>
   <li>Humanoids Daily, <a href="https://www.humanoidsdaily.com/news/anthropic-claude-fable-5-2-robotics-robodojo">leaderboard context for Fable 5.2</a></li>
-  <li>Rich Sutton, <a href="http://www.incompleteideas.net/IncIdeas/BitterLesson.html">The Bitter Lesson</a> (2019)</li>
-  <li>Alex Albert, <a href="https://x.com/alexalbert__/status/2119869925288558799">post on X</a> (2026-11-09)</li>
-  <li>S. Xie, K. Chen, K. Goldberg, <a href="https://arxiv.org/abs/2611.11941">Flip Anything with Agentic Robotics Self-Learning</a> (CoRL 2026 late-breaking)</li>
+  <li>NVIDIA, <a href="https://research.nvidia.com/labs/gear/gr00t-2/assets/gr00t2_whitepaper.pdf">GR00T 2: Scaling Robot Foundation Models for Generalization, Dexterity, and Adaptation</a> (2026-11)</li>
   <li>Ken Goldberg, <a href="https://x.com/Ken_Goldberg/status/2100986412762087909">Goosebumps: a Paradigm Shift is Occurring in Robotics</a> (2026-09-18)</li>
-  <li>Xiao et al., <a href="https://www.nature.com/articles/s42256-025-01137-0">Densing law of LLMs</a>, Nature Machine Intelligence (2025)</li>
-  <li><a href="https://artificialanalysis.ai/">Artificial Analysis</a> output-speed leaderboard (Nov 2026)</li>
   </ul>
   <b>Older work</b>
   <ul>
   <li>R. Fikes and N. Nilsson, STRIPS: A new approach to the application of theorem proving to problem solving. <i>Artificial Intelligence</i>, 1971.</li>
-  <li>D. Whitney, Quasi-static assembly of compliantly supported rigid parts. <i>J. Dynamic Systems, Measurement, and Control</i>, 1982.</li>
   <li>R. Brooks, A robust layered control system for a mobile robot. <i>IEEE J. Robotics and Automation</i>, 1986.</li>
   <li>H. Moravec, <i>Mind Children</i>. Harvard University Press, 1988.</li>
   <li>T. Lozano-Pérez, J. Jones, E. Mazer, P. O'Donnell, Task-level planning of pick-and-place robot motions. <i>IEEE Computer</i>, 1989.</li>
@@ -418,7 +300,7 @@
   <li>J. Liang et al., <a href="https://arxiv.org/abs/2209.07753">Code as Policies</a>, 2022.</li>
   <li>W. Huang et al., <a href="https://arxiv.org/abs/2307.05973">VoxPoser</a>, 2023.</li>
   </ul>
-  <b>Photo credits (Fig. 2)</b>
+  <b>Photo credits (Fig. 3)</b>
   <ul>
   <li>Unimate, 1967: Frank Q. Brown / Los Angeles Times, <a href="https://commons.wikimedia.org/wiki/File:Unimate_pouring_coffee_for_a_woman_at_Biltmore_Hotel,_1967.jpg">Wikimedia Commons</a>, CC BY 4.0</li>
   <li>Shakey: The wub, <a href="https://commons.wikimedia.org/wiki/File:SRI_Shakey_robot,_1969,_Computer_History_Museum.jpg">Wikimedia Commons</a>, CC BY-SA 4.0</li>
@@ -428,9 +310,9 @@
   </ul>
 </footer>
 
-<script src="figs.js?v=28"></script>
-<script src="eras.js?v=28"></script>
-<script src="agentic.js?v=28"></script>
-<script src="trace.js?v=28"></script>
+<script src="figs.js?v=34"></script>
+<script src="eras.js?v=34"></script>
+<script src="agentic.js?v=34"></script>
+<script src="trace.js?v=34"></script>
 </body>
 </html>

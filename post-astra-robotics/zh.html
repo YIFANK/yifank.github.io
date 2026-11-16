@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Noto+Sans+SC:wght@500;700&family=Noto+Serif+SC:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="style.css?v=28">
+<link rel="stylesheet" href="style.css?v=34">
 <style>
 :root{
   --display:"Bricolage Grotesque","Noto Sans SC","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;
@@ -39,11 +39,10 @@ figcaption{line-height:1.75}
 
 <main>
 <section class="col">
-<p>我是在奥斯汀写这篇文章的，正赶上 CoRL 2026，这也是我第一次参加 CoRL。我还是本科生，做机器人研究的时间不长，所以这一周大部分时候都在听比我在这个领域待得久得多的人聊天。听到的东西里，很多都和 agent 有关。</p>
-<p>11 月 9 日是主会第一天，Jim Fan 的主旨演讲里有一页讲 GPT-6 Astra，不到半小时，这一段的视频就<a href="https://x.com/cdngdev/status/2119886555250929991">在 X 上传开了</a>。CoRL 今年还第一次征集 late-breaking results，两个主题之一就是 agentic robotics。</p>
-<p>会议间隙聊天时，好几位研究者，其中也有资深的，看上去对 LLM 进入机器人领域的速度有些泄气。如果一个编程 agent 在操作任务上能打败 VLA，那么问一句过去几年的策略学习到底是为了什么、接下来还剩什么可做，并不过分。我正在决定接下来几年做什么，也一直在问自己同样的问题。</p>
-<p>同一天，Anthropic 公布 Claude Fable 5.2 在 RoboDojo Sim 上得分 64.9%，Opus 5.5 是 39.4%，GPT-6 Astra 是 29.8%，Fable 5.1 是 27.6%。这些都是 Anthropic 自己在最高 effort 下跑的结果，公告里没说 64.9% 是成功率还是部分得分。不管是哪一种，一个没有机器人策略头的通用语言模型，现在已经排在我们这个领域为机器人控制造出来的大多数系统前面。</p>
-<p>Anthropic 没有公布逐任务的结果，所以这篇文章大部分用的是我能找到的最接近的公开数据。<a href="https://arxiv.org/abs/2609.12541">Agent as Policy</a>（AGP）把 GPT-6 Astra 放进一个编程 agent 框架里运行，公开了全部 2,100 个 RoboDojo episode，包括日志和视频。它的得分是 63.6，和 Fable 5.2 差不多。</p>
+<p>这篇文章是我在奥斯汀参加 CoRL 2026 时开始写的。作为第一次参加 CoRL 的本科生，我花了很多时间听博士生和资深研究者之间的讨论。</p>
+<p>11 月 9 日是主会第一天，Jim Fan 的主旨演讲里有一页讲 GPT-6 Astra，不到半小时，这一段的视频就<a href="https://x.com/cdngdev/status/2119886555250929991">在 X 上传开了</a>。CoRL 今年也第一次征集 late-breaking results，agentic robotics 是两个主题之一。同一天，Anthropic 公布 Claude Fable 5.2 在 RoboDojo Sim 上拿到 64.9%。有人开始说，<a href="https://x.com/alexalbert__/status/2119869925288558799">苦涩的教训要轮到机器人学了</a>。</p>
+<p>不管大家做的是机器人学的哪个方向，agentic robotics 都成了房间里的大象，一个我们没法忽视的问题。</p>
+<p>Fable 5.2 的这个分数排在 RoboDojo 排行榜上所有学习型策略前面（图 1）。Anthropic 没有公布逐任务的结果，所以这篇文章大部分用的是我能找到的最接近的公开数据。<a href="https://arxiv.org/abs/2609.12541">Agent as Policy</a>（AGP）把 GPT-6 Astra 放进一个编程 agent 框架里运行，公开了全部 2,100 个 RoboDojo episode，包括日志和视频。它的得分是 63.6，和 Fable 5.2 差不多。</p>
 </section>
 
 <figure class="col">
@@ -52,38 +51,22 @@ figcaption{line-height:1.75}
     <div class="legend"><span><i style="background:var(--accent)"></i>Anthropic 内部评测（指标未说明）</span><span><i style="background:var(--accent-2)"></i>Agent 框架，部分得分</span><span><i style="background:var(--gray-mark)"></i>学习型机器人策略，部分得分</span></div>
     <svg class="chart" id="fig1" role="img" aria-label="各系统 RoboDojo Sim 平均分柱状图"></svg>
   </div>
-  <figcaption><b>图 1.</b> 同一个 GPT-6 Astra，两个分数：单独跑 29.8，放进 AGP 框架 63.6。各来源的评测协议不同。</figcaption>
+  <figcaption><b>图 1.</b> 同一个 GPT-6 Astra，两个分数：单独跑 29.8，放进 AGP 框架 63.6。各来源的评测协议不同；GR00T 2 + agent 只测了三组布局中的一组。</figcaption>
 </figure>
 
 <section class="col">
-<p>我对这件事有两个反应，而且我猜哪一个都不是主流看法：</p>
-<div class="twin"><div><span>反应 1</span>这个结果并不太意外。</div><div><span>反应 2</span>它对机器人研究仍然是很好的消息。</div></div>
-<p>我看到的兴奋里，大多带着一种“这是凭空冒出来的”的感觉。但我觉得，从这个基准测的是什么、从机器人学本来就会做什么出发，这个结果几乎是顺理成章的。第二个反应和我上面说的那种情绪相反：做机器人学习的人把这个结果看成自己这条路的终点。操作这个方向此前已经换过好几次范式（图 2），而旧方法大多作为新系统的零件留了下来。逆运动学和运动规划熬过了向学习的转变，现在领跑 RoboDojo 的 agent 正把它们当工具调用。我预计学到的策略也会以同样的方式留下来。把第一个反应为什么成立想清楚，也能更清楚地看出还有哪些问题没解决。</p>
+<p>这个能力确实很厉害，但我不认为现在可以说机器人学已经“解决”了，也不觉得它是凭空冒出来的。我看到的兴奋里，大多带着一种意外感。但我觉得，从这个基准测的是什么、从机器人学本来就会做什么出发，这个结果几乎是顺理成章的。把原因想清楚，也能看出还有哪些事可做。</p>
 </section>
 
-<figure class="wide">
-  <div class="fig">
-    <h4>机器人操作的范式，1961–2026</h4>
-    <div class="eras-scroll"><div class="eras-in"><div class="eras-cards" id="eras-cards"></div>
-    <svg class="chart" id="fig-eras" role="img" aria-label="1961 到 2026 年机器人操作范式的时间线"></svg></div></div>
-    <div id="era-panel" class="era-panel" hidden></div>
-  </div>
-  <figcaption><b>图 2.</b> 点一张照片，打开那个时代的小演示。把鼠标放在圆点上或点一下，看细节。</figcaption>
-</figure>
+
 
 
 <section class="col">
-<h2><span class="num">§1</span>看看这个基准到底考什么</h2>
-<p>RoboDojo 有 42 个仿真任务，分五类：泛化（Generalization）、精度（Precision）、长程（Long-Horizon）、记忆（Memory）和开放（Open），每个任务 50 个 episode。任务清单比排行榜更能说明问题。举几个例子：</p>
-<ul>
-<li>摆数字积木，让它们组成一个正确的等式（开放）</li>
-<li>下井字棋（长程）</li>
-<li>把积木换来换去，同时记住哪个是哪个（记忆）</li>
-<li>模仿之前给你看过的一段分拣顺序（记忆）</li>
-</ul>
+<h2><span class="num">§1</span>操作基准现在考的是大脑</h2>
+<p>新一代的操作基准考的不只是运动技能。这篇文章主要用到的 RoboDojo 就是一个好例子。在它的 42 个仿真任务里，机器人要把数字积木摆成正确的等式、下井字棋，或者把积木换来换去，同时记住哪个是哪个。</p>
 <p>在解等式任务里，机器人要读出数字、算出答案、决定哪块积木放哪里，然后找到这些积木并把它们挪过去。只有最后这一步真正和运动控制有关。</p>
-<p>如今的 VLA 已经学到了很厉害的动作分布，能叠衣服，能打开没见过的抽屉。它们缺的是类似大脑的东西。VLA 把最近的观测和一条指令映射成下一段动作，这个循环里没有地方存计划、追踪隐藏状态，或者发现算错了。井字棋测的主要就是缺的这一块，所以它几乎说明不了策略的“手”好不好。</p>
-<p>前沿 LLM 是从另一头接近这个基准的。推理、记忆和把任务拆成步骤，它本来就擅长；它需要的是把决定变成动作的办法。</p>
+<p>如今的 VLA 已经学到了很厉害的动作分布，能叠衣服，能打开没见过的抽屉。它们缺的是类似大脑的东西。VLA 把最近的观测和一条指令映射成下一段动作，这个循环里没有地方存计划、追踪隐藏状态，或者发现算错了。这类任务测的主要就是缺的这一块，所以几乎说明不了一个策略的“手”好不好。</p>
+<p>前沿 LLM 是从另一头接近这些任务的。推理、记忆和把任务拆成步骤，它本来就擅长；它需要的是把决定变成动作的办法。</p>
 </section>
 
 <figure class="wide">
@@ -107,17 +90,29 @@ figcaption{line-height:1.75}
       </div>
     </div>
   </div>
-  <figcaption><b>图 3.</b> GPT-6 Astra + AGP，头部相机视角。标签是 50 个 episode 的成功率。数据：AGP 数据集，CC-BY-4.0。</figcaption>
+  <figcaption><b>图 2.</b> GPT-6 Astra + AGP，头部相机视角。标签是 50 个 episode 的成功率。数据：AGP 数据集，CC-BY-4.0。</figcaption>
 </figure>
 
 <section class="col">
-<h2><span class="num">§2</span>机器人学早就有“手”了（对某些任务来说）</h2>
-<p>上过经典操作课的人很早就会学到这一点，但如果你是从模仿学习进入这个领域的，就很容易错过。</p>
-<p>只要知道东西在三维空间里的位置，很多操作问题其实已经解决了。给定物体位姿，可以采样抓取，解手臂的逆运动学，规划一条无碰撞路径，再用反馈控制器去跟踪。这些方法很老，大多是人手设计的，但它们对不同物体、不同手臂都能用，这正是它们通用的地方。</p>
-<p>其中一些可以追溯到很久以前。1971 年，Shakey 就在用 STRIPS 规划动作。1980 年代末，Lozano-Pérez 的 Handey 系统能根据场景的几何模型规划抓取放置动作，包括抓取本身。RRT（LaValle，1998）让高维手臂的运动规划变得实用，任务与运动规划（Kaelbling 和 Lozano-Pérez，2011，以及其他很多工作）把符号规划和几何规划连了起来。图 4 里 agent 调用的东西，大多是这些工作的后代。</p>
-<p>它们一直缺的是一个驱动者。每来一个新任务，都得有人手写状态机：先拿哪个物体、放到哪里、怎样算完成、抓滑了怎么办。这份工程成本，是这个领域转向端到端学习的一个重要原因。</p>
-<p>agent 把这份成本的大部分接了过去。它看场景，写一段调用感知、逆运动学和规划器的程序，运行，再看一眼，出了问题就再试。VLA 得从数据里学会失败恢复，而 agent 只要检查自己的结果，就能得到一个基础版本。</p>
-<p>Ken Goldberg 九月在一篇题为<a href="https://x.com/Ken_Goldberg/status/2100986412762087909">《Goosebumps》</a>的文章里提出了类似的观点，他把 agentic robotics 称作“机器人学两种主流文化之间的第三条路”。我先学的是学习这一派，被提醒另一派在这里做了多少事，对我很有用。</p>
+<h2><span class="num">§2</span>老派机器人学的复兴</h2>
+<p>在深度学习之前，机器人学就已经有了这些任务需要的大部分零件。给定物体位姿，可以采样抓取，解手臂的逆运动学，规划一条无碰撞路径，再用反馈控制器去跟踪。这些方法大多是人手设计的，对不同物体、不同手臂都能用。</p>
+<p>它们也能做长任务。1971 年，Shakey 就在用 STRIPS 规划多步动作。1980 年代末，Lozano-Pérez 的 Handey 系统能根据场景的几何模型规划抓取放置动作，包括抓取本身。RRT（LaValle，1998）让高维手臂的运动规划变得实用，任务与运动规划（Kaelbling 和 Lozano-Pérez，2011，以及其他很多工作）把符号规划和几何规划串成很多步。</p>
+<p>瓶颈在人工工程。每来一个新任务，都得有人给场景建模、手写状态机：先拿哪个物体、放到哪里、怎样算完成、抓滑了怎么办。为一套环境搭好的系统，换到下一套环境通常还得再做工程。这份成本是这个领域转向端到端学习的一个重要原因，端到端学习用数据取代了手写的结构。</p>
+</section>
+
+<figure class="wide">
+  <div class="fig">
+    <h4>机器人操作的范式，1961–2026</h4>
+    <div class="eras-scroll"><div class="eras-in"><div class="eras-cards" id="eras-cards"></div>
+    <svg class="chart" id="fig-eras" role="img" aria-label="1961 到 2026 年机器人操作范式的时间线"></svg></div></div>
+    <div id="era-panel" class="era-panel" hidden></div>
+  </div>
+  <figcaption><b>图 3.</b> 点一张照片，打开那个时代的小演示。把鼠标放在圆点上或点一下，看细节。</figcaption>
+</figure>
+
+<section class="col">
+<p>编程 agent 把这份工程的大部分接了过去。它看场景，写一段调用感知、逆运动学和规划器的程序，运行，再看一眼，出了问题就改程序（图 4）。VLA 得从数据里学会失败恢复，而 agent 只要检查自己的结果，就能得到一个基础版本。</p>
+<p>Ken Goldberg 九月在一篇题为<a href="https://x.com/Ken_Goldberg/status/2100986412762087909">《Goosebumps》</a>的文章里提出了类似的观点，他把 agentic robotics 称作“机器人学两种主流文化之间的第三条路”。我是从学习这一派进入机器人学的，所以这提醒了我另一派至今还在做多少事。</p>
 </section>
 
 <figure class="wide">
@@ -152,7 +147,7 @@ figcaption{line-height:1.75}
         </svg>
       </div>
       <div>
-        <div class="arch-h"><b>Agent + 经典工具</b></div>
+        <div class="arch-h"><b>Agentic Robotics</b></div>
         <svg class="chart" viewBox="0 0 480 590" role="img" aria-label="Agent：LLM 写程序调用感知、逆运动学、规划和控制，再重新观察、重试">
           <defs>
             <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--faint)"/></marker>
@@ -193,7 +188,7 @@ figcaption{line-height:1.75}
 </figure>
 
 <section class="col">
-<p>看看 agent 在一个 episode 里实际做了什么，会很有帮助。AGP 公开了每个 episode 的完整事件日志。模型的内部推理是加密的，但它写下的消息和每一次工具调用都在。下面是解等式任务的第 0 号布局，它用 12 次工具调用完成了任务。</p>
+<p>来看一个 RoboDojo 上的例子。AGP 公开了每个 episode 的完整事件日志，只有模型的私有推理不在里面。图 5 回放了其中一个，解等式任务，agent 用十二次工具调用完成。</p>
 </section>
 
 <figure class="wide">
@@ -222,14 +217,11 @@ figcaption{line-height:1.75}
 </figure>
 
 <section class="col">
-<p>agent 从来不输出关节指令。它用一句话决定要做什么，之后的一切都交给工具：把像素变成三维点，或者规划一条到某个位姿的路径。在松手之前，也就是唯一无法撤回的那一步，它又测了一遍，并绕开了一个它不信任的深度估计。整个数据集都是这样：2,100 个 episode 里大约有 21,000 次 <code>measure</code> 和 47,500 次 <code>run</code> 调用，大约每五次就有一次报告了需要 agent 处理的失败。在 260 个 episode 里，它还通过自己写的 JavaScript 发出了其中约 5,200 次调用；日志保留了这些调用，但没有保留脚本本身。</p>
-<p>关于这套设置，有一点要记住：AGP 的提示词里每个任务还带了几条人写的提示，比如拿螺母之前夹爪该张多大。一些人类的任务知识仍然在回路里，只不过是用文字而不是代码写的。</p>
+<p>这里的每条指令都是模型自己推理出来的，但几乎都不是关节指令：全部 2,100 个 episode 里，它只发出了一百次左右关节空间的动作，相比之下末端目标位姿约 50,000 个。它用像素和位姿来思考，关节留给逆运动学和规划器。在图 5 里，松手之前，也就是唯一无法撤回的那一步，它又测了一遍，并绕开了一个它不信任的深度估计。整个数据集里，大约每五次工具调用就有一次报告了需要 agent 处理的失败。</p>
+<p>AGP 的提示词里每个任务还带了几条人写的提示，比如拿螺母之前夹爪该张多大，所以一部分人工工程仍然在回路里，只不过是用文字而不是代码写的。</p>
+<p>同一套工具也解释了 agent 在哪里失败。在图 2 的“手”类任务上，插钥匙和装鸡蛋托都是 0%，插充电器是 4%。这些任务依赖相机看不到的接触力，而老工具在接触上也从来不强。</p>
 </section>
 
-<section class="col">
-<h2><span class="num">§3</span>为什么是现在？</h2>
-<p>这个架构也不新。前沿模型越来越强，机器人领域交给它的部分也越来越多（图 6）：先是在单独训练好的技能之间做选择，然后是写调用感知和控制的程序，再到对着一个评分自己改进整个机器人系统，最近则是直接输出动作。SayCan、Code as Policies 和 VoxPoser 在 2022 和 2023 年就在简短的桌面任务上证明了这个思路可行，用的模型比今天弱得多。工具有几十年历史，架构也有四年了，那么变化只能出在模型这一侧。</p>
-</section>
 <figure class="wide">
   <div class="fig">
     <h4>agent 范式内部：LLM 被交给了什么</h4>
@@ -239,89 +231,10 @@ figcaption{line-height:1.75}
   </div>
   <figcaption><b>图 6.</b> 点一张卡片，看这一阶段是怎么做的。把鼠标放在圆点上或点一下，看细节。</figcaption>
 </figure>
-<section class="col">
-<p>我会指出四件差不多同时变好的事。</p>
-<ul>
-<li><strong>编程。</strong>用这种方式驱动机器人，意味着要在很多步里写真正的程序、调试它，早先的模型撑不了多久。</li>
-<li><strong>空间视觉。</strong>模型要把杯子定位到坐标，精度要够逆运动学用，这比认出杯子难得多。</li>
-<li><strong>推理预算。</strong>几百个机器人动作，即使压缩成代码，也需要大量思考，而现在的模型能花这么多思考而不跑偏。</li>
-<li><strong>自我改进。</strong>一次尝试失败后，agent 能看到结果、找出哪里出了错，并在测试时修改代码。对学到的策略来说，从这种失败中学习意味着收集恢复示教再重新训练；在这里只是改一处代码，而且修正会带到下一次尝试。给它一个价值函数，同样的循环可以在没有人参与的情况下自己跑。ENPIRE 就是这样在灵巧任务上做到 99% 的，每一轮之后都由 agent 改写训练代码（图 6）。</li>
-</ul>
-<p>我不知道这里面有多少来自通用的预训练。各家实验室没说用什么数据训练，<i>An Unexpected Robot Policy</i> 的作者也指出，对一个闭源权重的模型，无法排除它见过和基准相关的材料。无论如何，几种不同的能力得差不多同时到位，这也是这次跃升看起来如此突然的部分原因。</p>
-
-<h2><span class="num">§4</span>它在哪里失败</h2>
-<p>下面是 AGP 这 63.6 分按类别的拆分。成功指完整完成任务；部分得分是排行榜上报的那个数。</p>
-<table class="tbl">
-<thead><tr><th>类别</th><th class="n">成功率</th><th class="n">部分得分</th></tr></thead>
-<tbody>
-<tr><td>记忆</td><td class="n">91.0%</td><td class="n">92.2</td></tr>
-<tr><td>开放</td><td class="n">62.3%</td><td class="n">65.8</td></tr>
-<tr><td>泛化</td><td class="n">54.7%</td><td class="n">59.8</td></tr>
-<tr><td>精度</td><td class="n">44.0%</td><td class="n">50.9</td></tr>
-<tr><td>长程</td><td class="n">28.8%</td><td class="n">49.5</td></tr>
-<tr class="total"><td>平均</td><td class="n">56.1%</td><td class="n">63.6</td></tr>
-</tbody></table>
-<p>框架和模型差不多一样重要。<em>同一个</em> GPT-6 Astra 在 Anthropic 的评测里是 29.8%，在 <i>An Unexpected Robot Policy</i> 里是 29.0（成功率 22.5%），后者由它自己选末端目标，规划器只负责执行。有了 <code>measure</code> 和多步 <code>run</code>，分数翻了一倍还多。所以下面这些失败，主要是工具做不到的地方。</p>
-</section>
-
-<figure class="wide">
-  <div class="fig">
-    <h4>每个 RoboDojo 任务，GPT-6 Astra + AGP</h4>
-    <svg class="chart" id="fig-all" role="img" aria-label="42 个任务成功率的点图，按类别分组"></svg>
-  </div>
-  <figcaption><b>图 7.</b> 每个点是一个任务。深色竖线和右侧数字是类别平均。</figcaption>
-</figure>
 
 <section class="col">
-<p>记忆类 91% 在意料之中。精度类 44% 更让人意外，因为对一个没有训练过操作策略的系统来说，这已经很高了。逐个任务的数字能说明原因。</p>
-</section>
-
-<figure class="col">
-  <div class="fig">
-    <div class="seg" role="group" aria-label="类别"><button aria-pressed="true" data-cat="Precision">精度</button><button aria-pressed="false" data-cat="Long-Horizon">长程</button></div>
-    <div class="legend"><span><i style="background:var(--accent)"></i>成功率</span><span><i style="background:var(--accent);opacity:.28"></i>部分得分</span></div>
-    <svg class="chart" id="fig-cat" role="img" aria-label="逐任务成功率和得分条形图"></svg>
-  </div>
-  <figcaption><b>图 8.</b> 浅色条是部分得分。</figcaption>
-</figure>
-
-<section class="col">
-<p>这 44% 是把接近 90% 的任务和接近零的任务平均出来的。敲木琴键需要在自由空间里精确定位；agent 一旦找到琴键，直接移过去就行。插钥匙需要在接触中保持精度。位姿上的小误差会让它卡住，而修正这些误差需要 agent 没有的快速力反馈。销钉入孔问题至少从 1982 年 Whitney 关于柔顺装配的工作就开始研究了，当时通常的办法是用一个在接触时能稍微让一让的手腕。编程 agent 和规划器都没有内置这种东西。</p>
-<p>任务定义让这个差别更具体。拧螺丝是 agent 唯一做得好的“手”类任务，结果它其实更接近敲木琴。仿真器里的“螺丝”是六角螺母，要在 1 mm 以内套到立柱上，而且不检查有没有拧，所以归根结底是精确放置。插钥匙则要求钥匙竖直、偏差在 7° 以内，推进锁里 2.5 cm，然后再转动。</p>
-</section>
-
-<figure class="col">
-  <div class="pair">
-    <div class="clip"><video data-src="media/s0_l000_play_Xylophone.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>敲木琴</b><span class="badge ok">90%</span></div></div>
-    <div class="clip"><video data-src="media/s0_l000_insert_key.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>插钥匙</b><span class="badge no">0%</span></div></div>
-  </div>
-  <figcaption><b>图 9.</b> 两个都是精度类任务。</figcaption>
-</figure>
-
-<section class="col">
-<p>这让我觉得，我一开始用的“大脑还是手”的划分有点太粗了。更有用的区分也许是：</p>
-<ul>
-<li><strong>几何主导的操作</strong>：只要物体能定位、动作能规划，agent 加经典工具通常就能搞定。</li>
-<li><strong>接触主导的操作</strong>：紧配合插入、手内灵巧操作、可变形物体，以及其他依赖图像里看不见的力的任务。对这些，agent 没有好的工具可调用。</li>
-</ul>
-<p>最弱的长程类只有 28.8%，也以同样的方式分成两半（把图 8 切到“长程”）。如果一个任务长是因为需要思考，比如按类别分拣物体或者下棋，agent 做得不错。如果一个任务长是因为同一个精细放置要重复很多次，比如把鸡蛋放进蛋托，或者把零件套到叠叠乐的立柱上，任何一处失手就整个 episode 失败，agent 就会失败。在一个装鸡蛋托的 episode 里，它用掉了 700 次允许动作中的 682 次，仍然没做完。计划看起来没问题，错误出在不断累积的小操作失误上。</p>
-</section>
-
-<figure class="col">
-  <div class="pair">
-    <div class="clip"><video data-src="media/s0_l000_classify_objects.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>物体分类</b><span class="badge ok">92%</span></div></div>
-    <div class="clip"><video data-src="media/s0_l000_organize_table.mp4" muted loop playsinline preload="none"></video><div class="cap"><b>整理桌面</b><span class="badge no">32%</span></div></div>
-  </div>
-  <figcaption><b>图 10.</b> 两个都是长程类任务。</figcaption>
-</figure>
-
-<section class="col">
-<p>以上全是仿真，真机上的证据要少得多。<i>An Unexpected Robot Policy</i> 的作者在 GPT-6 Astra 多次发出不安全的动作、其中一些损坏了硬件之后，停止了真机试验；按他们的理解，Astra 理解任务比安全地执行任务更可靠。Goldberg 的组把模型放在控制回路之外，效果更好。Astra 根据一段短视频为擦海绵任务搭了一个仿真，在里面调好了控制器，导出的代码在他们的真机上跑通了，不过有一次试验把金属杆碰倒了，因为它的质量没法从视频里推断出来。两种情况下，理解都比接触更容易迁移到硬件上。</p>
-</section>
-
-<section class="col">
-<h2><span class="num">§5</span>够快吗？</h2>
-<p>接触是一个缺口，时间是另一个，也是我听到最多的反对意见。AGP 日志记录了 300.6 小时的墙钟时间，对应 14.3 小时的仿真机器人动作，平均每个 episode 约 8.6 分钟。这 300 小时里，有 208 小时花在工具调用之外，也就是模型推理和 agent 运行时；仿真、渲染和运动规划加起来是 93 小时。</p>
+<h2><span class="num">§3</span>以秒为单位思考</h2>
+<p>我最常听到的反对意见和时间有关。在 AGP 的日志里，一个 episode 要花 8.6 分钟，机器人实际只动了 24.5 秒，其中大约六分钟是模型在思考，而不是仿真或规划（图 7）。光是模型本身，就得快大约 14 倍才能跟上机器人。</p>
 </section>
 
 <figure class="col">
@@ -331,60 +244,35 @@ figcaption{line-height:1.75}
     <div class="legend"><span><i style="background:var(--accent)"></i>模型推理 + agent 运行时</span><span><i style="background:var(--accent-2)"></i>工具调用（仿真、渲染、规划）</span><span><i style="background:var(--ink)"></i>仿真机器人时间</span></div>
     <svg class="chart" id="fig-time" role="img" aria-label="墙钟时间堆叠条形图"></svg>
   </div>
-  <figcaption><b>图 11.</b> 深色方块是机器人真正在动的时间。</figcaption>
+  <figcaption><b>图 7.</b> 深色方块是机器人真正在动的时间。</figcaption>
 </figure>
 
 <section class="col">
-<p>按每个 episode 算，大约是 6 分钟的 agent 时间对 24.5 秒的机器人动作。agent 的工具调用次数中位数是 31，每次调用都要重读一遍越来越长的上下文（每个 episode 145 万输入 token，96% 命中缓存），再写出几百个 token，一个 episode 总共约 5,900 个输出 token。我看到三个能把时间降下来的地方。</p>
-<ul>
-<li><b>更快的硬件。</b>在 <a href="https://artificialanalysis.ai/">Artificial Analysis</a> 上，Cerebras 跑 gpt-oss-120B 已经超过每秒 1,700 token，而最快的前沿级模型只有几百。我按每年 1.5–2 倍算。</li>
-<li><b>更小的模型。</b>按<a href="https://www.nature.com/articles/s42256-025-01137-0">密度定律</a>，达到固定基准分数所需的参数量大约每 3.5 个月减半。解码速度不会同比例提升，常规调用可以交给小模型、意外情况留给大模型，所以我按 1.5–3 倍算。</li>
-<li><b>更少的输出 token。</b>在 Goldberg 文章的一个脚注里，Jay Chooi 报告说，在一个机器人控制任务上 Astra 以 95% 对 40% 胜过 Fable 5.1，输出 token 少 6.2 倍。我按每年 1.5–2.5 倍算。</li>
-</ul>
-<p>三者相乘，每年是 3.4 到 15 倍。把 6 分钟降到 24.5 秒需要约 14 倍，落在 2027 年底到 2029 年初之间。这只算了 agent 那一份；每个 episode 在工具里花的 2.6 分钟需要各自提速。</p>
-</section>
+<p>更快的芯片、更小的模型，以及用更少 token 得到同样答案的模型，都在缩小这个差距，合起来大概每年 3–15 倍。照这个速度，agent 会在 2027 年底到 2029 年初之间追上机器人。</p>
+<p>即便到了那时，仍有一些推理留在关键路径上，因为从错误中恢复，就得看结果、再决定下一步。Brooks 在 1986 年主张用不等规划器的快速反应层，之后的三层架构（Gat，1998）把一个慢的审议层放在技能调度层和快速控制器之上。agent 正好放在最上面这一层：技能执行时它在思考，技能出岔子时再介入。</p>
+<p>我不认为 LLM 也会接管快速层。通用模型一旦低于某一层的延迟要求，就会接管那一层，我预计这会先发生在中间层，也就是 VLA 今天以每秒几次的频率做出的抓放决策。要以几百赫兹闭合接触回路，需要的提速比跟上机器人还要多上千倍，而同样的硬件进步也会让小的机器人模型变快。</p>
+<p>速度仍然非常重要。如果小模型也有同样的推理能力，这类 agent 就会便宜、快到可以在真实机器人上跑，这本身就会改变机器人的部署方式。但它解决不了接触。agent 在交换积木上和在插钥匙上一样慢，前者 96%，后者 0%。知道钥匙该插到哪，不等于知道怎么凭手感把它插进去。所以快速层仍会是一个单独的、更小的模型，只是造它的可能是 agent 自己：搭仿真器、采集数据，再训练出它以后要调用的策略。</p>
 
-<figure class="col">
-  <div class="fig">
-    <h4>每个 episode 的 agent 时间，外推</h4>
-    <svg class="chart" id="fig-speed" role="img" aria-label="三种年提速率下每个 episode agent 分钟数的对数坐标外推，与机器人动作时间对比"></svg>
-  </div>
-  <figcaption><b>图 12.</b> 今天的 5.9 分钟在三种年提速下的变化。圆点标出它追上机器人动作时间的时刻。</figcaption>
-</figure>
+<h2><span class="num">§4</span>又一次 Moravec 悖论</h2>
+<p>1988 年，Hans Moravec 指出，我们认为聪明的那些能力，比如算术和下棋，对计算机来说反而相对容易；一岁小孩就有的感知和运动能力，才是难的。RoboDojo 看上去就是将近四十年后的同一个观察：agent 解出了等式，然后插不进钥匙。</p>
+<p>对机器人学习来说，这是好消息。高层推理正在变成可以从 API 拿到的东西，这去掉了一类遥操作数据本来就解决不好的问题：算术、记忆、任务分解，以及知道充电器是干什么用的。剩下的是 Moravec 说的难的那部分，而它现在清楚多了。</p>
+<p>这也意味着学到的策略不会消失。NVIDIA 同一天在 CoRL 上发布的 <a href="https://research.nvidia.com/labs/gear/gr00t-2/assets/gr00t2_whitepaper.pdf">GR00T 2</a> 就是沿着这条线分工的。单独运行时，它在 RoboDojo 上的成功率是 35.5%。加上强化学习后训练，再作为工具交给一个前沿 agent 调用，由 agent 规划任务、盯着进度、用代码修复失败，它达到 75.8%，是目前报告的最高分，不过只在 RoboDojo 三组官方布局中的一组上测过。在真机上，同样的分工把三个杂乱场景下的装配任务从 100 次里成功 71–84 次提高到 97–98 次。</p>
 
-<section class="col">
-<p>即便到了那时，仍有一些推理留在关键路径上，因为恢复就意味着要看结果、再决定怎么办。机器人学对此早有答案。Brooks 在 1986 年主张用不等规划器的快速反应层，之后的三层架构（Gat，1998）把一个慢的审议层放在技能调度层和快速控制器之上。agent 正好放在最上面这一层：技能执行时它并行思考，出岔子时再介入。</p>
-<p>LLM 最终会不会也变成 System 1，也就是负责灵巧控制的快速层？我觉得不会。通用模型一旦跨过某一层的延迟门槛，就会接管那一层，我预计这会先发生在中间层，也就是 VLA 今天以每秒几次的频率做出的抓放决策。要以几百赫兹闭合接触回路，需要的提速比上面的 14 倍还要多上千倍，而同样的提速也会让小的机器人模型变快。何况缺的也不是速度。agent 在每个 RoboDojo 任务上都一样慢，但交换积木是 96%，插钥匙是 0%，因为知道钥匙该插到哪，不等于知道怎么凭手感把它插进去。这种知识来自接触数据，而网上的文字和视频里这类数据很少。所以 System 1 仍会是一个单独的、更小的模型，又回到了 §4 的结论。可能会变的是谁来造它：agent 可以搭仿真器、采集数据，再训练出它以后要调用的策略。</p>
-
-<h2><span class="num">§6</span>这是苦涩的教训吗？</h2>
-<p>Fable 5.2 发布当天，Anthropic 的 Alex Albert <a href="https://x.com/alexalbert__/status/2119869925288558799">发帖</a>说：“robotics will fall to the bitter lesson too.” 我觉得他说得对，只是可能和机器人圈通常的理解不太一样。Sutton 的论点是，随算力扩展的通用方法，主要是搜索和学习，最终会胜过建立在人类手工知识上的方法。这是关于方法的论断，并没有专门说 LLM，也没有专门说端到端训练。</p>
-<p>在机器人领域，它通常被读成支持端到端学习的论证：更多示教数据、更大的 VLA，最终也会学会推理。在这个基准上，这并没有发生。在开放类里，也就是包含解等式和语言条件任务的那一类，RoboDojo 排行榜上没有任何学习型策略超过 25 分，而排名前六的 agent 在 49 到 78 之间。起作用的是一个调用逆运动学和运动规划器的模型，正是端到端观点原本认为我们该抛弃的那些手工组件。</p>
-<p>按 Sutton 的原意读，这个结果是吻合的。写程序、在测试时对程序做搜索，本身就是一种随算力扩展的通用方法，规划器只是它外面的工具。就算机器人学真的被苦涩的教训拿下，逆运动学可能也还在回路里。更有意思的问题是，算力最好花在哪里：策略训练、测试时推理、规划，还是部署中的学习。</p>
-
-<h2><span class="num">§7</span>为什么这是好消息</h2>
-<p>高层推理正在变成可以从 API 拿到的东西。这去掉了一类问题，而这些问题本来就不是靠收集遥操作数据能解决好的，比如算术、记忆、任务分解，以及知道充电器是干什么用的。</p>
-<p>留给我们的，主要是操作的物理部分，再加上让这一切足够便宜、足够快、真正能用的问题。Moravec 在 1988 年指出，我们认为聪明的那些能力，比如算术和下棋，在计算上是容易的，而感知和运动技能才是难的。RoboDojo 看上去就是将近四十年后的同一个观察：agent 解出了等式，然后在插钥匙上卡住了。</p>
-<p>还有一个更实际的乐观理由：agent 开始做机器人研究里慢的那部分了。Goldberg 文章里那个擦海绵仿真，Astra 根据一段短视频不到一小时就搭好了，海绵形变也包括在内。在今年 CoRL 的 late-breaking 论文之一 <a href="https://arxiv.org/abs/2611.11941">Flip Anything</a> 里，一个编程 agent 通过自己的迭代，把仿真中翻转物体的成功率从 24.7% 提到了 95.0%。搭仿真器、调控制器、跑消融实验，占了机器人方向学生很大一部分时间，而这三件事都在变便宜。</p>
-<p>学到的策略也不会因此变得无关紧要。RoboDojo agent 赛道上有两个参赛方案，包括排名第二的那个，把 agent 和学习模型配在一起：GO-3 Nano Preview 配了一个世界动作模型，PhysicalRSI 配了一个 VLA。整个排行榜上插钥匙的最高分 48.4，属于 PhysicalRSI。Goldberg 设想的技能库里也可以包含 VLA 策略。一个可靠的接触丰富型技能，正是 agent 想调用的那种工具，所以策略学习现在多了一种新用户。</p>
-
-<h2><span class="num">§8</span>还有哪些开放问题</h2>
-<p>把前面几节放在一起，我认为下面这些问题挡在今天的 agent 和通用机器人之间。更好的语言模型对其中一些有帮助，但没有一个会自己消失。</p>
+<h2><span class="num">§5</span>我们可以做什么</h2>
+<p>如果这个悖论成立，操作里剩下的工作大多在 agent 下面。下面是我认为还没解决的几个问题。</p>
 </section>
 
 <figure class="wide">
-<ol class="probs" aria-label="六个开放问题">
-<li><span class="pn">01</span><b>灵巧与接触</b><p>插入、手内操作、布料、颗粒物，以及扔这样的动态技能，都依赖相机看不到的力和状态。agent 知道应该发生什么，却没有能让它发生的工具。力觉和触觉感知、柔顺控制和学到的接触技能，正是它想调用的东西。</p></li>
-<li><span class="pn">02</span><b>速度与反应</b><p>光是追上机器人动作的时间，agent 就要快约 14 倍，而接触控制需要毫秒级的反应。这需要一个慢的审议层架在快速策略之上，也需要办法把 agent 想明白的东西编译成不依赖它运行的小策略。</p></li>
-<li><span class="pn">03</span><b>部署中的改进</b><p>一个在工作中变好的机器人，需要真实世界里的成功信号、失败后能重置的办法，以及安全的探索。长任务要求每一步几乎每次都成功，所以失败要能被发现、被恢复，而 agent 学到的东西要能带到下一个任务，而不是只留在一次会话里。</p></li>
-<li><span class="pn">04</span><b>仿真到真机与安全</b><p>agent 现在能自己搭仿真器，但质量、摩擦和刚度很难从视频里推断出来；一个理解了任务的 agent 仍然可能发出损坏硬件的动作。安全约束必须放在 agent 下面，让错误的计划没法绕过它。</p></li>
-<li><span class="pn">05</span><b>跨本体迁移</b><p>逆运动学、规划器和技能仍然是一台机器人一台机器人地写，灵巧手和人形机器人的工具链也很薄。agent 框架也许换一套工具就能搬到新机器人上，但底下学到的技能搬不过去。</p></li>
-<li><span class="pn">06</span><b>评测</b><p>这篇文章里几乎所有证据都来自仿真，不同报告的分数没法直接比较，闭源模型也可能见过基准相关的材料。机器人学需要更便宜的真机评测，以及能把推理和物理技能分开测的基准。</p></li>
+<ol class="probs probs-4" aria-label="四个开放问题">
+<li><span class="pn">01</span><b>灵巧与接触</b><p>插入、手内操作和柔性物体都依赖相机看不到的力，而 agent 还没有能处理它们的工具。</p></li>
+<li><span class="pn">02</span><b>速度与反应</b><p>agent 以秒为单位思考，接触却需要毫秒级的反应，所以下面得有快速策略在跑。</p></li>
+<li><span class="pn">03</span><b>部署中的改进</b><p>要在工作中变好，机器人需要真实世界的成功信号、重置和安全的探索，学到的东西还要能带到下一个任务。</p></li>
+<li><span class="pn">04</span><b>评测</b><p>现有证据大多来自仿真，不同报告的分数也没法比。机器人学需要便宜的真机基准，把推理和物理技能分开测。</p></li>
 </ol>
 </figure>
 
-
 <section class="col">
-<p>我来奥斯汀时，问的和会议间隙聊过的那些人是同一个问题：还有没有留给我做的事。会议快结束了，我相当确定是有的。卡住的钥匙、滑掉的鸡蛋，在 Astra 之前就难，现在仍然难；而在这些任务上失败的 agent，现在可以帮忙搭建解决它们所需的仿真器和控制器。</p>
+<p>我觉得，这让机器人学研究者可以做比以往任何时候都更有野心的问题。直到最近，一个项目通常得在“大脑”和“手”之间选一个：规划器在简化的世界里做长任务，学到的策略做叠衣服、开抽屉这样的短动作技能。现在推理可以从 API 拿到，我们可以去做两者都需要的任务，比如照着说明书组装家具、在一个没见过的厨房里按菜谱做饭，或者修一台机器。这些任务的计划很长，难的步骤又都需要大量接触。它们也正是在实验室之外真正有用的任务。</p>
 </section>
 </main>
 
@@ -393,20 +281,14 @@ figcaption{line-height:1.75}
   <ul>
   <li>Anthropic，<a href="https://www.anthropic.com/claude-fable-and-mythos-5-2">Introducing Claude Fable 5.2 and Claude Mythos 5.2</a>（2026-11-09）</li>
   <li><a href="https://arxiv.org/abs/2607.04434">RoboDojo 论文</a>和<a href="https://robodojo-benchmark.com/leaderboard">排行榜</a></li>
-  <li><a href="https://arxiv.org/abs/2609.24170">An Unexpected Robot Policy: Early Evaluations of GPT-6 Astra on RoboDojo and Beyond</a></li>
   <li><a href="https://arxiv.org/abs/2609.12541">Agent as Policy for Robotic Manipulation</a> 及 <a href="https://huggingface.co/datasets/Agent-as-Policy/agent-as-policy-robodojo">RoboDojo episode 数据集</a>（视频、逐任务结果；CC-BY-4.0）</li>
   <li>Humanoids Daily，<a href="https://www.humanoidsdaily.com/news/anthropic-claude-fable-5-2-robotics-robodojo">Fable 5.2 的排行榜背景</a></li>
-  <li>Rich Sutton，<a href="http://www.incompleteideas.net/IncIdeas/BitterLesson.html">The Bitter Lesson</a>（2019）</li>
-  <li>Alex Albert，<a href="https://x.com/alexalbert__/status/2119869925288558799">X 上的帖子</a>（2026-11-09）</li>
-  <li>S. Xie, K. Chen, K. Goldberg，<a href="https://arxiv.org/abs/2611.11941">Flip Anything with Agentic Robotics Self-Learning</a>（CoRL 2026 late-breaking）</li>
+  <li>NVIDIA，<a href="https://research.nvidia.com/labs/gear/gr00t-2/assets/gr00t2_whitepaper.pdf">GR00T 2: Scaling Robot Foundation Models for Generalization, Dexterity, and Adaptation</a>（2026 年 11 月）</li>
   <li>Ken Goldberg，<a href="https://x.com/Ken_Goldberg/status/2100986412762087909">Goosebumps: a Paradigm Shift is Occurring in Robotics</a>（2026-09-18）</li>
-  <li>Xiao 等，<a href="https://www.nature.com/articles/s42256-025-01137-0">Densing law of LLMs</a>，Nature Machine Intelligence（2025）</li>
-  <li><a href="https://artificialanalysis.ai/">Artificial Analysis</a> 输出速度排行榜（2026 年 11 月）</li>
   </ul>
   <b>早期工作</b>
   <ul>
   <li>R. Fikes and N. Nilsson, STRIPS: A new approach to the application of theorem proving to problem solving. <i>Artificial Intelligence</i>, 1971.</li>
-  <li>D. Whitney, Quasi-static assembly of compliantly supported rigid parts. <i>J. Dynamic Systems, Measurement, and Control</i>, 1982.</li>
   <li>R. Brooks, A robust layered control system for a mobile robot. <i>IEEE J. Robotics and Automation</i>, 1986.</li>
   <li>H. Moravec, <i>Mind Children</i>. Harvard University Press, 1988.</li>
   <li>T. Lozano-Pérez, J. Jones, E. Mazer, P. O'Donnell, Task-level planning of pick-and-place robot motions. <i>IEEE Computer</i>, 1989.</li>
@@ -417,7 +299,7 @@ figcaption{line-height:1.75}
   <li>J. Liang et al., <a href="https://arxiv.org/abs/2209.07753">Code as Policies</a>, 2022.</li>
   <li>W. Huang et al., <a href="https://arxiv.org/abs/2307.05973">VoxPoser</a>, 2023.</li>
   </ul>
-  <b>图 2 照片来源</b>
+  <b>图 3 照片来源</b>
   <ul>
   <li>Unimate，1967：Frank Q. Brown / Los Angeles Times，<a href="https://commons.wikimedia.org/wiki/File:Unimate_pouring_coffee_for_a_woman_at_Biltmore_Hotel,_1967.jpg">Wikimedia Commons</a>，CC BY 4.0</li>
   <li>Shakey：The wub，<a href="https://commons.wikimedia.org/wiki/File:SRI_Shakey_robot,_1969,_Computer_History_Museum.jpg">Wikimedia Commons</a>，CC BY-SA 4.0</li>
@@ -427,9 +309,9 @@ figcaption{line-height:1.75}
   </ul>
 </footer>
 
-<script src="figs.js?v=28"></script>
-<script src="eras.js?v=28"></script>
-<script src="agentic.js?v=28"></script>
-<script src="trace.js?v=28"></script>
+<script src="figs.js?v=34"></script>
+<script src="eras.js?v=34"></script>
+<script src="agentic.js?v=34"></script>
+<script src="trace.js?v=34"></script>
 </body>
 </html>
