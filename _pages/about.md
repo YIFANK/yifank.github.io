@@ -143,5 +143,6 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
 </div>
 
 {% if site.data.homepage_views %}
+
 <p class="home-views">{{ site.data.homepage_views.count }} homepage views in the last 30 days</p>
 {% endif %}
