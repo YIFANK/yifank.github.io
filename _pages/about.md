@@ -57,6 +57,7 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
 .home-list { list-style: none; padding: 0; margin: 0; }
 .home-list li { font-size: .93rem; margin-bottom: .45rem; line-height: 1.45; }
 .home-list .when { color: var(--global-text-color-light); font-size: .87rem; }
+.home-views { margin: 1.65rem 0 0; color: var(--global-text-color-light); font-size: .85rem; }
 @media (max-width: 640px) { .hp { flex-direction: column; gap: .5rem; } .hp-thumb { max-width: 60%; } }
 </style>
 
@@ -140,3 +141,7 @@ Outside the lab, I enjoy long-distance running, watching anime, rhythm games (Ar
   <li><a href="{{ '/coursework/' | relative_url }}">Coursework</a> — what I have taken at MIT, by term.</li>
 </ul>
 </div>
+
+{% if site.data.homepage_views %}
+<p class="home-views">{{ site.data.homepage_views.count }} homepage views in the last 30 days</p>
+{% endif %}
