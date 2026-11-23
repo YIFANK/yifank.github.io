@@ -37,7 +37,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-post-astra-robotics",
+        },{id: "post-notes-on-rl-for-robotics",
+        
+          title: "Notes on RL for Robotics",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2026/notes-on-rl-for-robotics/";
+          
+        },
+      },{id: "post-post-astra-robotics",
         
           title: "Post-Astra Robotics",
         
