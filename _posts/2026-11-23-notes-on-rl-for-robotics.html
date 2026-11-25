@@ -589,7 +589,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   <div class="fam">
     <h4><span class="badge b-off">C</span>Steer a frozen base</h4>
     <p>RL picks the noise, or adds a residual</p>
-    <p class="ex">DSRL, ResiP, Policy Decorator</p>
+    <p class="ex">DSRL, ResiP, Policy Decorator, QGF</p>
   </div>
   <div class="fam">
     <h4><span class="badge b-off">D</span>Distil RL experts</h4>
@@ -599,7 +599,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   <div class="fam">
     <h4><span class="badge b-demo">E</span>Condition on advantage</h4>
     <p>train on all data, ask for "good"</p>
-    <p class="ex">π*0.6 / Recap</p>
+    <p class="ex">π*0.6 / Recap, Advantage Guidance</p>
   </div>
   <div class="fam">
     <h4><span class="badge b-off">F</span>Q over chunks</h4>
@@ -622,6 +622,26 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   </div>
   <figcaption id="grpoCap"><b>Group-relative advantages.</b></figcaption>
 </figure>
+
+<div class="col">
+  <h3>Off-policy that looks like supervised learning</h3>
+  <p>The newest off-policy recipes never climb the critic. They train the policy with plain behaviour cloning, which stays stable at any scale, and inject the critic somewhere else. They all aim at the same target:</p>
+  <div class="math">$$\pi^*(a\mid s)\ \propto\ \hat\pi(a\mid s)\,\exp\!\big(A(s,a)/\beta\big)$$</div>
+  <p>Here \(\hat\pi\) is the BC policy. <b>Recap</b> tags every training step with a binarised advantage and asks for "positive" at test time. <b>Advantage Guidance</b> shows that conditioning on an advantage value is not enough: a policy asked for \(A=0.8\) learns to <em>hit</em> 0.8 and avoids better actions. It fixes this by contrasting a high and a low tag. <b>QGF</b> trains nothing but BC and a critic, then adds \(\nabla_a Q\) at every denoising step, so it can steer a frozen policy.</p>
+</div>
+
+<figure class="wide panel" id="sl">
+  <div class="controls"><label>guidance 1/β <input type="range" id="slBeta" min="0" max="8" step="0.1" value="3"> <b class="mono" id="slBv">3.0</b></label></div>
+  <div class="grid2">
+    <div><svg id="slRoutes" viewBox="0 0 520 300" width="100%" role="img" aria-label="Three places to inject the critic into a flow policy: a training label (Recap), a contrast of two labels (Advantage Guidance), or a gradient at each sampling step (QGF)"></svg></div>
+    <div><svg id="slDist" viewBox="0 0 520 300" width="100%" role="img" aria-label="One-dimensional action distributions: the BC policy, the naive advantage-conditioned policy, and the target"></svg></div>
+  </div>
+  <figcaption>Left: same flow policy, three entry points for the critic. Right: asking for <i>A</i> = 0.8 (violet) dodges the best actions; the target (blue) sharpens on them as 1/β grows.</figcaption>
+</figure>
+
+<div class="col">
+  <p>The catch is shared. The critic is still learned by TD, so the actor side became stable, not the value side. QGF and Advantage Guidance are so far offline, state-based benchmark results; Recap is the one that has run on real robots.</p>
+</div>
 
 <div class="col">
   <h3>The direction of travel</h3>
@@ -689,6 +709,8 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   <li><a href="https://scholar.google.com/scholar?q=Reinforcement+Learning+with+Action+Chunking+Q-chunking">Li, Zhou, Levine, Q-chunking</a>, 2025</li>
   <li><a href="https://scholar.google.com/scholar?q=FastTD3+Simple+Fast+and+Capable+Reinforcement+Learning+for+Humanoid+Control">Seo et al., FastTD3</a>, 2025</li>
   <li><a href="https://www.pi.website/blog/pistar06">Physical Intelligence, π*0.6 and Recap</a>, 2025</li>
+  <li><a href="https://q-guided-flow.github.io">Zhou et al., Test-time gradient guidance of flow policies (QGF)</a>, 2026</li>
+  <li><a href="https://advantage-guidance.github.io">Zhou and Levine, RL via Advantage Guidance</a>, 2026</li>
 </ol>
 <p style="font-family:var(--f-display); font-size:.86rem; color:var(--muted); margin-top:28px">All interactive figures compute in your browser from fixed formulas or seeded simulations. The buffer-composition figure is schematic. Paper results are as reported by their authors.</p>
 </div>
@@ -1209,6 +1231,61 @@ new MutationObserver(() => document.dispatchEvent(new Event('rlr-theme')))
     document.getElementById('grpoAll').onclick = () => { R = R.map(() => 1); draw(); };
     draw();
   });
+  // ---------- supervised-looking off-policy: routes + 1D target ----------
+  safe(function () {
+    const r = document.getElementById('slRoutes');
+    // flow: noise -> action, 5 integration points
+    const X = [70, 165, 260, 355, 450], Y = 150;
+    el('rect', { x: 48, y: Y - 26, width: 424, height: 52, rx: 26, fill: 'none', stroke: 'var(--rule)', 'stroke-width': 1.5 }, r);
+    el('text', { x: 472, y: Y - 34, 'text-anchor': 'end', 'font-size': 12.5, fill: 'var(--ink)', 'font-weight': 600 }, r, 'BC flow policy');
+    el('text', { x: 42, y: Y + 5, 'text-anchor': 'end', 'font-size': 12, fill: 'var(--muted)' }, r, 'noise');
+    el('text', { x: 478, y: Y + 5, 'font-size': 12, fill: 'var(--muted)' }, r, 'action');
+    for (let i = 0; i < 4; i++) el('line', { x1: X[i] + 12, x2: X[i + 1] - 12, y1: Y, y2: Y, stroke: 'var(--muted)', 'stroke-width': 1.5, 'marker-end': 'url(#ah)' }, r);
+    X.forEach((x, i) => el('circle', { cx: x, cy: Y, r: 9, fill: i === 4 ? 'var(--ink)' : 'var(--surface)', stroke: 'var(--ink)', 'stroke-width': 1.5 }, r));
+    // top: training-time labels
+    const tag = (x, y, w, txt, col, lab) => {
+      el('rect', { x: x - w / 2, y, width: w, height: 28, rx: 14, fill: 'var(--surface)', stroke: col, 'stroke-width': 1.5 }, r);
+      el('text', { x, y: y + 19, 'text-anchor': 'middle', 'font-size': 13, fill: col, 'font-weight': 600 }, r, txt);
+      el('text', { x, y: y - 8, 'text-anchor': 'middle', 'font-size': 13, fill: 'var(--ink)', 'font-weight': 700 }, r, lab);
+    };
+    tag(150, 40, 104, '"positive"', 'var(--demo)', 'Recap');
+    tag(370, 40, 104, 'y⁺ − y⁻', 'var(--demo)', 'Adv. Guidance');
+    [[150, 'M150,68 C150,96 200,100 236,120'], [370, 'M370,68 C370,96 320,100 284,120']].forEach(([, d]) => el('path', { d, fill: 'none', stroke: 'var(--demo)', 'stroke-width': 1.5, 'marker-end': 'url(#ah)' }, r));
+    // bottom: sampling-time gradients
+    for (let i = 1; i < 5; i++) el('line', { x1: X[i] - 2, x2: X[i] - 2, y1: Y + 70, y2: Y + 30, stroke: 'var(--off)', 'stroke-width': 2, 'marker-end': 'url(#ah)' }, r);
+    el('text', { x: 260, y: Y + 98, 'text-anchor': 'middle', 'font-size': 13, fill: 'var(--off)', 'font-weight': 600 }, r, '+ ∇ₐQ at every step');
+    el('text', { x: 260, y: Y + 122, 'text-anchor': 'middle', 'font-size': 13, fill: 'var(--ink)', 'font-weight': 700 }, r, 'QGF');
+    el('text', { x: 20, y: 24, 'font-size': 11.5, fill: 'var(--muted)' }, r, 'training');
+    el('text', { x: 20, y: 290, 'font-size': 11.5, fill: 'var(--muted)' }, r, 'sampling');
+
+    const d = document.getElementById('slDist'), bIn = document.getElementById('slBeta'), bV = document.getElementById('slBv');
+    const N = (x, m, s) => Math.exp(-0.5 * ((x - m) / s) ** 2) / s;
+    const pihat = x => 0.6 * N(x, -1.1, 0.6) + 0.4 * N(x, 1.3, 0.55);
+    const A = x => 2 * Math.exp(-((x - 1.6) ** 2) / (2 * 0.55 ** 2)) - 1;
+    const xs0 = -3, xs1 = 3, n = 240, grid = Array.from({ length: n + 1 }, (_, i) => xs0 + (xs1 - xs0) * i / n);
+    const norm = f => { const v = grid.map(f), z = v.reduce((a, b) => a + b, 0) * (xs1 - xs0) / n; return v.map(y => y / z); };
+    function draw() {
+      const ib = +bIn.value; bV.textContent = ib.toFixed(1); d.innerHTML = '';
+      const L = 20, R = 500, T = 70, B = 250, xs = x => L + (x - xs0) / (xs1 - xs0) * (R - L);
+      const p0 = norm(pihat), naive = norm(x => pihat(x) * Math.exp(-((0.8 - A(x)) ** 2) / (2 * 0.12 ** 2))), tgt = norm(x => pihat(x) * Math.exp(ib * A(x)));
+      const ymax = Math.max(...p0, ...naive, ...tgt) * 1.05, ys = v => B - v / ymax * (B - T);
+      const path = v => v.map((y, i) => (i ? 'L' : 'M') + xs(grid[i]).toFixed(1) + ',' + ys(y).toFixed(1)).join('');
+      // advantage strip on top
+      grid.forEach((x, i) => { if (i % 4) return; const a = A(x); el('rect', { x: xs(x), y: 18, width: (R - L) / n * 4 + .5, height: 14, fill: a > 0 ? 'var(--good)' : 'var(--bad)', opacity: (0.15 + 0.6 * Math.abs(a)).toFixed(2) }, d); });
+      el('text', { x: L, y: 50, 'font-size': 12, fill: 'var(--muted)' }, d, 'advantage A(a)');
+      el('text', { x: xs(1.6), y: 50, 'text-anchor': 'middle', 'font-size': 12, fill: 'var(--good)', 'font-weight': 700 }, d, 'best');
+      el('path', { d: path(p0) + `L${xs(xs1)},${B}L${xs(xs0)},${B}Z`, fill: 'var(--faint)', opacity: .25 }, d);
+      el('path', { d: path(p0), fill: 'none', stroke: 'var(--faint)', 'stroke-width': 2 }, d);
+      el('path', { d: path(naive), fill: 'none', stroke: 'var(--demo)', 'stroke-width': 2.5, 'stroke-dasharray': '6 4' }, d);
+      el('path', { d: path(tgt), fill: 'none', stroke: 'var(--off)', 'stroke-width': 3 }, d);
+      el('line', { x1: L, x2: R, y1: B, y2: B, stroke: 'var(--muted)' }, d);
+      el('text', { x: (L + R) / 2, y: B + 22, 'text-anchor': 'middle', 'font-size': 12, fill: 'var(--ink)' }, d, 'action a');
+      const lg = [['BC policy', 'var(--faint)', ''], ['ask for A = 0.8', 'var(--demo)', '6 4'], ['target π*', 'var(--off)', '']];
+      lg.forEach(([t, c, da], i) => { const x = L + 8 + i * 160; el('line', { x1: x, x2: x + 22, y1: 288, y2: 288, stroke: c, 'stroke-width': 3, 'stroke-dasharray': da }, d); el('text', { x: x + 28, y: 292, 'font-size': 12, fill: 'var(--ink)' }, d, t); });
+    }
+    bIn.oninput = draw; draw();
+  });
+
 })();
 </script>
 {% endraw %}
