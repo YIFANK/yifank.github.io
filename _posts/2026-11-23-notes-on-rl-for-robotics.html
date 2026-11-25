@@ -575,39 +575,6 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   <figcaption>Orange: on-policy. Blue: off-policy. Violet: offline reweighting.</figcaption>
 </figure>
 
-<div class="wide family">
-  <div class="fam">
-    <h4><span class="badge b-on">A</span>PPO on the whole VLA</h4>
-    <p>actions = tokens, reward = success</p>
-    <p class="ex">VLA-RL, SimpleVLA-RL, RIPT-VLA</p>
-  </div>
-  <div class="fam">
-    <h4><span class="badge b-on">B</span>PPO through denoising</h4>
-    <p>each denoise step = an action</p>
-    <p class="ex">DPPO, ReinFlow, FPO</p>
-  </div>
-  <div class="fam">
-    <h4><span class="badge b-off">C</span>Steer a frozen base</h4>
-    <p>RL picks the noise, or adds a residual</p>
-    <p class="ex">DSRL, ResiP, Policy Decorator, QGF</p>
-  </div>
-  <div class="fam">
-    <h4><span class="badge b-off">D</span>Distil RL experts</h4>
-    <p>RL specialists → SFT the VLA</p>
-    <p class="ex">RLDG, iRe-VLA, ConRFT</p>
-  </div>
-  <div class="fam">
-    <h4><span class="badge b-demo">E</span>Condition on advantage</h4>
-    <p>train on all data, ask for "good"</p>
-    <p class="ex">π*0.6 / Recap, Advantage Guidance</p>
-  </div>
-  <div class="fam">
-    <h4><span class="badge b-off">F</span>Q over chunks</h4>
-    <p>TD on whole action chunks</p>
-    <p class="ex">Q-chunking, PA-RL</p>
-  </div>
-</div>
-
 <div class="col">
   <h3>GRPO: the baseline is your siblings</h3>
   <div class="math">$$\hat A_i=\frac{R_i-\operatorname{mean}(R_{1..G})}{\operatorname{std}(R_{1..G})}$$</div>
@@ -655,17 +622,6 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   <h2>What nobody has solved yet</h2>
   <p>On-policy needs a simulator you can trust. Off-policy needs a critic you can trust. For dexterity and VLAs we have neither yet.</p>
 </section>
-</div>
-
-<div class="wide problems">
-  <div class="prob p-on"><h4>Physics we can't simulate</h4><p>Fast, contact-rich motion is where simulators are wrong, and RL exploits it.</p></div>
-  <div class="prob p-off"><h4>Learning on the hand itself</h4><p>Hands break, drop things and need resets.</p></div>
-  <div class="prob p-off"><h4>The last 1%</h4><p>From "works in the video" to 99.9%, and proving it.</p></div>
-  <div class="prob p-on"><h4>Seeing through your fingers</h4><p>The hand hides the object it holds.</p></div>
-  <div class="prob p-demo"><h4>Rewards beyond poses</h4><p>Tool use and assembly are hard to score.</p></div>
-  <div class="prob p-off"><h4>Critics for generalists</h4><p>Q-functions that hold up across many tasks.</p></div>
-  <div class="prob p-on"><h4>Specialists into generalists</h4><p>Fold many RL skills into one VLA.</p></div>
-  <div class="prob p-demo"><h4>Shared benchmarks</h4><p>Every paper has its own hand and metric.</p></div>
 </div>
 
 <hr class="sep">
@@ -742,7 +698,6 @@ new MutationObserver(() => document.dispatchEvent(new Event('rlr-theme')))
   }
 
   safe(function () { if (reduceMotion()) document.querySelectorAll('video.demo-media').forEach(v => { v.removeAttribute('autoplay'); v.pause(); }); });
-
 
   // ---------- quadrant ----------
   safe(function () {
