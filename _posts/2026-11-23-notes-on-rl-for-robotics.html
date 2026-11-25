@@ -15,11 +15,13 @@ categories: [blogs]
   --muted: var(--global-text-color-light);
   --faint: #b4b4b4;
   --rule: var(--global-divider-color);
+  --theme: var(--global-theme-color); --navy: var(--global-navy-color);
   --on: #a31f34; --on-soft: #f7e6e9;
   --off: #414b86; --off-soft: #e7e9f3;
   --demo: #2b8577; --demo-soft: #e1f1ee;
   --good: #2b8577; --bad: #a31f34;
   --f-display: "Roboto", sans-serif; --f-body: "Roboto", sans-serif;
+  --f-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --f-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 html[data-theme="dark"] {
@@ -29,109 +31,58 @@ html[data-theme="dark"] {
   --demo: #5cc2b0; --demo-soft: #1c302d;
   --good: #5cc2b0; --bad: #e07385;
 }
-.rlr .col, .rlr .wide { max-width: none; }
-.rlr .math { display: block; overflow-x: auto; overflow-y: hidden; margin: 1rem 0 1.2rem; }
+.rlr .on { color: var(--on); font-weight: 500; } .rlr .off { color: var(--off); font-weight: 500; } .rlr .demo { color: var(--demo); font-weight: 500; }
+.rlr .mono { font-family: var(--f-mono); }
+.rlr .eyebrow { font-size: .8rem; font-weight: 500; }
 .rlr figure { margin: 2rem 0; }
-.rlr figure.panel { border-radius: 4px; padding: 16px; }
-.rlr .fam, .rlr .demo-card, .rlr .prob { border-radius: 4px; }
-.rlr .media-wrap { margin: -16px -18px 6px; }
-.rlr .demo-media { border-radius: 4px 4px 0 0; }
-.rlr h2 { margin-top: 2.6rem; }
-.rlr h3 { margin-top: 1.8rem; }
-.rlr svg text { font-family: inherit; }
-.rlr .btn, .rlr .seg button { text-transform: none; box-shadow: none; margin: 0; letter-spacing: 0; line-height: 1.3; }
-.rlr .btn:hover { box-shadow: none; opacity: .85; }
-.col { max-width: 680px; margin-left: auto; margin-right: auto; }
-.wide { max-width: 1040px; margin-left: auto; margin-right: auto; }
-
-.rlr button:focus-visible, .rlr input:focus-visible, .rlr [tabindex]:focus-visible { outline: 2px solid var(--off); outline-offset: 2px; }
-
-.rlr .on { color: var(--on); font-weight: 600; } .off { color: var(--off); font-weight: 600; } .demo { color: var(--demo); font-weight: 600; }
-.mono { font-family: var(--f-mono); }
-
-.rlr figure { margin-top: 36px; margin-bottom: 36px; }
-figure.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 20px; }
-.rlr figcaption { font-family: var(--f-display); font-size: .92rem; color: var(--muted); margin-top: 12px; line-height: 1.45; }
-.rlr figcaption b { color: var(--ink); }
-.figtitle { font-family: var(--f-display); font-weight: 700; font-size: 1.02rem; margin-bottom: 10px; }
-.svgbox { overflow-x: auto; }
+.rlr figcaption { font-size: .875rem; color: var(--ink); margin-top: .75rem; text-align: center; line-height: 1.5; }
+.rlr .figtitle { font-weight: 500; font-size: .95rem; margin-bottom: 8px; }
+.rlr .svgbox { overflow-x: auto; }
 .rlr svg { display: block; }
 .rlr svg text { font-family: var(--f-display); }
 .rlr svg .mono { font-family: var(--f-mono); }
 .rlr canvas { display: block; max-width: 100%; height: auto; }
-
-.rlr .callout { border-left: 3px solid var(--off); padding: 4px 0 4px 18px; margin: 24px 0; }
-.rlr .callout.c-on { border-color: var(--on); }
-.rlr .callout p:last-child { margin: 0; }
-
-.rlr .controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; font-family: var(--f-display); font-size: .92rem; margin-bottom: 14px; }
+.rlr .math { display: block; overflow-x: auto; overflow-y: hidden; margin: 1rem 0 1.2rem; text-align: center; }
+.rlr .math math { font-size: 1.15em; }
+.rlr .controls { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: .875rem; margin-bottom: 12px; }
 .rlr .controls label { display: flex; gap: 8px; align-items: center; color: var(--muted); flex-wrap: wrap; }
-.rlr .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
-.rlr .seg button { font: inherit; background: transparent; color: var(--ink); border: 0; padding: 5px 11px; cursor: pointer; }
+.rlr .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+.rlr .seg button { font: inherit; background: transparent; color: var(--ink); border: 0; padding: 3px 10px; cursor: pointer; text-transform: none; box-shadow: none; margin: 0; }
 .rlr .seg button + button { border-left: 1px solid var(--rule); }
-.rlr .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
-.rlr .btn { font: 600 .9rem var(--f-display); background: var(--ink); color: var(--bg); border: 0; border-radius: 6px; padding: 7px 14px; cursor: pointer; }
-.rlr .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--rule); }
-.rlr input[type=range] { accent-color: var(--off); width: 150px; }
-.readout { display: flex; flex-wrap: wrap; gap: 8px 22px; font-family: var(--f-display); font-size: .88rem; color: var(--muted); margin-top: 10px; }
-.readout b { font-family: var(--f-mono); font-weight: 600; color: var(--ink); font-size: .95em; }
-
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
-.grid2 > * { min-width: 0; }
-.grid32 { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
-.grid32 > * { min-width: 0; }
-@media (max-width: 780px) { .grid2, .grid32 { grid-template-columns: 1fr; } }
-
-table.cmp { width: 100%; border-collapse: collapse; font-family: var(--f-display); font-size: .95rem; min-width: 620px; }
-table.cmp th, table.cmp td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
-table.cmp th { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
-.tablebox { overflow-x: auto; }
-
-.family { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; margin-top: 28px; }
-.fam { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; font-family: var(--f-display); font-size: .94rem; line-height: 1.45; min-width: 0; }
-.fam h4 { margin: 6px 0 6px; font-size: 1.08rem; display: flex; gap: 8px; align-items: center; }
-.fam h4 .badge { flex: none; }
-.rlr .tag { display: inline-block; font: 600 .68rem var(--f-mono); letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
-.rlr .tag.t-on { background: var(--on-soft); color: var(--on); } .tag.t-off { background: var(--off-soft); color: var(--off); } .tag.t-demo { background: var(--demo-soft); color: var(--demo); }
-.fam p { margin: 0 0 .5em; }
-.fam .ex { color: var(--muted); font-size: .86rem; }
-.rlr .badge { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font: 700 .8rem var(--f-display); color: var(--bg); }
-.b-on { background: var(--on); } .b-off { background: var(--off); } .b-demo { background: var(--demo); }
-
-.demos { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 16px; margin-top: 24px; }
-.demo-card { display: flex; flex-direction: column; gap: 6px; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; font-family: var(--f-display); font-size: .93rem; line-height: 1.45; color: var(--ink); text-decoration: none; min-width: 0; transition: border-color .15s; }
-.demo-card:hover { border-color: var(--on); }
-.demo-card h4 { margin: 0; font-size: 1.05rem; }
-.demo-card h4 .yr { color: var(--muted); font: 600 .8rem var(--f-mono); margin-right: 4px; }
-.demo-card p.lim { color: var(--bad); font-size: .9rem; }
-.demo-card p { margin: 0; color: var(--muted); }
-.media-wrap { margin: -16px -18px 6px; position: relative; }
-.demo-media { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 10px 10px 0 0; background: var(--rule); }
-.credit { display: block; font: 500 .68rem var(--f-display); color: var(--muted); padding: 4px 18px 0; }
-.demo-head { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; font: 600 .72rem var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
-.demo-head .yr { color: var(--on); }
-.lims { list-style: none; padding: 0; margin: 4px 0 0; display: grid; gap: 4px; }
-.lims li { margin: 0; padding-left: 20px; position: relative; font-size: .88rem; }
-.lims li::before { content: "!"; position: absolute; left: 0; top: 3px; width: 13px; height: 13px; border-radius: 50%; background: var(--bad); color: var(--bg); font: 700 9px/13px var(--f-display); text-align: center; }
-.watch { margin-top: auto; padding-top: 8px; font-weight: 600; color: var(--off); }
-.problems { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 24px; }
-.prob { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; font-family: var(--f-display); font-size: .92rem; line-height: 1.45; min-width: 0; }
-.prob h4 { margin: 0 0 4px; font-size: 1.05rem; }
-.prob { border-top: 3px solid var(--rule); }
-.prob.p-on { border-top-color: var(--on); } .prob.p-off { border-top-color: var(--off); } .prob.p-demo { border-top-color: var(--demo); }
-.prob p { margin: 0; color: var(--muted); }
-ol.refs { font-family: var(--f-display); font-size: .92rem; padding-left: 1.3em; columns: 2 300px; column-gap: 32px; }
-ol.refs li { margin-bottom: 6px; break-inside: avoid; }
-.rlr .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-family: var(--f-display); font-size: .85rem; color: var(--muted); }
+.rlr .seg button[aria-pressed="true"] { background: var(--navy); color: var(--bg); }
+.rlr .btn { font: 400 .875rem var(--f-display); background: transparent; color: var(--navy); border: 1px solid var(--navy); border-radius: 4px; padding: 3px 12px; cursor: pointer; text-transform: none; box-shadow: none; margin: 0; letter-spacing: 0; line-height: 1.5; }
+.rlr .btn:hover { background: var(--navy); color: var(--bg); box-shadow: none; }
+.rlr .btn.ghost { color: var(--muted); border-color: var(--rule); }
+.rlr input[type=range] { accent-color: var(--navy); width: 140px; }
+.rlr input:focus-visible, .rlr button:focus-visible, .rlr [tabindex]:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+.rlr .readout { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: .875rem; color: var(--muted); margin-top: 8px; }
+.rlr .readout b { font-family: var(--f-mono); font-weight: 500; color: var(--ink); }
+.rlr .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+.rlr .grid32 { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; align-items: start; }
+.rlr .grid2 > *, .rlr .grid32 > * { min-width: 0; }
+@media (max-width: 780px) { .rlr .grid2, .rlr .grid32 { grid-template-columns: 1fr; } }
+.rlr .demos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px 16px; margin: 1.5rem 0 2rem; }
+.rlr .demo-card { display: block; color: var(--ink); text-decoration: none; min-width: 0; font-size: .875rem; line-height: 1.45; }
+.rlr .demo-card:hover { text-decoration: none; }
+.rlr .demo-card:hover .demo-media { opacity: .85; }
+.rlr .media-wrap { margin: 0 0 6px; }
+.rlr .demo-media { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 2px; background: var(--rule); }
+.rlr .credit { display: none; }
+.rlr .demo-card h4 { margin: 0; font: 400 .9rem/1.4 var(--f-body); color: var(--ink); }
+.rlr .demo-card h4 .yr { color: var(--muted); margin-right: 2px; }
+.rlr .demo-card p { margin: 0; color: var(--muted); }
+.rlr .demo-card p.lim { color: var(--muted); }
+.rlr ol.refs { font-size: .875rem; padding-left: 1.3em; columns: 2 300px; column-gap: 32px; }
+.rlr ol.refs li { margin-bottom: 4px; break-inside: avoid; }
+.rlr .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .8rem; color: var(--muted); }
 .rlr .legend span { display: inline-flex; align-items: center; gap: 6px; }
-.rlr .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; }
-.rlr .legend i.line { height: 3px; border-radius: 2px; width: 18px; }
-
-@media (prefers-reduced-motion: reduce) { .anim { display: none; } }
+.rlr .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+.rlr .legend i.line { height: 3px; width: 18px; }
+@media (prefers-reduced-motion: reduce) { .rlr .anim { display: none; } }
 </style>
 
 <div class="rlr">
-<figure class="wide panel">
+<figure class="wide">
   <div class="svgbox">
   <svg viewBox="0 0 1000 285" width="100%" style="min-width:680px" role="img" aria-label="On-policy loop discards each batch after one update; off-policy loop stores transitions in a replay buffer and samples them many times.">
     <defs>
@@ -185,7 +136,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
 <div class="col">
 <p>Every RL algorithm answers one question first: <em>whose data is the update allowed to use?</em> <span class="on">On-policy</span> methods learn only from experience the current policy just generated. <span class="off">Off-policy</span> methods learn from anything: older versions of themselves, demos, a human teleoperator, another robot. Almost everything else (sample cost, stability, whether demos help, which robot problems fit) follows from that choice. This post builds both families from their simplest members and follows them into dexterous hands and vision-language-action (VLA) models. <a href="https://spinningup.openai.com/en/latest/spinningup/rl_intro.html">Spinning Up</a> covers the details this post skips.</p>
 
-<section>
+<section class="part">
   <h2>The setup in one paragraph</h2>
   <p>A policy \(\pi_\theta(a\mid s)\) acts, the world returns rewards, and we maximise expected return:</p>
   <div class="math">$$J(\theta) = \mathbb{E}_{\tau\sim\pi_\theta}\Big[\sum_t \gamma^t r_t\Big]$$</div>
@@ -193,7 +144,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
 </section>
 </div>
 
-<figure class="wide panel">
+<figure class="wide">
   <div class="svgbox">
   <svg viewBox="0 0 1000 120" width="100%" style="min-width:720px" role="img" aria-label="Spectrum from strictly on-policy to imitation learning">
     <defs><linearGradient id="spec" x1="0" x2="1"><stop offset="0" stop-color="var(--on)"/><stop offset=".5" stop-color="var(--off)"/><stop offset="1" stop-color="var(--demo)"/></linearGradient></defs>
@@ -214,7 +165,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
 </figure>
 
 <div class="col">
-<section>
+<section class="part">
   <h2>On-policy, from the bottom up</h2>
   <h3>Policy gradient: make good samples more likely</h3>
   <div class="math">$$\nabla_\theta J = \mathbb{E}_{\tau\sim\pi_\theta}\Big[\sum_t \nabla_\theta \log\pi_\theta(a_t\mid s_t)\,\hat A_t\Big]$$</div>
@@ -222,7 +173,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
 </section>
 </div>
 
-<figure class="wide panel" id="pg">
+<figure class="wide" id="pg">
   <div class="controls">
     <button class="btn" id="pgStep">Take one update</button>
     <button class="btn ghost" id="pgRun">Run 30</button>
@@ -242,14 +193,14 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
       <div class="readout"><span>iteration <b id="pgIt">0</b></span><span>samples collected <b id="pgUsed">0</b></span><span>samples kept <b>0</b></span></div>
     </div>
   </div>
-  <figcaption>Blue samples beat the batch average, orange didn't. The policy steps toward blue, then discards the batch.</figcaption>
+  <figcaption>Blue samples beat the batch average, red didn't. The policy steps toward blue, then discards the batch.</figcaption>
 </figure>
 
 <div class="col">
   <p>Everything on-policy since REINFORCE is one of two moves. <b>Reduce variance</b> by learning a baseline \(V(s)\) and using it to compute \(\hat A\) (actor-critic, GAE). <b>Reuse each batch a little</b> without the gradient going wrong. The second move runs into importance weights: to reuse data from an old policy \(\mu\), reweight each sample by \(\pi/\mu\). Drag the slider to see why that only works for small policy changes.</p>
 </div>
 
-<figure class="wide panel" id="is">
+<figure class="wide" id="is">
   <div class="controls">
     <label for="isD">how far the new policy has moved, δ <b class="mono" id="isDv">0.60</b><input id="isD" type="range" min="0" max="3" step="0.05" value="0.6"></label>
     <label for="isH">horizon (steps multiplied) <span class="seg" role="group" aria-label="horizon"><button data-h="1" aria-pressed="true">1</button><button data-h="10" aria-pressed="false">10</button><button data-h="100" aria-pressed="false">100</button></span></label>
@@ -267,7 +218,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   <p>PPO takes a few epochs on each batch and simply stops caring about any action whose probability has already moved by more than \(\epsilon\). The weights never leave the safe zone, so the gradient stays roughly on-policy. (TRPO does the same with an explicit KL constraint.)</p>
 </div>
 
-<figure class="col panel">
+<figure class="col">
   <div class="controls">
     <span class="seg" role="group" aria-label="Sign of advantage"><button id="advPos" aria-pressed="true">Â &gt; 0 (good action)</button><button id="advNeg" aria-pressed="false">Â &lt; 0 (bad action)</button></span>
     <label for="epsR">ε <b class="mono" id="epsV">0.20</b><input id="epsR" type="range" min="0.05" max="0.5" step="0.01" value="0.2"></label>
@@ -281,17 +232,15 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   <p>That is why PPO is robotics' default on-policy method: it only needs \(\log\pi\), rarely diverges, and scales with parallel simulators. When samples are free, wasting them is fine.</p>
 </div>
 
-<hr class="sep">
-
 <div class="col">
-<section>
+<section class="part">
   <h2>Off-policy, from the bottom up</h2>
   <h3>Q-learning: the Bellman equation does not care who drove</h3>
   <div class="math">$$Q(s,a)\leftarrow r + \gamma\max_{a'}Q(s',a')$$</div>
   <p>This target needs one transition \((s,a,r,s')\) and nothing about which policy chose \(a\). So keep every transition in a replay buffer and fit to it forever. No importance weights, no discarding. The price: you are now regressing onto your own guesses (bootstrapping) on data your policy may never visit, and the \(\max\) picks out whichever estimate is most wrong in the optimistic direction. Off-policy learning is sample-efficient and fragile for the same reason.</p>
 </div>
 
-<figure class="wide panel" id="ov">
+<figure class="wide" id="ov">
   <div class="controls">
     <label for="ovK">number of actions compared <b class="mono" id="ovKv">10</b><input id="ovK" type="range" min="2" max="50" step="1" value="10"></label>
     <label for="ovS">critic noise σ <b class="mono" id="ovSv">1.00</b><input id="ovS" type="range" min="0.1" max="2" step="0.05" value="1"></label>
@@ -309,13 +258,13 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
 </div>
 
 <div class="col">
-<section>
+<section class="part">
   <h2>Same budget, different reuse</h2>
   <p>Same 6×6 room, same budget of environment steps, reward only at the goal. <span class="on">REINFORCE</span> uses each episode for one gradient step. <span class="off">Q-learning with replay</span> reuses every transition UTD times per step.</p>
 </section>
 </div>
 
-<figure class="wide panel" id="gw">
+<figure class="wide" id="gw">
   <div class="controls">
     <label>replay updates per env step (UTD) <span class="seg" role="group" aria-label="UTD ratio"><button data-utd="1" aria-pressed="false">1</button><button data-utd="4" aria-pressed="true">4</button><button data-utd="16" aria-pressed="false">16</button></span></label>
     <label>REINFORCE episodes per batch <span class="seg" role="group" aria-label="batch size"><button data-bat="4" aria-pressed="false">4</button><button data-bat="8" aria-pressed="true">8</button><button data-bat="32" aria-pressed="false">32</button></span></label>
@@ -338,25 +287,25 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
 </figure>
 
 <div class="col">
-<section>
+<section class="part">
   <h2>So which one does robotics use?</h2>
   <p>Whichever one matches the cost of a sample. That gives a clean two-by-two.</p>
 </section>
 </div>
 
-<figure class="wide panel">
+<figure class="wide">
   <div class="svgbox"><svg id="quad" viewBox="0 0 1000 330" width="100%" style="min-width:640px" role="img" aria-label="Which family is used in simulation and on real robots"></svg></div>
   <figcaption>Cheap samples favour on-policy. Expensive samples favour off-policy.</figcaption>
 </figure>
 
 <div class="col">
-<section>
+<section class="part">
   <h2>Dexterity: on-policy at massive scale</h2>
   <p>Hands have 16–24 joints and contact-rich dynamics that are hard to teleoperate, so demos are scarce, but rewards are easy to write. GPU simulators make samples nearly free. That is the exact regime where on-policy wins, and the recipe since OpenAI's <a href="https://arxiv.org/abs/1808.00177">Dactyl</a> has been PPO in randomized simulation:</p>
 </section>
 </div>
 
-<figure class="wide panel">
+<figure class="wide">
   <div class="svgbox">
   <svg viewBox="0 0 1000 250" width="100%" style="min-width:760px" role="img" aria-label="Sim-to-real dexterity pipeline">
     <defs><marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>
@@ -388,7 +337,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
 </div>
 
 <div class="col">
-<section>
+<section class="part">
   <h2>What dexterity RL can do, and where it breaks</h2>
   <p>Each clip links to the full video. Under it is the limit the authors themselves report.</p>
 </section>
@@ -437,7 +386,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   </a>
 </div>
 
-<figure class="wide panel">
+<figure class="wide">
   <div class="grid2">
     <div>
       <div class="figtitle">Real-world success, as reported</div>
@@ -485,10 +434,8 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   <figcaption>Videos show the best runs. The papers' own numbers are far from reliable, and drop sharply from sim to real.</figcaption>
 </figure>
 
-<hr class="sep">
-
 <div class="col">
-<section>
+<section class="part">
   <h2>Off-policy on real hardware</h2>
   <p>On hardware a sample costs seconds of robot time, so you keep everything. The progress here is one idea refined: <b>put every useful source of data in the buffer.</b></p>
   <ul>
@@ -499,7 +446,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
 </section>
 </div>
 
-<figure class="wide panel">
+<figure class="wide">
   <div class="grid32">
     <div>
       <div class="figtitle">What is in the replay buffer over a training run</div>
@@ -514,16 +461,14 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   <figcaption>Demos become a small share of the buffer, but still fill half of every batch. (Schematic.)</figcaption>
 </figure>
 
-<hr class="sep">
-
 <div class="col">
-<section>
+<section class="part">
   <h2>RL on vision-language-action models</h2>
   <p>VLAs (OpenVLA, π<sub>0</sub>/π<sub>0.5</sub>, GR00T, …) are pretrained by imitation and get to "often works". RL is the attempt to reach "reliably works". The same trade-off applies, with three twists: models have billions of parameters, so every gradient step is expensive; diffusion and flow action heads have no cheap \(\log\pi\), which on-policy methods need; and rewards are a binary success at the end. The figure shows where each family of methods plugs in.</p>
 </section>
 </div>
 
-<figure class="wide panel">
+<figure class="wide">
   <div class="svgbox">
   <svg viewBox="0 0 1000 400" width="100%" style="min-width:800px" role="img" aria-label="Anatomy of a VLA with the six places RL methods intervene">
     <defs>
@@ -572,7 +517,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
     </g>
   </svg>
   </div>
-  <figcaption>Orange: on-policy. Blue: off-policy. Violet: offline reweighting.</figcaption>
+  <figcaption>Red: on-policy. Blue: off-policy. Violet: offline reweighting.</figcaption>
 </figure>
 
 <div class="col">
@@ -581,7 +526,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   <p>Run \(G\) rollouts of the same task and judge each against the group average. No critic, which matters for a billion-parameter policy. The catch: a group that all succeeds or all fails gives zero gradient, so learning happens only on tasks at the edge of the model's ability.</p>
 </div>
 
-<figure class="wide panel" id="grpo">
+<figure class="wide" id="grpo">
   <div class="controls"><span style="color:var(--muted)">Click a rollout to flip success / failure</span><button class="btn" id="grpoRand">Random group</button><button class="btn ghost" id="grpoAll">All succeed</button></div>
   <div class="grid32">
     <div><svg id="grpoSvg" viewBox="0 0 600 300" width="100%" role="img" aria-label="Group of 8 rollouts with GRPO advantages"></svg></div>
@@ -597,7 +542,7 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   <p>Here \(\hat\pi\) is the BC policy. <b>Recap</b> tags every training step with a binarised advantage and asks for "positive" at test time. <b>Advantage Guidance</b> shows that conditioning on an advantage value is not enough: a policy asked for \(A=0.8\) learns to <em>hit</em> 0.8 and avoids better actions. It fixes this by contrasting a high and a low tag. <b>QGF</b> trains nothing but BC and a critic, then adds \(\nabla_a Q\) at every denoising step, so it can steer a frozen policy.</p>
 </div>
 
-<figure class="wide panel" id="sl">
+<figure class="wide" id="sl">
   <div class="controls"><label>guidance 1/β <input type="range" id="slBeta" min="0" max="8" step="0.1" value="3"> <b class="mono" id="slBv">3.0</b></label></div>
   <div class="grid2">
     <div><svg id="slRoutes" viewBox="0 0 520 300" width="100%" role="img" aria-label="Three places to inject the critic into a flow policy: a training label (Recap), a contrast of two labels (Advantage Guidance), or a gradient at each sampling step (QGF)"></svg></div>
@@ -615,19 +560,15 @@ ol.refs li { margin-bottom: 6px; break-inside: avoid; }
   <p>Where a simulator exists, on-policy RL on the whole model is the simplest thing that works. Where data comes from real robots, every method drifts to the stale end of the spectrum: learn a critic, keep everything, and use RL to reweight what the policy imitates. The open problem is an off-policy one: critics that are reliable for long, chunked, multi-task behaviour and cheap enough to train next to a VLA.</p>
 </div>
 
-<hr class="sep">
-
 <div class="col">
-<section>
+<section class="part">
   <h2>What nobody has solved yet</h2>
   <p>On-policy needs a simulator you can trust. Off-policy needs a critic you can trust. For dexterity and VLAs we have neither yet.</p>
 </section>
 </div>
 
-<hr class="sep">
-
 <div class="col">
-<section>
+<section class="part">
   <h2>Where to go next</h2>
   <p><b>Foundations.</b> OpenAI Spinning Up: <a href="https://spinningup.openai.com/en/latest/spinningup/rl_intro.html">key concepts</a>, <a href="https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html">taxonomy of algorithms</a>, <a href="https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html">policy optimization derivation</a>, and the algorithm pages for <a href="https://spinningup.openai.com/en/latest/algorithms/vpg.html">VPG</a>, <a href="https://spinningup.openai.com/en/latest/algorithms/ppo.html">PPO</a>, <a href="https://spinningup.openai.com/en/latest/algorithms/ddpg.html">DDPG</a>, <a href="https://spinningup.openai.com/en/latest/algorithms/td3.html">TD3</a> and <a href="https://spinningup.openai.com/en/latest/algorithms/sac.html">SAC</a>. Their <a href="https://spinningup.openai.com/en/latest/spinningup/keypapers.html">key papers list</a> covers 2013–2018 well.</p>
 </section>
@@ -1180,7 +1121,7 @@ new MutationObserver(() => document.dispatchEvent(new Event('rlr-theme')))
       curve(k);
       cap.innerHTML = std < 1e-9
         ? `<b>All ${G} rollouts ${k ? 'succeeded' : 'failed'}: every advantage is 0, so this group gives no gradient.</b> The task is either solved or currently hopeless for this policy. Right: the chance that a group of 8 has mixed outcomes falls off sharply near 0% and 100% success, so GRPO-style VLA training filters uniform groups and spends compute on tasks at the frontier.`
-        : `<b>Group success ${k}/${G}.</b> Actions in successful rollouts get pushed up (blue), actions in failed ones get pushed down (orange); the rarer the success, the bigger the push for the winners. Right: the chance that a group of 8 has mixed outcomes, and so any gradient at all, as a function of the policy's success rate on the task.`;
+        : `<b>Group success ${k}/${G}.</b> Actions in successful rollouts get pushed up (blue), actions in failed ones get pushed down (red); the rarer the success, the bigger the push for the winners. Right: the chance that a group of 8 has mixed outcomes, and so any gradient at all, as a function of the policy's success rate on the task.`;
     }
     document.getElementById('grpoRand').onclick = () => { const p = Math.random(); R = R.map(() => Math.random() < p ? 1 : 0); draw(); };
     document.getElementById('grpoAll').onclick = () => { R = R.map(() => 1); draw(); };
